@@ -37,7 +37,7 @@ export default function PreviewScreen() {
   const transportStatus = useTransportStore((s) => s.status);
 
   const [freetext, setFreetext] = useState('');
-  const [paxCount, setPaxCount] = useState('');
+  const [paxCount, setPaxCount] = useState(1);
   const [gpsEnabled, setGpsEnabled] = useState(autoGps && severity <= 1);
   const [tsEnabled, setTsEnabled] = useState(autoTimestamp);
 
@@ -46,7 +46,7 @@ export default function PreviewScreen() {
   // Build auto-tags
   const autoTags = useMemo(() => {
     const parts: string[] = [];
-    if (paxCount && Number(paxCount) > 0) {
+    if (paxCount > 0) {
       parts.push(`${paxCount}pax`);
     }
     if (gpsEnabled && location) {
@@ -98,15 +98,22 @@ export default function PreviewScreen() {
           <Text style={styles.fieldLabel}>
             {langFile?.ui?.person_count ?? 'Person count'}
           </Text>
-          <TextInput
-            style={styles.input}
-            value={paxCount}
-            onChangeText={setPaxCount}
-            keyboardType="numeric"
-            placeholder="0"
-            placeholderTextColor="#64748b"
-            maxLength={4}
-          />
+          <View style={styles.stepper}>
+            <Pressable
+              style={[styles.stepBtn, paxCount <= 0 && styles.stepBtnDisabled]}
+              onPress={() => setPaxCount((c) => Math.max(0, c - 1))}
+              disabled={paxCount <= 0}
+            >
+              <Text style={styles.stepBtnText}>{'\u2212'}</Text>
+            </Pressable>
+            <Text style={styles.stepValue}>{paxCount}</Text>
+            <Pressable
+              style={styles.stepBtn}
+              onPress={() => setPaxCount((c) => Math.min(999, c + 1))}
+            >
+              <Text style={styles.stepBtnText}>+</Text>
+            </Pressable>
+          </View>
         </View>
 
         {/* Auto tags */}
@@ -243,6 +250,40 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     marginBottom: 6,
+  },
+  stepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    backgroundColor: '#1e293b',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#334155',
+    overflow: 'hidden',
+  },
+  stepBtn: {
+    width: 52,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#334155',
+  },
+  stepBtnDisabled: {
+    opacity: 0.3,
+  },
+  stepBtnText: {
+    color: '#f1f5f9',
+    fontSize: 22,
+    fontWeight: '700',
+    lineHeight: 24,
+  },
+  stepValue: {
+    width: 56,
+    textAlign: 'center',
+    color: '#f1f5f9',
+    fontSize: 20,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
   },
   input: {
     backgroundColor: '#1e293b',
