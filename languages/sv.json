@@ -6,23 +6,68 @@
   "flag_emoji": "🇸🇪",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "NÖDLÄGE", "label": "MAYDAY / Livshotande" },
-    "1": { "local": "BRÅDSKANDE", "label": "URGENT / Tidskritiskt" },
-    "2": { "local": "SÄKERHET", "label": "SAFETY / Viktigt" },
-    "3": { "local": "RUTIN", "label": "ROUTINE / Normalt" }
+    "0": {
+      "local": "NÖDLÄGE",
+      "label": "MAYDAY / Livshotande"
+    },
+    "1": {
+      "local": "BRÅDSKANDE",
+      "label": "URGENT / Tidskritiskt"
+    },
+    "2": {
+      "local": "SÄKERHET",
+      "label": "SAFETY / Viktigt"
+    },
+    "3": {
+      "local": "RUTIN",
+      "label": "ROUTINE / Normalt"
+    }
   },
   "categories": {
-    "M": { "name": "Medicinskt", "icon": "medical" },
-    "T": { "name": "Terräng / Infrastruktur", "icon": "terrain" },
-    "W": { "name": "Väder / Miljö", "icon": "weather" },
-    "S": { "name": "Förnödenheter", "icon": "supplies" },
-    "P": { "name": "Position / Rörelse", "icon": "position" },
-    "C": { "name": "Samordning", "icon": "coordination" },
-    "R": { "name": "Respons", "icon": "response" },
-    "D": { "name": "Övning / Test", "icon": "drill" },
-    "L": { "name": "Vardag / Fritid", "icon": "leisure" },
-    "X": { "name": "Hot / Säkerhet", "icon": "threat" },
-    "H": { "name": "Har / Erbjuder resurser", "icon": "resources" }
+    "M": {
+      "name": "Medicinskt",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terräng / Infrastruktur",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Väder / Miljö",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Förnödenheter",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Position / Rörelse",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Samordning",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Respons",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Övning / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Vardag / Fritid",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Hot / Säkerhet",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Har / Erbjuder resurser",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Skada",
@@ -162,7 +207,18 @@
     "confirm_mayday": "Bekräfta NÖDLÄGE — håll för att skicka",
     "message_copied": "Meddelande kopierat",
     "gps_acquiring": "Hämtar GPS...",
-    "add_reference_tag": "Lägg till incidenttagg"
+    "add_reference_tag": "Lägg till incidenttagg",
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "add_more_codes": "Lägg till fler koder",
+    "freetext_preview": "Fritext & Förhandsgranskning",
+    "bytes_available": "byte tillgängliga för fler koder + fritext",
+    "gps_unavailable": "GPS otillgänglig",
+    "gps_not_supported": "GPS stöds inte",
+    "freetext_conventions": "Fritextkonventioner",
+    "no_messages": "Inga meddelanden ännu",
+    "severity_levels": "Allvarlighetsnivåer",
+    "person_count": "Antal personer"
   },
   "deprecations": {}
 }

@@ -6,23 +6,68 @@
   "flag_emoji": "🇪🇸",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Peligro de muerte" },
-    "1": { "local": "URGENTE", "label": "URGENTE / Tiempo crítico" },
-    "2": { "local": "SEGURIDAD", "label": "SEGURIDAD / Importante" },
-    "3": { "local": "RUTINA", "label": "RUTINA / Normal" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Peligro de muerte"
+    },
+    "1": {
+      "local": "URGENTE",
+      "label": "URGENTE / Tiempo crítico"
+    },
+    "2": {
+      "local": "SEGURIDAD",
+      "label": "SEGURIDAD / Importante"
+    },
+    "3": {
+      "local": "RUTINA",
+      "label": "RUTINA / Normal"
+    }
   },
   "categories": {
-    "M": { "name": "Médico", "icon": "medical" },
-    "T": { "name": "Terreno / Infraestructura", "icon": "terrain" },
-    "W": { "name": "Clima / Medio ambiente", "icon": "weather" },
-    "S": { "name": "Suministros", "icon": "supplies" },
-    "P": { "name": "Posición / Movimiento", "icon": "position" },
-    "C": { "name": "Coordinación", "icon": "coordination" },
-    "R": { "name": "Respuesta", "icon": "response" },
-    "D": { "name": "Simulacro / Prueba", "icon": "drill" },
-    "L": { "name": "Vida / Ocio", "icon": "leisure" },
-    "X": { "name": "Amenaza / Seguridad", "icon": "threat" },
-    "H": { "name": "Disponible / Oferta de recursos", "icon": "resources" }
+    "M": {
+      "name": "Médico",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terreno / Infraestructura",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Clima / Medio ambiente",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Suministros",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Posición / Movimiento",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Coordinación",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Respuesta",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Simulacro / Prueba",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Vida / Ocio",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Amenaza / Seguridad",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Disponible / Oferta de recursos",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Lesión",
@@ -162,7 +207,18 @@
     "confirm_mayday": "Confirmar MAYDAY — mantenga para enviar",
     "message_copied": "Mensaje copiado",
     "gps_acquiring": "Obteniendo GPS...",
-    "add_reference_tag": "Añadir etiqueta de incidente"
+    "add_reference_tag": "Añadir etiqueta de incidente",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "add_more_codes": "Añadir más códigos",
+    "freetext_preview": "Texto libre y Vista previa",
+    "bytes_available": "bytes disponibles para más códigos + texto",
+    "gps_unavailable": "GPS no disponible",
+    "gps_not_supported": "GPS no compatible",
+    "freetext_conventions": "Convenciones de texto libre",
+    "no_messages": "Sin mensajes aún",
+    "severity_levels": "Niveles de severidad",
+    "person_count": "Número de personas"
   },
   "deprecations": {}
 }

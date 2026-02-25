@@ -6,23 +6,68 @@
   "flag_emoji": "🇯🇵",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "メーデー", "label": "MAYDAY / 生命の危険" },
-    "1": { "local": "緊急", "label": "URGENT / 時間緊迫" },
-    "2": { "local": "安全", "label": "SAFETY / 重要" },
-    "3": { "local": "通常", "label": "ROUTINE / 通常" }
+    "0": {
+      "local": "メーデー",
+      "label": "MAYDAY / 生命の危険"
+    },
+    "1": {
+      "local": "緊急",
+      "label": "URGENT / 時間緊迫"
+    },
+    "2": {
+      "local": "安全",
+      "label": "SAFETY / 重要"
+    },
+    "3": {
+      "local": "通常",
+      "label": "ROUTINE / 通常"
+    }
   },
   "categories": {
-    "M": { "name": "医療", "icon": "medical" },
-    "T": { "name": "地形 / インフラ", "icon": "terrain" },
-    "W": { "name": "気象 / 環境", "icon": "weather" },
-    "S": { "name": "物資", "icon": "supplies" },
-    "P": { "name": "位置 / 移動", "icon": "position" },
-    "C": { "name": "連絡調整", "icon": "coordination" },
-    "R": { "name": "応答", "icon": "response" },
-    "D": { "name": "訓練 / テスト", "icon": "drill" },
-    "L": { "name": "日常 / レジャー", "icon": "leisure" },
-    "X": { "name": "脅威 / 治安", "icon": "threat" },
-    "H": { "name": "提供可能な資源", "icon": "resources" }
+    "M": {
+      "name": "医療",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "地形 / インフラ",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "気象 / 環境",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "物資",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "位置 / 移動",
+      "icon": "position"
+    },
+    "C": {
+      "name": "連絡調整",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "応答",
+      "icon": "response"
+    },
+    "D": {
+      "name": "訓練 / テスト",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "日常 / レジャー",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "脅威 / 治安",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "提供可能な資源",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "負傷",
@@ -162,7 +207,18 @@
     "confirm_mayday": "メーデー確認 — 長押しで送信",
     "message_copied": "メッセージをコピーしました",
     "gps_acquiring": "GPS取得中...",
-    "add_reference_tag": "インシデントタグを追加"
+    "add_reference_tag": "インシデントタグを追加",
+    "back": "戻る",
+    "next": "次へ",
+    "add_more_codes": "コードを追加",
+    "freetext_preview": "フリーテキスト＆プレビュー",
+    "bytes_available": "バイト 追加コード＋テキスト用",
+    "gps_unavailable": "GPS利用不可",
+    "gps_not_supported": "GPS非対応",
+    "freetext_conventions": "フリーテキスト規則",
+    "no_messages": "メッセージなし",
+    "severity_levels": "重大度レベル",
+    "person_count": "人数"
   },
   "deprecations": {}
 }

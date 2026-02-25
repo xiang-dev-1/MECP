@@ -6,23 +6,68 @@
   "flag_emoji": "🇹🇼",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "求救", "label": "MAYDAY / 危及生命" },
-    "1": { "local": "緊急", "label": "URGENT / 時間緊迫" },
-    "2": { "local": "安全", "label": "SAFETY / 重要" },
-    "3": { "local": "一般", "label": "ROUTINE / 正常" }
+    "0": {
+      "local": "求救",
+      "label": "MAYDAY / 危及生命"
+    },
+    "1": {
+      "local": "緊急",
+      "label": "URGENT / 時間緊迫"
+    },
+    "2": {
+      "local": "安全",
+      "label": "SAFETY / 重要"
+    },
+    "3": {
+      "local": "一般",
+      "label": "ROUTINE / 正常"
+    }
   },
   "categories": {
-    "M": { "name": "醫療", "icon": "medical" },
-    "T": { "name": "地形 / 基礎設施", "icon": "terrain" },
-    "W": { "name": "天氣 / 環境", "icon": "weather" },
-    "S": { "name": "物資", "icon": "supplies" },
-    "P": { "name": "位置 / 移動", "icon": "position" },
-    "C": { "name": "協調", "icon": "coordination" },
-    "R": { "name": "回應", "icon": "response" },
-    "D": { "name": "演習 / 測試", "icon": "drill" },
-    "L": { "name": "生活 / 休閒", "icon": "leisure" },
-    "X": { "name": "威脅 / 治安", "icon": "threat" },
-    "H": { "name": "可提供資源", "icon": "resources" }
+    "M": {
+      "name": "醫療",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "地形 / 基礎設施",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "天氣 / 環境",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "物資",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "位置 / 移動",
+      "icon": "position"
+    },
+    "C": {
+      "name": "協調",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "回應",
+      "icon": "response"
+    },
+    "D": {
+      "name": "演習 / 測試",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "生活 / 休閒",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "威脅 / 治安",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "可提供資源",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "受傷",
@@ -162,7 +207,18 @@
     "confirm_mayday": "確認求救 — 長按傳送",
     "message_copied": "訊息已複製",
     "gps_acquiring": "正在取得GPS...",
-    "add_reference_tag": "新增事件標籤"
+    "add_reference_tag": "新增事件標籤",
+    "back": "返回",
+    "next": "下一步",
+    "add_more_codes": "新增更多代碼",
+    "freetext_preview": "自由文字與預覽",
+    "bytes_available": "位元組可用於更多代碼＋文字",
+    "gps_unavailable": "GPS無法使用",
+    "gps_not_supported": "GPS不支援",
+    "freetext_conventions": "自由文字規範",
+    "no_messages": "尚無訊息",
+    "severity_levels": "嚴重程度等級",
+    "person_count": "人數"
   },
   "deprecations": {}
 }

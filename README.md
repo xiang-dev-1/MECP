@@ -96,3 +96,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). The highest-impact contribution is addin
 | Language files | CC BY 4.0 |
 
 The protocol is free forever. Anyone may implement MECP without restriction.
+
+## Supported Languages (20)
+
+Czech, Dutch, English, Farsi, French, German, Italian, Japanese, Norwegian, Polish, Portuguese, Russian, Serbian (Cyrillic), Simplified Chinese, Slovak, Spanish, Swedish, Traditional Chinese, Turkish, Ukrainian

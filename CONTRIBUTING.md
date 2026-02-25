@@ -10,7 +10,7 @@ The highest-impact contribution is adding or verifying a language translation.
 
 1. Copy `languages/_template.json` to `languages/XX.json` (ISO 639-1 code)
 2. Translate every code and UI string
-3. Read `docs/translation-guide.md` for context on each code
+3. Use the English file (`languages/en.json`) as the reference for context on each code
 4. Submit a pull request with the title: `lang: Add [Language Name] translation`
 5. A native speaker must review before merge
 

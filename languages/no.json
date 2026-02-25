@@ -6,23 +6,68 @@
   "flag_emoji": "🇳🇴",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Livstruende" },
-    "1": { "local": "HASTER", "label": "HASTER / Tidskritisk" },
-    "2": { "local": "SIKKERHET", "label": "SIKKERHET / Viktig" },
-    "3": { "local": "RUTINE", "label": "RUTINE / Normal" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Livstruende"
+    },
+    "1": {
+      "local": "HASTER",
+      "label": "HASTER / Tidskritisk"
+    },
+    "2": {
+      "local": "SIKKERHET",
+      "label": "SIKKERHET / Viktig"
+    },
+    "3": {
+      "local": "RUTINE",
+      "label": "RUTINE / Normal"
+    }
   },
   "categories": {
-    "M": { "name": "Medisinsk", "icon": "medical" },
-    "T": { "name": "Terreng / Infrastruktur", "icon": "terrain" },
-    "W": { "name": "Vær / Miljø", "icon": "weather" },
-    "S": { "name": "Forsyninger", "icon": "supplies" },
-    "P": { "name": "Posisjon / Bevegelse", "icon": "position" },
-    "C": { "name": "Koordinering", "icon": "coordination" },
-    "R": { "name": "Respons", "icon": "response" },
-    "D": { "name": "Øvelse / Test", "icon": "drill" },
-    "L": { "name": "Liv / Fritid", "icon": "leisure" },
-    "X": { "name": "Trussel / Sikkerhet", "icon": "threat" },
-    "H": { "name": "Tilgjengelige ressurser", "icon": "resources" }
+    "M": {
+      "name": "Medisinsk",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terreng / Infrastruktur",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Vær / Miljø",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Forsyninger",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Posisjon / Bevegelse",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Koordinering",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Respons",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Øvelse / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Liv / Fritid",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Trussel / Sikkerhet",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Tilgjengelige ressurser",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Skade",
@@ -162,7 +207,18 @@
     "confirm_mayday": "Bekreft MAYDAY — hold inne for å sende",
     "message_copied": "Melding kopiert",
     "gps_acquiring": "Henter GPS...",
-    "add_reference_tag": "Legg til hendelsesmerke"
+    "add_reference_tag": "Legg til hendelsesmerke",
+    "back": "Tilbake",
+    "next": "Neste",
+    "add_more_codes": "Legg til flere koder",
+    "freetext_preview": "Fritekst & Forhåndsvisning",
+    "bytes_available": "byte tilgjengelig for flere koder + tekst",
+    "gps_unavailable": "GPS utilgjengelig",
+    "gps_not_supported": "GPS ikke støttet",
+    "freetext_conventions": "Fritekstkonvensjoner",
+    "no_messages": "Ingen meldinger ennå",
+    "severity_levels": "Alvorlighetsgrader",
+    "person_count": "Antall personer"
   },
   "deprecations": {}
 }

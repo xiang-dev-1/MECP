@@ -3,26 +3,71 @@
   "language_name": "Nederlands",
   "language_name_en": "Dutch",
   "language_name_latin": "Nederlands",
-  "flag_emoji": "\ud83c\uddf3\ud83c\uddf1",
+  "flag_emoji": "🇳🇱",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Levensbedreigend" },
-    "1": { "local": "DRINGEND", "label": "DRINGEND / Tijdkritiek" },
-    "2": { "local": "VEILIGHEID", "label": "VEILIGHEID / Belangrijk" },
-    "3": { "local": "ROUTINE", "label": "ROUTINE / Normaal" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Levensbedreigend"
+    },
+    "1": {
+      "local": "DRINGEND",
+      "label": "DRINGEND / Tijdkritiek"
+    },
+    "2": {
+      "local": "VEILIGHEID",
+      "label": "VEILIGHEID / Belangrijk"
+    },
+    "3": {
+      "local": "ROUTINE",
+      "label": "ROUTINE / Normaal"
+    }
   },
   "categories": {
-    "M": { "name": "Medisch", "icon": "medical" },
-    "T": { "name": "Terrein / Infrastructuur", "icon": "terrain" },
-    "W": { "name": "Weer / Milieu", "icon": "weather" },
-    "S": { "name": "Benodigdheden", "icon": "supplies" },
-    "P": { "name": "Positie / Verplaatsing", "icon": "position" },
-    "C": { "name": "Co\u00f6rdinatie", "icon": "coordination" },
-    "R": { "name": "Reactie", "icon": "response" },
-    "D": { "name": "Oefening / Test", "icon": "drill" },
-    "L": { "name": "Dagelijks / Vrije tijd", "icon": "leisure" },
-    "X": { "name": "Dreiging / Veiligheid", "icon": "threat" },
-    "H": { "name": "Beschikbaar / Middelen aanbieden", "icon": "resources" }
+    "M": {
+      "name": "Medisch",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terrein / Infrastructuur",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Weer / Milieu",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Benodigdheden",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Positie / Verplaatsing",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Coördinatie",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Reactie",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Oefening / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Dagelijks / Vrije tijd",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Dreiging / Veiligheid",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Beschikbaar / Middelen aanbieden",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Verwonding",
@@ -73,7 +118,7 @@
     "P02": "Evacuatie richting",
     "P03": "Schuilen ter plaatse",
     "P04": "Onderweg naar",
-    "P05": "Op GPS-co\u00f6rdinaten",
+    "P05": "Op GPS-coördinaten",
     "P06": "Verdwaald",
     "P07": "Groep gescheiden",
     "C01": "Stuur redding",
@@ -94,7 +139,7 @@
     "D01": "Dit is een oefening",
     "D02": "Dit is een test",
     "D03": "Einde oefening",
-    "D04": "Vorige negeren \u2014 per ongeluk verzonden",
+    "D04": "Vorige negeren — per ongeluk verzonden",
     "L01": "Bier / drankjes",
     "L02": "Koffie",
     "L03": "Eten klaar",
@@ -116,7 +161,7 @@
     "L19": "Festival / evenement hier",
     "L20": "Knooppunttest / ping",
     "X01": "Gevaarlijk persoon / dreiging nabij",
-    "X02": "Gebied onveilig \u2014 vermijden",
+    "X02": "Gebied onveilig — vermijden",
     "X03": "Schoten / explosies gehoord",
     "X04": "Onrust / menigte gevaarlijk",
     "X05": "Diefstal / plundering gemeld",
@@ -137,13 +182,13 @@
     "attach_gps": "GPS toevoegen",
     "add_count": "Aantal toevoegen",
     "preview": "Voorbeeld",
-    "copy": "Kopi\u00ebren",
+    "copy": "Kopiëren",
     "paste_decode": "Plakken & decoderen",
     "severity_select": "Ernst selecteren",
     "category_select": "Categorie selecteren",
     "code_select": "Codes selecteren",
     "freetext_placeholder": "Optionele tekst...",
-    "parse_failed": "MECP-bericht \u2014 kon niet volledig worden geparsed",
+    "parse_failed": "MECP-bericht — kon niet volledig worden geparsed",
     "unknown_code": "Onbekende code",
     "message_too_long": "Bericht overschrijdt 200 bytes",
     "not_connected": "Geen apparaat verbonden",
@@ -159,10 +204,21 @@
     "drill_banner": "OEFENING",
     "untranslated_warning": "Deze tekst is niet vertaald",
     "bytes_remaining": "bytes resterend",
-    "confirm_mayday": "MAYDAY bevestigen \u2014 houd ingedrukt om te verzenden",
+    "confirm_mayday": "MAYDAY bevestigen — houd ingedrukt om te verzenden",
     "message_copied": "Bericht gekopieerd",
     "gps_acquiring": "GPS wordt bepaald...",
-    "add_reference_tag": "Incidenttag toevoegen"
+    "add_reference_tag": "Incidenttag toevoegen",
+    "back": "Terug",
+    "next": "Volgende",
+    "add_more_codes": "Meer codes toevoegen",
+    "freetext_preview": "Vrije tekst & Voorbeeld",
+    "bytes_available": "bytes beschikbaar voor meer codes + tekst",
+    "gps_unavailable": "GPS niet beschikbaar",
+    "gps_not_supported": "GPS niet ondersteund",
+    "freetext_conventions": "Vrije tekst conventies",
+    "no_messages": "Nog geen berichten",
+    "severity_levels": "Ernstniveaus",
+    "person_count": "Aantal personen"
   },
   "deprecations": {}
 }

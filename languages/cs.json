@@ -6,23 +6,68 @@
   "flag_emoji": "🇨🇿",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Ohrožení života" },
-    "1": { "local": "NALÉHAVÉ", "label": "NALÉHAVÉ / Časově kritické" },
-    "2": { "local": "BEZPEČNOST", "label": "BEZPEČNOST / Důležité" },
-    "3": { "local": "BĚŽNÉ", "label": "BĚŽNÉ / Normální" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Ohrožení života"
+    },
+    "1": {
+      "local": "NALÉHAVÉ",
+      "label": "NALÉHAVÉ / Časově kritické"
+    },
+    "2": {
+      "local": "BEZPEČNOST",
+      "label": "BEZPEČNOST / Důležité"
+    },
+    "3": {
+      "local": "BĚŽNÉ",
+      "label": "BĚŽNÉ / Normální"
+    }
   },
   "categories": {
-    "M": { "name": "Zdravotní", "icon": "medical" },
-    "T": { "name": "Terén / Infrastruktura", "icon": "terrain" },
-    "W": { "name": "Počasí / Prostředí", "icon": "weather" },
-    "S": { "name": "Zásoby", "icon": "supplies" },
-    "P": { "name": "Poloha / Pohyb", "icon": "position" },
-    "C": { "name": "Koordinace", "icon": "coordination" },
-    "R": { "name": "Odezva", "icon": "response" },
-    "D": { "name": "Cvičení / Test", "icon": "drill" },
-    "L": { "name": "Život / Volný čas", "icon": "leisure" },
-    "X": { "name": "Hrozba / Bezpečnost", "icon": "threat" },
-    "H": { "name": "Nabídka zdrojů", "icon": "resources" }
+    "M": {
+      "name": "Zdravotní",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terén / Infrastruktura",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Počasí / Prostředí",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Zásoby",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Poloha / Pohyb",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Koordinace",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Odezva",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Cvičení / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Život / Volný čas",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Hrozba / Bezpečnost",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Nabídka zdrojů",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Zranění",
@@ -162,7 +207,18 @@
     "confirm_mayday": "Potvrdit MAYDAY — podržte pro odeslání",
     "message_copied": "Zpráva zkopírována",
     "gps_acquiring": "Získávání GPS...",
-    "add_reference_tag": "Přidat značku incidentu"
+    "add_reference_tag": "Přidat značku incidentu",
+    "back": "Zpět",
+    "next": "Další",
+    "add_more_codes": "Přidat další kódy",
+    "freetext_preview": "Text a náhled",
+    "bytes_available": "bajtů dostupných pro další kódy + text",
+    "gps_unavailable": "GPS nedostupné",
+    "gps_not_supported": "GPS není podporováno",
+    "freetext_conventions": "Konvence volného textu",
+    "no_messages": "Zatím žádné zprávy",
+    "severity_levels": "Stupně závažnosti",
+    "person_count": "Počet osob"
   },
   "deprecations": {}
 }

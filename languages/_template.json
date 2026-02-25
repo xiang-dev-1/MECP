@@ -3,26 +3,71 @@
   "language_name": "TODO: Native Name",
   "language_name_en": "TODO: English Name",
   "language_name_latin": "TODO: Latin Script Name",
-  "flag_emoji": "\ud83c\udff3\ufe0f",
+  "flag_emoji": "🏳️",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "TODO: MAYDAY", "label": "MAYDAY / TODO: Life-threatening" },
-    "1": { "local": "TODO: URGENT", "label": "URGENT / TODO: Time-critical" },
-    "2": { "local": "TODO: SAFETY", "label": "SAFETY / TODO: Important" },
-    "3": { "local": "TODO: ROUTINE", "label": "ROUTINE / TODO: Normal" }
+    "0": {
+      "local": "TODO: MAYDAY",
+      "label": "MAYDAY / TODO: Life-threatening"
+    },
+    "1": {
+      "local": "TODO: URGENT",
+      "label": "URGENT / TODO: Time-critical"
+    },
+    "2": {
+      "local": "TODO: SAFETY",
+      "label": "SAFETY / TODO: Important"
+    },
+    "3": {
+      "local": "TODO: ROUTINE",
+      "label": "ROUTINE / TODO: Normal"
+    }
   },
   "categories": {
-    "M": { "name": "TODO: Medical", "icon": "medical" },
-    "T": { "name": "TODO: Terrain / Infrastructure", "icon": "terrain" },
-    "W": { "name": "TODO: Weather / Environment", "icon": "weather" },
-    "S": { "name": "TODO: Supplies", "icon": "supplies" },
-    "P": { "name": "TODO: Position / Movement", "icon": "position" },
-    "C": { "name": "TODO: Coordination", "icon": "coordination" },
-    "R": { "name": "TODO: Response", "icon": "response" },
-    "D": { "name": "TODO: Drill / Test", "icon": "drill" },
-    "L": { "name": "TODO: Life / Leisure", "icon": "leisure" },
-    "X": { "name": "TODO: Threat / Security", "icon": "threat" },
-    "H": { "name": "TODO: Have / Offer Resources", "icon": "resources" }
+    "M": {
+      "name": "TODO: Medical",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "TODO: Terrain / Infrastructure",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "TODO: Weather / Environment",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "TODO: Supplies",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "TODO: Position / Movement",
+      "icon": "position"
+    },
+    "C": {
+      "name": "TODO: Coordination",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "TODO: Response",
+      "icon": "response"
+    },
+    "D": {
+      "name": "TODO: Drill / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "TODO: Life / Leisure",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "TODO: Threat / Security",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "TODO: Have / Offer Resources",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "TODO: Injury",
@@ -94,7 +139,7 @@
     "D01": "TODO: This is a drill",
     "D02": "TODO: This is a test",
     "D03": "TODO: End of drill",
-    "D04": "TODO: Ignore previous \u2014 sent in error",
+    "D04": "TODO: Ignore previous — sent in error",
     "L01": "TODO: Beer / drinks",
     "L02": "TODO: Coffee",
     "L03": "TODO: Food ready",
@@ -116,7 +161,7 @@
     "L19": "TODO: Festival / event here",
     "L20": "TODO: Node test / ping",
     "X01": "TODO: Dangerous person / threat nearby",
-    "X02": "TODO: Area unsafe \u2014 avoid",
+    "X02": "TODO: Area unsafe — avoid",
     "X03": "TODO: Gunfire / explosions heard",
     "X04": "TODO: Civil unrest / crowd danger",
     "X05": "TODO: Theft / looting reported",
@@ -143,7 +188,7 @@
     "category_select": "TODO: Select category",
     "code_select": "TODO: Select codes",
     "freetext_placeholder": "TODO: Optional text...",
-    "parse_failed": "TODO: MECP message \u2014 could not fully parse",
+    "parse_failed": "TODO: MECP message — could not fully parse",
     "unknown_code": "TODO: Unknown code",
     "message_too_long": "TODO: Message exceeds 200 bytes",
     "not_connected": "TODO: No device connected",
@@ -159,10 +204,21 @@
     "drill_banner": "TODO: DRILL",
     "untranslated_warning": "TODO: This text is not translated",
     "bytes_remaining": "TODO: bytes remaining",
-    "confirm_mayday": "TODO: Confirm MAYDAY \u2014 hold to send",
+    "confirm_mayday": "TODO: Confirm MAYDAY — hold to send",
     "message_copied": "TODO: Message copied",
     "gps_acquiring": "TODO: Acquiring GPS...",
-    "add_reference_tag": "TODO: Add incident tag"
+    "add_reference_tag": "TODO: Add incident tag",
+    "back": "TODO: Back",
+    "next": "TODO: Next",
+    "add_more_codes": "TODO: Add more codes",
+    "freetext_preview": "TODO: Freetext & Preview",
+    "bytes_available": "TODO: bytes available for more codes + freetext",
+    "gps_unavailable": "TODO: GPS unavailable",
+    "gps_not_supported": "TODO: GPS not supported",
+    "freetext_conventions": "TODO: Freetext Conventions",
+    "no_messages": "TODO: No messages yet",
+    "severity_levels": "TODO: Severity Levels",
+    "person_count": "TODO: Person count"
   },
   "deprecations": {}
 }

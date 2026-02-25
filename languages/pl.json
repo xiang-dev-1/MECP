@@ -6,23 +6,68 @@
   "flag_emoji": "🇵🇱",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Zagrożenie życia" },
-    "1": { "local": "PILNE", "label": "PILNE / Czas krytyczny" },
-    "2": { "local": "BEZPIECZEŃSTWO", "label": "BEZPIECZEŃSTWO / Ważne" },
-    "3": { "local": "RUTYNA", "label": "RUTYNA / Normalne" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Zagrożenie życia"
+    },
+    "1": {
+      "local": "PILNE",
+      "label": "PILNE / Czas krytyczny"
+    },
+    "2": {
+      "local": "BEZPIECZEŃSTWO",
+      "label": "BEZPIECZEŃSTWO / Ważne"
+    },
+    "3": {
+      "local": "RUTYNA",
+      "label": "RUTYNA / Normalne"
+    }
   },
   "categories": {
-    "M": { "name": "Medyczne", "icon": "medical" },
-    "T": { "name": "Teren / Infrastruktura", "icon": "terrain" },
-    "W": { "name": "Pogoda / Środowisko", "icon": "weather" },
-    "S": { "name": "Zaopatrzenie", "icon": "supplies" },
-    "P": { "name": "Pozycja / Ruch", "icon": "position" },
-    "C": { "name": "Koordynacja", "icon": "coordination" },
-    "R": { "name": "Odpowiedź", "icon": "response" },
-    "D": { "name": "Ćwiczenia / Test", "icon": "drill" },
-    "L": { "name": "Życie / Wypoczynek", "icon": "leisure" },
-    "X": { "name": "Zagrożenie / Bezpieczeństwo", "icon": "threat" },
-    "H": { "name": "Dostępne / Oferta zasobów", "icon": "resources" }
+    "M": {
+      "name": "Medyczne",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Teren / Infrastruktura",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Pogoda / Środowisko",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Zaopatrzenie",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Pozycja / Ruch",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Koordynacja",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Odpowiedź",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Ćwiczenia / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Życie / Wypoczynek",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Zagrożenie / Bezpieczeństwo",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Dostępne / Oferta zasobów",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Uraz",
@@ -162,7 +207,18 @@
     "confirm_mayday": "Potwierdź MAYDAY — przytrzymaj aby wysłać",
     "message_copied": "Wiadomość skopiowana",
     "gps_acquiring": "Uzyskiwanie GPS...",
-    "add_reference_tag": "Dodaj tag incydentu"
+    "add_reference_tag": "Dodaj tag incydentu",
+    "back": "Wstecz",
+    "next": "Dalej",
+    "add_more_codes": "Dodaj więcej kodów",
+    "freetext_preview": "Tekst i podgląd",
+    "bytes_available": "bajtów dostępnych na więcej kodów + tekst",
+    "gps_unavailable": "GPS niedostępny",
+    "gps_not_supported": "GPS nieobsługiwany",
+    "freetext_conventions": "Konwencje tekstu",
+    "no_messages": "Brak wiadomości",
+    "severity_levels": "Poziomy ważności",
+    "person_count": "Liczba osób"
   },
   "deprecations": {}
 }

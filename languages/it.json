@@ -6,23 +6,68 @@
   "flag_emoji": "🇮🇹",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Pericolo di vita" },
-    "1": { "local": "URGENTE", "label": "URGENTE / Tempo critico" },
-    "2": { "local": "SICUREZZA", "label": "SICUREZZA / Importante" },
-    "3": { "local": "ROUTINE", "label": "ROUTINE / Normale" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Pericolo di vita"
+    },
+    "1": {
+      "local": "URGENTE",
+      "label": "URGENTE / Tempo critico"
+    },
+    "2": {
+      "local": "SICUREZZA",
+      "label": "SICUREZZA / Importante"
+    },
+    "3": {
+      "local": "ROUTINE",
+      "label": "ROUTINE / Normale"
+    }
   },
   "categories": {
-    "M": { "name": "Medico", "icon": "medical" },
-    "T": { "name": "Terreno / Infrastruttura", "icon": "terrain" },
-    "W": { "name": "Meteo / Ambiente", "icon": "weather" },
-    "S": { "name": "Forniture", "icon": "supplies" },
-    "P": { "name": "Posizione / Movimento", "icon": "position" },
-    "C": { "name": "Coordinamento", "icon": "coordination" },
-    "R": { "name": "Risposta", "icon": "response" },
-    "D": { "name": "Esercitazione / Test", "icon": "drill" },
-    "L": { "name": "Vita / Svago", "icon": "leisure" },
-    "X": { "name": "Minaccia / Sicurezza", "icon": "threat" },
-    "H": { "name": "Disponibile / Offerta risorse", "icon": "resources" }
+    "M": {
+      "name": "Medico",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terreno / Infrastruttura",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Meteo / Ambiente",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Forniture",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Posizione / Movimento",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Coordinamento",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Risposta",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Esercitazione / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Vita / Svago",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Minaccia / Sicurezza",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Disponibile / Offerta risorse",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Ferita",
@@ -162,7 +207,18 @@
     "confirm_mayday": "Conferma MAYDAY — tieni premuto per inviare",
     "message_copied": "Messaggio copiato",
     "gps_acquiring": "Acquisizione GPS...",
-    "add_reference_tag": "Aggiungi tag incidente"
+    "add_reference_tag": "Aggiungi tag incidente",
+    "back": "Indietro",
+    "next": "Avanti",
+    "add_more_codes": "Aggiungi altri codici",
+    "freetext_preview": "Testo libero & Anteprima",
+    "bytes_available": "byte disponibili per più codici + testo",
+    "gps_unavailable": "GPS non disponibile",
+    "gps_not_supported": "GPS non supportato",
+    "freetext_conventions": "Convenzioni testo libero",
+    "no_messages": "Nessun messaggio",
+    "severity_levels": "Livelli di gravità",
+    "person_count": "Numero di persone"
   },
   "deprecations": {}
 }

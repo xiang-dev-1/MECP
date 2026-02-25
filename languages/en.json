@@ -3,26 +3,71 @@
   "language_name": "English",
   "language_name_en": "English",
   "language_name_latin": "English",
-  "flag_emoji": "\ud83c\uddec\ud83c\udde7",
+  "flag_emoji": "🇬🇧",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "MAYDAY", "label": "MAYDAY / Life-threatening" },
-    "1": { "local": "URGENT", "label": "URGENT / Time-critical" },
-    "2": { "local": "SAFETY", "label": "SAFETY / Important" },
-    "3": { "local": "ROUTINE", "label": "ROUTINE / Normal" }
+    "0": {
+      "local": "MAYDAY",
+      "label": "MAYDAY / Life-threatening"
+    },
+    "1": {
+      "local": "URGENT",
+      "label": "URGENT / Time-critical"
+    },
+    "2": {
+      "local": "SAFETY",
+      "label": "SAFETY / Important"
+    },
+    "3": {
+      "local": "ROUTINE",
+      "label": "ROUTINE / Normal"
+    }
   },
   "categories": {
-    "M": { "name": "Medical", "icon": "medical" },
-    "T": { "name": "Terrain / Infrastructure", "icon": "terrain" },
-    "W": { "name": "Weather / Environment", "icon": "weather" },
-    "S": { "name": "Supplies", "icon": "supplies" },
-    "P": { "name": "Position / Movement", "icon": "position" },
-    "C": { "name": "Coordination", "icon": "coordination" },
-    "R": { "name": "Response", "icon": "response" },
-    "D": { "name": "Drill / Test", "icon": "drill" },
-    "L": { "name": "Life / Leisure", "icon": "leisure" },
-    "X": { "name": "Threat / Security", "icon": "threat" },
-    "H": { "name": "Have / Offer Resources", "icon": "resources" }
+    "M": {
+      "name": "Medical",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Terrain / Infrastructure",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Weather / Environment",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Supplies",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Position / Movement",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Coordination",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Response",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Drill / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Life / Leisure",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Threat / Security",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Have / Offer Resources",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Injury",
@@ -94,7 +139,7 @@
     "D01": "This is a drill",
     "D02": "This is a test",
     "D03": "End of drill",
-    "D04": "Ignore previous \u2014 sent in error",
+    "D04": "Ignore previous — sent in error",
     "L01": "Beer / drinks",
     "L02": "Coffee",
     "L03": "Food ready",
@@ -116,7 +161,7 @@
     "L19": "Festival / event here",
     "L20": "Node test / ping",
     "X01": "Dangerous person / threat nearby",
-    "X02": "Area unsafe \u2014 avoid",
+    "X02": "Area unsafe — avoid",
     "X03": "Gunfire / explosions heard",
     "X04": "Civil unrest / crowd danger",
     "X05": "Theft / looting reported",
@@ -143,7 +188,7 @@
     "category_select": "Select category",
     "code_select": "Select codes",
     "freetext_placeholder": "Optional text...",
-    "parse_failed": "MECP message \u2014 could not fully parse",
+    "parse_failed": "MECP message — could not fully parse",
     "unknown_code": "Unknown code",
     "message_too_long": "Message exceeds 200 bytes",
     "not_connected": "No device connected",
@@ -159,10 +204,21 @@
     "drill_banner": "DRILL",
     "untranslated_warning": "This text is not translated",
     "bytes_remaining": "bytes remaining",
-    "confirm_mayday": "Confirm MAYDAY \u2014 hold to send",
+    "confirm_mayday": "Confirm MAYDAY — hold to send",
     "message_copied": "Message copied",
     "gps_acquiring": "Acquiring GPS...",
-    "add_reference_tag": "Add incident tag"
+    "add_reference_tag": "Add incident tag",
+    "back": "Back",
+    "next": "Next",
+    "add_more_codes": "Add more codes",
+    "freetext_preview": "Freetext & Preview",
+    "bytes_available": "bytes available for more codes + freetext",
+    "gps_unavailable": "GPS unavailable",
+    "gps_not_supported": "GPS not supported",
+    "freetext_conventions": "Freetext Conventions",
+    "no_messages": "No messages yet",
+    "severity_levels": "Severity Levels",
+    "person_count": "Person count"
   },
   "deprecations": {}
 }

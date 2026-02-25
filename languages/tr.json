@@ -6,23 +6,68 @@
   "flag_emoji": "🇹🇷",
   "text_direction": "ltr",
   "severities": {
-    "0": { "local": "İMDAT", "label": "MAYDAY / Hayati tehlike" },
-    "1": { "local": "ACİL", "label": "URGENT / Zaman kritik" },
-    "2": { "local": "GÜVENLİK", "label": "SAFETY / Önemli" },
-    "3": { "local": "RUTİN", "label": "ROUTINE / Normal" }
+    "0": {
+      "local": "İMDAT",
+      "label": "MAYDAY / Hayati tehlike"
+    },
+    "1": {
+      "local": "ACİL",
+      "label": "URGENT / Zaman kritik"
+    },
+    "2": {
+      "local": "GÜVENLİK",
+      "label": "SAFETY / Önemli"
+    },
+    "3": {
+      "local": "RUTİN",
+      "label": "ROUTINE / Normal"
+    }
   },
   "categories": {
-    "M": { "name": "Tıbbi", "icon": "medical" },
-    "T": { "name": "Arazi / Altyapı", "icon": "terrain" },
-    "W": { "name": "Hava / Çevre", "icon": "weather" },
-    "S": { "name": "Malzeme", "icon": "supplies" },
-    "P": { "name": "Konum / Hareket", "icon": "position" },
-    "C": { "name": "Koordinasyon", "icon": "coordination" },
-    "R": { "name": "Yanıt", "icon": "response" },
-    "D": { "name": "Tatbikat / Test", "icon": "drill" },
-    "L": { "name": "Günlük / Boş zaman", "icon": "leisure" },
-    "X": { "name": "Tehdit / Güvenlik", "icon": "threat" },
-    "H": { "name": "Mevcut / Kaynak sunma", "icon": "resources" }
+    "M": {
+      "name": "Tıbbi",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Arazi / Altyapı",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Hava / Çevre",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Malzeme",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Konum / Hareket",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Koordinasyon",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Yanıt",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Tatbikat / Test",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Günlük / Boş zaman",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Tehdit / Güvenlik",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Mevcut / Kaynak sunma",
+      "icon": "resources"
+    }
   },
   "codes": {
     "M01": "Yaralanma",
@@ -162,7 +207,18 @@
     "confirm_mayday": "İMDAT onaylayın — göndermek için basılı tutun",
     "message_copied": "Mesaj kopyalandı",
     "gps_acquiring": "GPS alınıyor...",
-    "add_reference_tag": "Olay etiketi ekle"
+    "add_reference_tag": "Olay etiketi ekle",
+    "back": "Geri",
+    "next": "İleri",
+    "add_more_codes": "Daha fazla kod ekle",
+    "freetext_preview": "Serbest metin & Önizleme",
+    "bytes_available": "bayt daha fazla kod + metin için mevcut",
+    "gps_unavailable": "GPS kullanılamıyor",
+    "gps_not_supported": "GPS desteklenmiyor",
+    "freetext_conventions": "Serbest metin kuralları",
+    "no_messages": "Henüz mesaj yok",
+    "severity_levels": "Önem dereceleri",
+    "person_count": "Kişi sayısı"
   },
   "deprecations": {}
 }

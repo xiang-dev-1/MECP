@@ -14,7 +14,7 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nickmaxwell/MECP"
+    "url": "https://github.com/xiang-dev-1/MECP"
   },
   "devDependencies": {
     "tsx": "^4.7.0",
