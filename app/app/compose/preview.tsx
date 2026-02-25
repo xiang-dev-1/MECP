@@ -1,0 +1,332 @@
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+  Switch,
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useState, useMemo } from 'react';
+import { useSettingsStore } from '@/store/useSettingsStore';
+import { useMessageStore } from '@/store/useMessageStore';
+import { useTransportStore } from '@/store/useTransportStore';
+import { getLanguage } from '@/i18n/languages';
+import { useLocation } from '@/hooks/useLocation';
+import { encode, getByteLength, type Severity } from '@mecp/engine';
+import { MaydayButton } from '@/components/MaydayButton';
+import { SeverityBadge } from '@/components/SeverityBadge';
+
+export default function PreviewScreen() {
+  const router = useRouter();
+  const { severity: sevStr, selectedCodes: codesStr } = useLocalSearchParams<{
+    severity: string;
+    selectedCodes: string;
+  }>();
+  const severity = Number(sevStr) as Severity;
+  const codes: string[] = codesStr ? JSON.parse(codesStr) : [];
+
+  const lang = useSettingsStore((s) => s.language);
+  const autoGps = useSettingsStore((s) => s.autoGps);
+  const autoTimestamp = useSettingsStore((s) => s.autoTimestamp);
+  const langFile = getLanguage(lang);
+  const sendMessage = useMessageStore((s) => s.sendMessage);
+  const transport = useTransportStore((s) => s.transport);
+  const transportStatus = useTransportStore((s) => s.status);
+
+  const [freetext, setFreetext] = useState('');
+  const [paxCount, setPaxCount] = useState('');
+  const [gpsEnabled, setGpsEnabled] = useState(autoGps && severity <= 1);
+  const [tsEnabled, setTsEnabled] = useState(autoTimestamp);
+
+  const location = useLocation(gpsEnabled);
+
+  // Build auto-tags
+  const autoTags = useMemo(() => {
+    const parts: string[] = [];
+    if (paxCount && Number(paxCount) > 0) {
+      parts.push(`${paxCount}pax`);
+    }
+    if (gpsEnabled && location) {
+      parts.push(`${location.lat.toFixed(5)},${location.lon.toFixed(5)}`);
+    }
+    if (tsEnabled) {
+      const now = new Date();
+      const hh = String(now.getUTCHours()).padStart(2, '0');
+      const mm = String(now.getUTCMinutes()).padStart(2, '0');
+      parts.push(`@${hh}${mm}`);
+    }
+    if (lang !== 'en') {
+      parts.push(`@${lang}`);
+    }
+    return parts;
+  }, [paxCount, gpsEnabled, location, tsEnabled, lang]);
+
+  const fullFreetext = [...autoTags, freetext].filter(Boolean).join(' ');
+  const result = encode(severity, codes, fullFreetext || undefined);
+
+  const handleSend = async () => {
+    try {
+      await sendMessage(result.message, severity, codes, transport);
+      router.dismissAll();
+    } catch (err) {
+      Alert.alert('Error', String(err));
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+        <SeverityBadge severity={severity} langFile={langFile} />
+
+        {/* Selected codes */}
+        <View style={styles.chipRow}>
+          {codes.map((code) => (
+            <View key={code} style={styles.chip}>
+              <Text style={styles.chipText}>{code}</Text>
+              <Text style={styles.chipLabel}>
+                {langFile?.codes[code] ?? code}
+              </Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Pax count */}
+        <View style={styles.field}>
+          <Text style={styles.fieldLabel}>
+            {langFile?.ui?.person_count ?? 'Person count'}
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={paxCount}
+            onChangeText={setPaxCount}
+            keyboardType="numeric"
+            placeholder="0"
+            placeholderTextColor="#64748b"
+            maxLength={4}
+          />
+        </View>
+
+        {/* Auto tags */}
+        <View style={styles.toggleRow}>
+          <Text style={styles.toggleLabel}>
+            {langFile?.ui?.attach_gps ?? 'Attach GPS'}
+          </Text>
+          <Switch
+            value={gpsEnabled}
+            onValueChange={setGpsEnabled}
+            trackColor={{ false: '#334155', true: '#3b82f6' }}
+            thumbColor="#f1f5f9"
+          />
+        </View>
+        <View style={styles.toggleRow}>
+          <Text style={styles.toggleLabel}>Timestamp (UTC)</Text>
+          <Switch
+            value={tsEnabled}
+            onValueChange={setTsEnabled}
+            trackColor={{ false: '#334155', true: '#3b82f6' }}
+            thumbColor="#f1f5f9"
+          />
+        </View>
+
+        {/* Freetext */}
+        <View style={styles.field}>
+          <Text style={styles.fieldLabel}>
+            {langFile?.ui?.freetext ?? 'Freetext'}
+          </Text>
+          <TextInput
+            style={[styles.input, styles.textarea]}
+            value={freetext}
+            onChangeText={setFreetext}
+            multiline
+            placeholder="Optional freetext..."
+            placeholderTextColor="#64748b"
+            maxLength={120}
+          />
+        </View>
+
+        {/* Preview */}
+        <View style={styles.preview}>
+          <Text style={styles.previewLabel}>MECP Message</Text>
+          <Text style={styles.previewText}>{result.message}</Text>
+          <Text
+            style={[
+              styles.byteCount,
+              result.overLimit && styles.byteCountOver,
+            ]}
+          >
+            {result.byteLength}/200 bytes
+          </Text>
+          {result.warnings.map((w, i) => (
+            <Text key={i} style={styles.warning}>
+              {w}
+            </Text>
+          ))}
+        </View>
+      </ScrollView>
+
+      {/* Send button */}
+      <View style={styles.sendBar}>
+        {transportStatus !== 'connected' && (
+          <Text style={styles.queueNote}>
+            No radio connected — message will be queued
+          </Text>
+        )}
+        {severity === 0 ? (
+          <MaydayButton
+            onComplete={handleSend}
+            disabled={result.overLimit || codes.length === 0}
+          />
+        ) : (
+          <Pressable
+            style={[
+              styles.sendBtn,
+              (result.overLimit || codes.length === 0) && styles.btnDisabled,
+            ]}
+            onPress={handleSend}
+            disabled={result.overLimit || codes.length === 0}
+          >
+            <Text style={styles.sendBtnText}>
+              {langFile?.ui?.send ?? 'Send'}
+            </Text>
+          </Pressable>
+        )}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0f172a',
+  },
+  scroll: {
+    flex: 1,
+  },
+  content: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  chipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginVertical: 16,
+  },
+  chip: {
+    backgroundColor: '#1e293b',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  chipText: {
+    color: '#94a3b8',
+    fontSize: 12,
+    fontFamily: 'monospace',
+    fontWeight: '700',
+  },
+  chipLabel: {
+    color: '#f1f5f9',
+    fontSize: 13,
+    marginTop: 2,
+  },
+  field: {
+    marginBottom: 16,
+  },
+  fieldLabel: {
+    color: '#94a3b8',
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  input: {
+    backgroundColor: '#1e293b',
+    borderWidth: 1,
+    borderColor: '#334155',
+    borderRadius: 8,
+    padding: 12,
+    color: '#f1f5f9',
+    fontSize: 15,
+  },
+  textarea: {
+    height: 80,
+    textAlignVertical: 'top',
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  toggleLabel: {
+    color: '#f1f5f9',
+    fontSize: 15,
+  },
+  preview: {
+    backgroundColor: '#1e293b',
+    borderRadius: 8,
+    padding: 14,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  previewLabel: {
+    color: '#64748b',
+    fontSize: 11,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 8,
+  },
+  previewText: {
+    color: '#f1f5f9',
+    fontFamily: 'monospace',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  byteCount: {
+    color: '#64748b',
+    fontSize: 12,
+    textAlign: 'right',
+    marginTop: 8,
+  },
+  byteCountOver: {
+    color: '#ef4444',
+    fontWeight: '700',
+  },
+  warning: {
+    color: '#f59e0b',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  sendBar: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#334155',
+  },
+  queueNote: {
+    color: '#f59e0b',
+    fontSize: 12,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  sendBtn: {
+    backgroundColor: '#3b82f6',
+    paddingVertical: 16,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  btnDisabled: {
+    opacity: 0.4,
+  },
+  sendBtnText: {
+    color: '#ffffff',
+    fontWeight: '700',
+    fontSize: 17,
+  },
+});
