@@ -879,7 +879,13 @@ function buildSeverityGrid() {
     btn.setAttribute('data-sev', s);
     btn.innerHTML = '<span class="sev-num">' + s + '</span><span>' +
       (lang.severities[s]?.label || SEV_LABELS_EN[s]) + '</span>';
-    btn.onclick = () => { composeSev = s; composeGoStep(2); };
+    btn.onclick = () => {
+      composeSev = s;
+      composeCat = null;
+      composeCodes = [];
+      document.getElementById('freetextInput').value = '';
+      composeGoStep(2);
+    };
     grid.appendChild(btn);
   }
 }
@@ -893,7 +899,11 @@ function buildCategoryGrid() {
     btn.className = 'cat-btn' + (composeCat === cat ? ' selected' : '');
     btn.innerHTML = '<span class="cat-icon">' + (CAT_ICONS[cat] || cat) + '</span>' +
       '<span>' + (lang.categories[cat]?.name || cat) + '</span>';
-    btn.onclick = () => { composeCat = cat; composeGoStep(3); };
+    btn.onclick = () => {
+      composeCat = cat;
+      composeCodes = [];
+      composeGoStep(3);
+    };
     grid.appendChild(btn);
   }
 }
@@ -949,6 +959,7 @@ function copyMessage() {
   navigator.clipboard.writeText(msg).then(() => {
     showToast(L('message_copied'));
     saveToHistory(msg, 'sent');
+    composeReset();
   }).catch(() => {
     // Fallback
     const ta = document.createElement('textarea');
@@ -957,6 +968,7 @@ function copyMessage() {
     document.body.removeChild(ta);
     showToast(L('message_copied'));
     saveToHistory(msg, 'sent');
+    composeReset();
   });
 }
 
@@ -1165,7 +1177,11 @@ function renderHistory() {
 }
 
 function loadFromHistory(raw) {
-  switchView('viewDecode', document.querySelector('[data-view="viewDecode"]'));
+  // Switch view without clearing (bypass normal switchView clear)
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('viewDecode')?.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-view="viewDecode"]')?.classList.add('active');
   document.getElementById('decodeInput').value = raw;
   runDecode();
 }
@@ -1201,6 +1217,10 @@ function switchView(viewId, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   if (viewId === 'viewRef') renderRefCard();
+  if (viewId === 'viewDecode') {
+    document.getElementById('decodeInput').value = '';
+    document.getElementById('decodeResult').innerHTML = '';
+  }
 }
 
 // ====== Utilities ======
