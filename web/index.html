@@ -167,6 +167,9 @@ body {
   background: repeating-linear-gradient(0deg, var(--sev2), var(--sev2) 3px, rgba(180,83,9,.6) 3px, rgba(180,83,9,.6) 6px);
   clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 }
+/* Shift icon down into visual center of triangle (centroid = 2/3 from top) */
+.sev-shape-2 .sev-shape-icon { padding-top: 10px; }
+.sev-shape-2 .sev-shape-icon svg { width: 17px; height: 17px; }
 /* Rectangle (sev3 ROUTINE) — solid, no pattern */
 .sev-shape-3 .sev-shape-bg {
   background: var(--sev3);
@@ -386,6 +389,8 @@ body {
 .decoded-sev-shape.shape-0 .sev-shape-bg { clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); }
 .decoded-sev-shape.shape-1 .sev-shape-bg { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
 .decoded-sev-shape.shape-2 .sev-shape-bg { clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+.decoded-sev-shape.shape-2 .sev-shape-icon { padding-top: 9px; }
+.decoded-sev-shape.shape-2 .sev-shape-icon svg { width: 15px; height: 15px; }
 .decoded-sev-shape.shape-3 .sev-shape-bg { border-radius: 4px; }
 /* Category icon in decoded code rows */
 .decoded-cat-icon { font-size: .9rem; flex-shrink: 0; }
