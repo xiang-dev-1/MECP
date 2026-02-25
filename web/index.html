@@ -1117,7 +1117,10 @@ function composeReset() {
 
 function updateLangLabel() {
   const label = document.getElementById('tagLangLabel');
-  if (label) label.textContent = '@' + currentLang;
+  if (label) {
+    const langData = LANGUAGES[currentLang];
+    label.textContent = langData ? langData.language_name_en : '@' + currentLang;
+  }
 }
 
 // ====== Decode View ======
@@ -1184,7 +1187,11 @@ function renderDecoded(r) {
     }
     if (ext.eta !== null) html += '<div class="decoded-extracted">ETA: <strong>' + ext.eta + '</strong> min</div>';
     if (ext.reference) html += '<div class="decoded-extracted">Ref: <strong>#' + escHtml(ext.reference) + '</strong></div>';
-    if (ext.language) html += '<div class="decoded-extracted">Language: <strong>@' + escHtml(ext.language) + '</strong></div>';
+    if (ext.language) {
+      const langData = LANGUAGES[ext.language];
+      const langName = langData ? langData.language_name + ' (' + langData.language_name_en + ')' : ext.language;
+      html += '<div class="decoded-extracted">Language: <strong>' + escHtml(langName) + '</strong></div>';
+    }
     if (ext.timestamp) html += '<div class="decoded-extracted">Time: <strong>@' + escHtml(ext.timestamp) + ' UTC</strong></div>';
     if (ext.callsign) html += '<div class="decoded-extracted">Callsign: <strong>~' + escHtml(ext.callsign) + '</strong></div>';
   }
