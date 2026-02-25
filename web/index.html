@@ -180,6 +180,26 @@ body {
 .code-id { font-weight: 700; font-size: .85rem; color: var(--accent); min-width: 32px; }
 .code-desc { font-size: .85rem; color: var(--text); }
 
+/* --- Auto-tag buttons --- */
+.auto-tags {
+  display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;
+}
+.tag-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 20px;
+  background: var(--bg); color: var(--text-muted); font-size: .8rem;
+  cursor: pointer; transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tag-btn:hover { background: var(--bg-hover); color: var(--text); }
+.tag-btn.active { border-color: var(--accent); background: rgba(59,130,246,.12); color: var(--accent); }
+.tag-btn.acquiring { border-color: var(--sev2); color: var(--sev2); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+.gps-status {
+  font-size: .75rem; color: var(--text-dim); padding: 4px 0 6px;
+}
+
 /* --- Freetext input --- */
 .freetext-area {
   width: 100%; min-height: 64px; padding: 12px;
@@ -440,6 +460,21 @@ body {
         <span class="step-num">4</span>
         <span class="step-label">Freetext &amp; Preview</span>
       </div>
+      <div class="auto-tags" id="autoTags">
+        <button class="tag-btn" id="tagGps" onclick="toggleGps()" aria-label="Attach GPS coordinates">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-ui="attach_gps">GPS</span>
+        </button>
+        <button class="tag-btn" id="tagTime" onclick="toggleTimestamp()" aria-label="Add UTC timestamp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Time</span>
+        </button>
+        <button class="tag-btn active" id="tagLang" onclick="toggleLang()" aria-label="Add language hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
+          <span id="tagLangLabel">@en</span>
+        </button>
+      </div>
+      <div class="gps-status hidden" id="gpsStatus"></div>
       <textarea class="freetext-area" id="freetextInput" aria-label="Freetext input"
         data-ui-placeholder="freetext_placeholder" placeholder="Optional text..."></textarea>
       <div class="mt-12">
@@ -760,6 +795,7 @@ function buildLangBar() {
       buildSeverityGrid();
       buildCategoryGrid();
       applyLanguage();
+      updateLangLabel();
       // Re-render codes if on step 3
       if (composeStep === 3 && composeCat) buildCodeList(composeCat);
       renderRefCard();
@@ -937,22 +973,110 @@ function composeGoStep(step) {
 
   if (step === 2) { buildSeverityGrid(); buildCategoryGrid(); }
   if (step === 3 && composeCat) buildCodeList(composeCat);
-  if (step === 4) updatePreview();
+  if (step === 4) {
+    // Auto-enable GPS for severity 0-1 (opt-out, per GMDSS/eCall precedent)
+    if ((composeSev === 0 || composeSev === 1) && !autoGps && !gpsCoords) {
+      toggleGps();
+    }
+    // Auto-enable timestamp for severity 0-1
+    if ((composeSev === 0 || composeSev === 1) && !autoTimestamp) {
+      autoTimestamp = true;
+      document.getElementById('tagTime')?.classList.add('active');
+    }
+    updatePreview();
+  }
 }
 
 function composeBack(step) { composeGoStep(step); }
 
 function updatePreview() {
-  const ft = document.getElementById('freetextInput').value;
+  let ft = document.getElementById('freetextInput').value.trim();
+  const suffix = getAutoSuffix();
+  if (suffix) ft = ft ? ft + ' ' + suffix : suffix;
   const allCodes = composeCodes.length ? composeCodes : [];
   const enc = encodeMessage(composeSev ?? 0, allCodes, ft);
   document.getElementById('previewBox').textContent = enc.message;
   const bc = document.getElementById('byteCount');
-  bc.textContent = enc.byteLength + ' / 200 bytes';
+  const remaining = 200 - enc.byteLength;
+  bc.textContent = enc.byteLength + ' / 200 bytes (' + remaining + ' ' + L('bytes_remaining') + ')';
   bc.className = 'byte-count' + (enc.overLimit ? ' over' : '');
 }
 
 document.getElementById('freetextInput')?.addEventListener('input', updatePreview);
+
+// ====== Auto-tag state ======
+let autoGps = false;
+let autoTimestamp = false;
+let autoLang = true; // on by default
+let gpsCoords = null;
+let gpsWatchId = null;
+
+function toggleGps() {
+  autoGps = !autoGps;
+  const btn = document.getElementById('tagGps');
+  const status = document.getElementById('gpsStatus');
+  if (autoGps) {
+    btn.classList.add('acquiring');
+    status.classList.remove('hidden');
+    status.textContent = L('gps_acquiring');
+    if (navigator.geolocation) {
+      gpsWatchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          gpsCoords = {
+            lat: parseFloat(pos.coords.latitude.toFixed(4)),
+            lon: parseFloat(pos.coords.longitude.toFixed(4))
+          };
+          btn.classList.remove('acquiring');
+          btn.classList.add('active');
+          status.textContent = gpsCoords.lat + ',' + gpsCoords.lon;
+          updatePreview();
+        },
+        (err) => {
+          btn.classList.remove('acquiring');
+          status.textContent = 'GPS unavailable';
+          autoGps = false;
+          gpsCoords = null;
+        },
+        { enableHighAccuracy: true, timeout: 15000 }
+      );
+    } else {
+      btn.classList.remove('acquiring');
+      status.textContent = 'GPS not supported';
+      autoGps = false;
+    }
+  } else {
+    btn.classList.remove('active', 'acquiring');
+    status.classList.add('hidden');
+    if (gpsWatchId !== null) { navigator.geolocation.clearWatch(gpsWatchId); gpsWatchId = null; }
+    gpsCoords = null;
+    updatePreview();
+  }
+}
+
+function toggleTimestamp() {
+  autoTimestamp = !autoTimestamp;
+  document.getElementById('tagTime').classList.toggle('active', autoTimestamp);
+  updatePreview();
+}
+
+function toggleLang() {
+  autoLang = !autoLang;
+  document.getElementById('tagLang').classList.toggle('active', autoLang);
+  updatePreview();
+}
+
+function getAutoSuffix() {
+  let parts = [];
+  if (autoGps && gpsCoords) parts.push(gpsCoords.lat + ',' + gpsCoords.lon);
+  if (autoTimestamp) {
+    const now = new Date();
+    const hh = String(now.getUTCHours()).padStart(2, '0');
+    const mm = String(now.getUTCMinutes()).padStart(2, '0');
+    parts.push('@' + hh + mm);
+  }
+  if (autoLang) parts.push('@' + currentLang);
+  return parts.join(' ');
+}
 
 function copyMessage() {
   const msg = document.getElementById('previewBox').textContent;
@@ -976,7 +1100,24 @@ function composeReset() {
   composeSev = null; composeCat = null; composeCodes = [];
   composeStep = 1;
   document.getElementById('freetextInput').value = '';
+  // Reset GPS
+  if (gpsWatchId !== null) { navigator.geolocation.clearWatch(gpsWatchId); gpsWatchId = null; }
+  autoGps = false; gpsCoords = null;
+  document.getElementById('tagGps')?.classList.remove('active', 'acquiring');
+  document.getElementById('gpsStatus')?.classList.add('hidden');
+  // Reset timestamp (off by default)
+  autoTimestamp = false;
+  document.getElementById('tagTime')?.classList.remove('active');
+  // Language stays on by default
+  autoLang = true;
+  document.getElementById('tagLang')?.classList.add('active');
+  updateLangLabel();
   composeGoStep(1);
+}
+
+function updateLangLabel() {
+  const label = document.getElementById('tagLangLabel');
+  if (label) label.textContent = '@' + currentLang;
 }
 
 // ====== Decode View ======
