@@ -1,0 +1,19 @@
+{
+  "name": "MECP — Mesh Emergency Communication Protocol",
+  "short_name": "MECP",
+  "description": "Encode and decode MECP messages for LoRa mesh emergency communication",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#1e293b",
+  "orientation": "portrait-primary",
+  "categories": ["utilities", "communication"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='96' fill='%231e293b'/><text x='256' y='340' font-size='220' font-family='system-ui,sans-serif' font-weight='700' fill='%23f1f5f9' text-anchor='middle'>M</text><circle cx='256' cy='120' r='40' fill='%23dc2626'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

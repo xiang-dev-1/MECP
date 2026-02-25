@@ -6,6 +6,7 @@
 <title>MECP — Mesh Emergency Communication Protocol</title>
 <meta name="description" content="Encode and decode MECP messages for LoRa mesh emergency communication">
 <meta name="theme-color" content="#1e293b">
+<link rel="manifest" href="manifest.json">
 <style>
 /* ============================================================
    MECP Web Tool — CSS
@@ -1377,6 +1378,11 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// PWA service worker registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').catch(() => {});
 }
 </script>
 </body>
