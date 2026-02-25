@@ -123,7 +123,7 @@ body {
 .card-title { font-weight: 600; font-size: .95rem; margin-bottom: 10px; color: var(--text-muted); }
 
 /* --- Severity selector (Compose) --- */
-.sev-grid { display: flex; flex-direction: column; gap: 10px; }
+.sev-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
 .sev-btn {
   display: flex; align-items: center; gap: 12px;
   width: 100%; padding: 16px;
@@ -136,23 +136,64 @@ body {
 }
 .sev-btn:hover { background: var(--bg-hover); }
 .sev-btn.selected { border-color: currentColor; }
-.sev-num {
+/* Severity shape container — holds shape + icon */
+.sev-shape {
   display: flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; border-radius: 50%;
-  font-weight: 800; font-size: 1.1rem; color: #fff; flex-shrink: 0;
+  width: 44px; height: 44px; flex-shrink: 0;
+  color: #fff; font-weight: 800; font-size: 1.1rem;
+  position: relative;
 }
+.sev-shape-bg {
+  position: absolute; inset: 0;
+}
+.sev-shape-icon {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+}
+.sev-shape-icon svg { width: 20px; height: 20px; }
+/* Octagon (sev0 MAYDAY) — solid fill */
+.sev-shape-0 .sev-shape-bg {
+  background: var(--sev0);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+/* Diamond (sev1 URGENT) — diagonal stripes */
+.sev-shape-1 .sev-shape-bg {
+  background: repeating-linear-gradient(45deg, var(--sev1), var(--sev1) 3px, rgba(234,88,12,.6) 3px, rgba(234,88,12,.6) 6px);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+/* Triangle (sev2 SAFETY) — horizontal stripes */
+.sev-shape-2 .sev-shape-bg {
+  background: repeating-linear-gradient(0deg, var(--sev2), var(--sev2) 3px, rgba(180,83,9,.6) 3px, rgba(180,83,9,.6) 6px);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+/* Rectangle (sev3 ROUTINE) — solid, no pattern */
+.sev-shape-3 .sev-shape-bg {
+  background: var(--sev3);
+  border-radius: 4px;
+}
+/* Severity borders per design */
 .sev-btn[data-sev="0"] { color: var(--sev0); }
-.sev-btn[data-sev="0"] .sev-num { background: var(--sev0); }
-.sev-btn[data-sev="0"].selected { background: var(--sev0-bg); }
+.sev-btn[data-sev="0"].selected { background: var(--sev0-bg); border-style: solid; border-width: 4px; }
 .sev-btn[data-sev="1"] { color: var(--sev1); }
-.sev-btn[data-sev="1"] .sev-num { background: var(--sev1); }
-.sev-btn[data-sev="1"].selected { background: var(--sev1-bg); }
+.sev-btn[data-sev="1"].selected { background: var(--sev1-bg); border-style: dashed; border-width: 3px; }
 .sev-btn[data-sev="2"] { color: var(--sev2); }
-.sev-btn[data-sev="2"] .sev-num { background: var(--sev2); }
-.sev-btn[data-sev="2"].selected { background: var(--sev2-bg); }
+.sev-btn[data-sev="2"].selected { background: var(--sev2-bg); border-style: dotted; border-width: 2px; }
 .sev-btn[data-sev="3"] { color: var(--sev3); }
-.sev-btn[data-sev="3"] .sev-num { background: var(--sev3); }
-.sev-btn[data-sev="3"].selected { background: var(--sev3-bg); }
+.sev-btn[data-sev="3"].selected { background: var(--sev3-bg); border-style: solid; border-width: 1px; }
+
+/* MAYDAY long-press button */
+.btn-mayday {
+  position: relative; overflow: hidden; user-select: none; -webkit-user-select: none;
+}
+.btn-mayday .mayday-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: rgba(220,38,38,.3); transition: none; pointer-events: none;
+}
+.btn-mayday.holding .mayday-fill {
+  width: 100%; transition: width 1s linear;
+}
+.btn-mayday-label { position: relative; z-index: 1; }
 
 /* --- Category grid (Compose) --- */
 .cat-grid {
@@ -326,11 +367,28 @@ body {
   display: flex; align-items: center; gap: 12px;
   font-weight: 700; font-size: 1.1rem; color: #fff;
 }
-.decoded-sev-num {
-  width: 36px; height: 36px; border-radius: 50%;
+.decoded-sev-shape {
+  width: 40px; height: 40px;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 1.2rem; background: rgba(255,255,255,.2);
+  font-weight: 800; font-size: 1.2rem; position: relative; flex-shrink: 0;
 }
+.decoded-sev-shape .sev-shape-bg {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,.25);
+}
+.decoded-sev-shape .sev-shape-icon {
+  position: relative; z-index: 1; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+}
+.decoded-sev-shape .sev-shape-icon svg { width: 18px; height: 18px; }
+/* Reuse clip-paths for decoded severity shapes */
+.decoded-sev-shape.shape-0 .sev-shape-bg { clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); }
+.decoded-sev-shape.shape-1 .sev-shape-bg { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+.decoded-sev-shape.shape-2 .sev-shape-bg { clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+.decoded-sev-shape.shape-3 .sev-shape-bg { border-radius: 4px; }
+/* Category icon in decoded code rows */
+.decoded-cat-icon { font-size: .9rem; flex-shrink: 0; }
 .decoded-body { padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border); border-top: none; }
 .decoded-code-row {
   display: flex; align-items: baseline; gap: 8px;
@@ -544,9 +602,13 @@ body {
         <div class="byte-count" id="byteCount">10 / 200 bytes</div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary btn-block" id="btnCopy" onclick="copyMessage()">
+        <button class="btn btn-primary btn-block" id="btnCopy">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           <span data-ui="copy">Copy</span>
+        </button>
+        <button class="btn btn-primary btn-block btn-mayday hidden" id="btnMayday">
+          <span class="mayday-fill"></span>
+          <span class="btn-mayday-label" data-ui="confirm_mayday">Confirm MAYDAY — hold to send</span>
         </button>
       </div>
     </div>
@@ -655,6 +717,13 @@ const CAT_ORDER = ['M','T','W','S','P','C','R','D','L','X','H'];
 // ====== Severity colors ======
 const SEV_COLORS = { 0: '#dc2626', 1: '#ea580c', 2: '#b45309', 3: '#2563eb' };
 const SEV_LABELS_EN = { 0: 'MAYDAY', 1: 'URGENT', 2: 'SAFETY', 3: 'ROUTINE' };
+// Severity icons: exclamation-in-triangle, clock+excl, shield, info-circle
+const SEV_ICONS = {
+  0: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>',
+  1: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/><path d="M17 17l1.5 1.5"/></svg>',
+  2: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  3: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
+};
 
 // ====== Code regex ======
 const CODE_RE = /^[A-Z]\d{2}$/;
@@ -809,6 +878,12 @@ function decode(input) {
 }
 
 // ====== Compose Flow ======
+function sevShapeHtml(s) {
+  return '<span class="sev-shape sev-shape-' + s + '">' +
+    '<span class="sev-shape-bg"></span>' +
+    '<span class="sev-shape-icon">' + SEV_ICONS[s] + '</span></span>';
+}
+
 function buildSeverityGrid() {
   const lang = LANGUAGES[currentLang];
   const grid = document.getElementById('sevGrid');
@@ -817,7 +892,7 @@ function buildSeverityGrid() {
     const btn = document.createElement('button');
     btn.className = 'sev-btn' + (composeSev === s ? ' selected' : '');
     btn.setAttribute('data-sev', s);
-    btn.innerHTML = '<span class="sev-num">' + s + '</span><span>' +
+    btn.innerHTML = sevShapeHtml(s) + '<span>' +
       (lang.severities[s]?.label || SEV_LABELS_EN[s]) + '</span>';
     btn.onclick = () => {
       composeSev = s;
@@ -967,6 +1042,17 @@ function composeGoStep(step) {
       autoTimestamp = true;
       document.getElementById('tagTime')?.classList.add('active');
     }
+    // MAYDAY: show long-press button, hide normal copy button
+    const btnCopy = document.getElementById('btnCopy');
+    const btnMayday = document.getElementById('btnMayday');
+    if (composeSev === 0) {
+      btnCopy.classList.add('hidden');
+      btnMayday.classList.remove('hidden');
+      btnMayday.style.background = 'var(--sev0)';
+    } else {
+      btnCopy.classList.remove('hidden');
+      btnMayday.classList.add('hidden');
+    }
     updatePreview();
   }
 }
@@ -1070,14 +1156,13 @@ function getAutoSuffix() {
   return parts.join(' ');
 }
 
-function copyMessage() {
+function doCopy() {
   const msg = document.getElementById('previewBox').textContent;
   navigator.clipboard.writeText(msg).then(() => {
     showToast(L('message_copied'));
     saveToHistory(msg, 'sent');
     composeReset();
   }).catch(() => {
-    // Fallback
     const ta = document.createElement('textarea');
     ta.value = msg; document.body.appendChild(ta);
     ta.select(); document.execCommand('copy');
@@ -1087,6 +1172,34 @@ function copyMessage() {
     composeReset();
   });
 }
+
+// Normal copy (non-MAYDAY)
+document.getElementById('btnCopy')?.addEventListener('click', doCopy);
+
+// MAYDAY long-press: hold 1 second to confirm
+(function() {
+  const btn = document.getElementById('btnMayday');
+  if (!btn) return;
+  let holdTimer = null;
+  function startHold(e) {
+    e.preventDefault();
+    btn.classList.add('holding');
+    holdTimer = setTimeout(() => {
+      btn.classList.remove('holding');
+      doCopy();
+    }, 1000);
+  }
+  function cancelHold() {
+    btn.classList.remove('holding');
+    if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+  }
+  btn.addEventListener('mousedown', startHold);
+  btn.addEventListener('touchstart', startHold, { passive: false });
+  btn.addEventListener('mouseup', cancelHold);
+  btn.addEventListener('mouseleave', cancelHold);
+  btn.addEventListener('touchend', cancelHold);
+  btn.addEventListener('touchcancel', cancelHold);
+})();
 
 function composeReset() {
   composeSev = null; composeCat = null; composeCodes = [];
@@ -1148,19 +1261,24 @@ function renderDecoded(r) {
 
   html += '<div class="decoded-msg">';
 
-  // Severity header
+  // Severity header with shape + icon
   html += '<div class="decoded-sev" style="background:' + sevColor + '">' +
-    '<span class="decoded-sev-num">' + r.severity + '</span>' +
-    '<span>' + sevLabel + '</span></div>';
+    '<span class="decoded-sev-shape shape-' + r.severity + '">' +
+    '<span class="sev-shape-bg"></span>' +
+    '<span class="sev-shape-icon">' + (SEV_ICONS[r.severity] || '') + '</span></span>' +
+    '<span>' + r.severity + ' &mdash; ' + sevLabel + '</span></div>';
 
   // Body
   html += '<div class="decoded-body">';
 
-  // Codes
+  // Codes — with category icon
   for (const code of r.codes) {
     const desc = codeDesc(code, currentLang);
     const descEn = currentLang !== 'en' ? codeDesc(code, 'en') : '';
+    const catLetter = code.charAt(0);
+    const catIcon = CAT_ICONS[catLetter] || '';
     html += '<div class="decoded-code-row">' +
+      '<span class="decoded-cat-icon">' + catIcon + '</span>' +
       '<span class="decoded-code-id">' + code + '</span>' +
       '<span class="decoded-code-text">' + escHtml(desc || L('unknown_code')) +
       (descEn && desc !== descEn ? ' <span style="color:var(--text-dim);font-size:.8rem">(' + escHtml(descEn) + ')</span>' : '') +
