@@ -97,6 +97,20 @@ body {
 .view { display: none; }
 .view.active { display: block; }
 
+/* --- Centered compose layout --- */
+.compose-step .step-header,
+.compose-step .sev-grid,
+.compose-step .cat-grid,
+.compose-step .code-list,
+.compose-step .btn-row,
+.compose-step .auto-tags,
+.compose-step .pax-row,
+.compose-step .selected-codes-summary {
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* --- Cards --- */
 .card {
   background: var(--bg-card);
@@ -182,6 +196,39 @@ body {
 .code-item.selected .code-check svg { display: block; }
 .code-id { font-weight: 700; font-size: .85rem; color: var(--accent); min-width: 32px; }
 .code-desc { font-size: .85rem; color: var(--text); }
+
+/* --- Selected codes summary --- */
+.selected-codes-summary {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+}
+.code-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 16px; font-size: .75rem; font-weight: 600;
+  background: rgba(59,130,246,.15); color: var(--accent); border: 1px solid rgba(59,130,246,.3);
+}
+.code-chip .chip-x {
+  cursor: pointer; opacity: .6; font-size: .85rem; margin-left: 2px;
+}
+.code-chip .chip-x:hover { opacity: 1; }
+
+.byte-budget {
+  font-size: .75rem; color: var(--text-dim); padding: 6px 0;
+  max-width: 480px; margin: 0 auto;
+}
+.byte-budget.warn { color: var(--sev1); }
+.byte-budget.over { color: var(--sev0); font-weight: 600; }
+
+/* --- Pax input --- */
+.pax-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.pax-label { font-size: .85rem; color: var(--text-muted); white-space: nowrap; }
+.pax-input {
+  width: 80px; padding: 8px 12px;
+  background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font-size: .9rem; text-align: center;
+}
+.pax-input::placeholder { color: var(--text-dim); }
 
 /* --- Auto-tag buttons --- */
 .auto-tags {
@@ -440,6 +487,8 @@ body {
         <span class="step-num">2</span>
         <span class="step-label" data-ui="category_select">Select category</span>
       </div>
+      <div class="selected-codes-summary" id="selectedChips"></div>
+      <div class="byte-budget" id="byteBudget"></div>
       <div class="cat-grid" id="catGrid"></div>
     </div>
 
@@ -450,8 +499,10 @@ body {
         <span class="step-num">3</span>
         <span class="step-label" data-ui="code_select">Select codes</span>
       </div>
+      <div class="selected-codes-summary" id="selectedChipsCodes"></div>
       <div class="code-list" id="codeList"></div>
-      <div class="btn-row">
+      <div class="btn-row" style="flex-direction:column;gap:8px;">
+        <button class="btn btn-secondary btn-block" onclick="addMoreCategories()">+ Add more codes</button>
         <button class="btn btn-primary btn-block" onclick="composeGoStep(4)">Next &rarr;</button>
       </div>
     </div>
@@ -476,6 +527,12 @@ body {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
           <span id="tagLangLabel">@en</span>
         </button>
+      </div>
+      <div class="pax-row">
+        <span class="pax-label" data-ui="add_count">Person count</span>
+        <input type="number" class="pax-input" id="paxInput" min="0" max="9999"
+          placeholder="0" aria-label="Number of people" oninput="updatePreview()">
+        <span class="pax-label">pax</span>
       </div>
       <div class="gps-status hidden" id="gpsStatus"></div>
       <textarea class="freetext-area" id="freetextInput" aria-label="Freetext input"
@@ -766,6 +823,8 @@ function buildSeverityGrid() {
       composeCat = null;
       composeCodes = [];
       document.getElementById('freetextInput').value = '';
+      const paxEl = document.getElementById('paxInput');
+      if (paxEl) paxEl.value = '';
       composeGoStep(2);
     };
     grid.appendChild(btn);
@@ -776,18 +835,31 @@ function buildCategoryGrid() {
   const lang = LANGUAGES[currentLang];
   const grid = document.getElementById('catGrid');
   grid.innerHTML = '';
+  // Check byte budget — disable categories if near limit
+  const budgetLeft = getByteBudget();
   for (const cat of CAT_ORDER) {
     const btn = document.createElement('button');
-    btn.className = 'cat-btn' + (composeCat === cat ? ' selected' : '');
+    // Mark categories that already have selected codes
+    const hasCodes = composeCodes.some(c => c.charAt(0) === cat);
+    btn.className = 'cat-btn' + (hasCodes ? ' selected' : '');
     btn.innerHTML = '<span class="cat-icon">' + (CAT_ICONS[cat] || cat) + '</span>' +
       '<span>' + (lang.categories[cat]?.name || cat) + '</span>';
+    if (budgetLeft < 4) {
+      // Not enough room for even one more code (3 chars + space)
+      btn.disabled = true;
+      btn.style.opacity = '0.4';
+    }
     btn.onclick = () => {
       composeCat = cat;
-      composeCodes = [];
+      // Do NOT clear composeCodes — preserve codes from other categories
       composeGoStep(3);
     };
     grid.appendChild(btn);
   }
+  // Show selected codes summary
+  renderCodeChips('selectedChips');
+  // Show byte budget
+  updateByteBudget();
 }
 
 function buildCodeList(cat) {
@@ -795,9 +867,16 @@ function buildCodeList(cat) {
   const list = document.getElementById('codeList');
   list.innerHTML = '';
   const codes = Object.keys(lang.codes).filter(c => c.charAt(0) === cat).sort();
+  const budgetLeft = getByteBudget();
   for (const code of codes) {
+    const isSelected = composeCodes.includes(code);
     const item = document.createElement('div');
-    item.className = 'code-item' + (composeCodes.includes(code) ? ' selected' : '');
+    item.className = 'code-item' + (isSelected ? ' selected' : '');
+    // Disable if budget exhausted and not already selected
+    if (!isSelected && budgetLeft < 4) {
+      item.style.opacity = '0.4';
+      item.style.pointerEvents = 'none';
+    }
     item.innerHTML = '<div class="code-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>' +
       '<span class="code-id">' + code + '</span>' +
       '<span class="code-desc">' + (lang.codes[code] || '') + '</span>';
@@ -809,6 +888,64 @@ function buildCodeList(cat) {
     };
     list.appendChild(item);
   }
+  // Show selected codes from all categories
+  renderCodeChips('selectedChipsCodes');
+}
+
+function addMoreCategories() {
+  // Go back to category selection, keeping all codes
+  composeGoStep(2);
+}
+
+function renderCodeChips(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  if (!composeCodes.length) return;
+  const lang = LANGUAGES[currentLang];
+  for (const code of composeCodes) {
+    const chip = document.createElement('span');
+    chip.className = 'code-chip';
+    chip.innerHTML = '<strong>' + code + '</strong> ' + escHtml(lang.codes[code] || '') +
+      ' <span class="chip-x" title="Remove">&times;</span>';
+    chip.querySelector('.chip-x').onclick = (e) => {
+      e.stopPropagation();
+      composeCodes.splice(composeCodes.indexOf(code), 1);
+      renderCodeChips(containerId);
+      // Re-render current view
+      if (composeStep === 2) buildCategoryGrid();
+      if (composeStep === 3 && composeCat) buildCodeList(composeCat);
+    };
+    container.appendChild(chip);
+  }
+}
+
+function getByteBudget() {
+  // Estimate how many bytes are already used and how many remain for more codes
+  // Account for: MECP/X/ prefix (7 bytes) + existing codes + auto-suffix overhead
+  let used = 7; // "MECP/0/"
+  if (composeCodes.length) {
+    used += composeCodes.join(' ').length; // codes with spaces
+  }
+  // Estimate auto-suffix: GPS ~20 bytes, timestamp ~6 bytes, language ~4 bytes
+  let suffixEstimate = 0;
+  if (autoGps || (composeSev === 0 || composeSev === 1)) suffixEstimate += 22; // "48.6520,20.1305 "
+  if (autoTimestamp || (composeSev === 0 || composeSev === 1)) suffixEstimate += 6; // "@1430 "
+  if (autoLang) suffixEstimate += 4; // "@en "
+  // Pax: up to 6 bytes "12pax "
+  suffixEstimate += 7;
+  // Add 1 for space before freetext
+  if (composeCodes.length) used += 1;
+  return 200 - used - suffixEstimate;
+}
+
+function updateByteBudget() {
+  const el = document.getElementById('byteBudget');
+  if (!el) return;
+  const left = getByteBudget();
+  if (composeCodes.length === 0) { el.textContent = ''; return; }
+  el.textContent = '~' + left + ' bytes available for more codes + freetext';
+  el.className = 'byte-budget' + (left < 20 ? ' warn' : '') + (left < 4 ? ' over' : '');
 }
 
 function composeGoStep(step) {
@@ -836,11 +973,19 @@ function composeGoStep(step) {
 function composeBack(step) { composeGoStep(step); }
 
 function updatePreview() {
-  let ft = document.getElementById('freetextInput').value.trim();
+  let parts = [];
+  // Pax
+  const paxVal = parseInt(document.getElementById('paxInput')?.value || '0', 10);
+  if (paxVal > 0) parts.push(paxVal + 'pax');
+  // User freetext
+  const ft = document.getElementById('freetextInput').value.trim();
+  if (ft) parts.push(ft);
+  // Auto suffix (GPS, timestamp, language)
   const suffix = getAutoSuffix();
-  if (suffix) ft = ft ? ft + ' ' + suffix : suffix;
+  if (suffix) parts.push(suffix);
+  const fullFreetext = parts.join(' ');
   const allCodes = composeCodes.length ? composeCodes : [];
-  const enc = encodeMessage(composeSev ?? 0, allCodes, ft);
+  const enc = encodeMessage(composeSev ?? 0, allCodes, fullFreetext || undefined);
   document.getElementById('previewBox').textContent = enc.message;
   const bc = document.getElementById('byteCount');
   const remaining = 200 - enc.byteLength;
@@ -946,6 +1091,8 @@ function composeReset() {
   composeSev = null; composeCat = null; composeCodes = [];
   composeStep = 1;
   document.getElementById('freetextInput').value = '';
+  const paxEl = document.getElementById('paxInput');
+  if (paxEl) paxEl.value = '';
   // Reset GPS
   if (gpsWatchId !== null) { navigator.geolocation.clearWatch(gpsWatchId); gpsWatchId = null; }
   autoGps = false; gpsCoords = null;
