@@ -1,0 +1,23 @@
+{
+  "name": "@mecp/engine",
+  "version": "1.0.0",
+  "description": "MECP (Mesh Emergency Communication Protocol) encoder/decoder engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "validate-languages": "node --import tsx tests/validate-languages.ts"
+  },
+  "keywords": ["mecp", "mesh", "emergency", "lora", "meshtastic", "meshcore", "protocol"],
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nickmaxwell/MECP"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

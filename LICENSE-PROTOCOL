@@ -1,0 +1,16 @@
+CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+
+The MECP protocol specification, message format, and code table are
+dedicated to the public domain under CC0 1.0.
+
+Anyone may implement MECP without restriction. The protocol must remain
+free forever. No permission is needed to build software that encodes,
+decodes, transmits, or displays MECP messages.
+
+Full legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+This applies to:
+- The protocol specification (spec/ directory)
+- The code table definitions
+- The message format specification
+- The MECP_Developer_Brief_v2.md document

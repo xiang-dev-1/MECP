@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>MECP — Mesh Emergency Communication Protocol</title>
+<meta name="description" content="Encode and decode MECP messages for LoRa mesh emergency communication">
+<meta name="theme-color" content="#1e293b">
+<style>
+/* ============================================================
+   MECP Web Tool — CSS
+   Self-contained. No external dependencies.
+   ============================================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-input: #0f172a;
+  --bg-hover: #334155;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --border: #334155;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+
+  --sev0: #dc2626; --sev0-bg: rgba(220,38,38,.15);
+  --sev1: #ea580c; --sev1-bg: rgba(234,88,12,.15);
+  --sev2: #b45309; --sev2-bg: rgba(180,83,9,.15);
+  --sev3: #2563eb; --sev3-bg: rgba(37,99,235,.15);
+
+  --radius: 8px;
+  --radius-lg: 12px;
+  --max-w: 640px;
+  --nav-h: 56px;
+  --bottom-h: 64px;
+}
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* --- Nav --- */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: var(--nav-h); padding: 0 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+.nav-title { font-weight: 700; font-size: 1.1rem; letter-spacing: .5px; }
+.nav-lang { display: flex; gap: 6px; align-items: center; }
+.nav-lang button {
+  background: none; border: 1px solid var(--border); color: var(--text);
+  padding: 4px 10px; border-radius: 20px; font-size: .85rem; cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.nav-lang button:hover { background: var(--bg-hover); }
+.nav-lang button.active { border-color: var(--accent); background: rgba(59,130,246,.15); }
+
+/* --- Bottom Tab Bar --- */
+.tabs {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  display: flex; height: var(--bottom-h);
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+}
+.tab-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; background: none; border: none; color: var(--text-dim);
+  font-size: .7rem; cursor: pointer; transition: color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab-btn.active { color: var(--accent); }
+.tab-btn svg { width: 22px; height: 22px; }
+
+/* --- Main content area --- */
+.main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 16px 16px calc(var(--bottom-h) + 16px);
+}
+
+/* --- Views (only one visible at a time) --- */
+.view { display: none; }
+.view.active { display: block; }
+
+/* --- Cards --- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.card-title { font-weight: 600; font-size: .95rem; margin-bottom: 10px; color: var(--text-muted); }
+
+/* --- Severity selector (Compose) --- */
+.sev-grid { display: flex; flex-direction: column; gap: 10px; }
+.sev-btn {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 16px;
+  border: 2px solid transparent; border-radius: var(--radius);
+  background: var(--bg); color: var(--text); cursor: pointer;
+  font-size: 1rem; font-weight: 600;
+  transition: border-color .15s, background .15s;
+  min-height: 64px;
+  -webkit-tap-highlight-color: transparent;
+}
+.sev-btn:hover { background: var(--bg-hover); }
+.sev-btn.selected { border-color: currentColor; }
+.sev-num {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  font-weight: 800; font-size: 1.1rem; color: #fff; flex-shrink: 0;
+}
+.sev-btn[data-sev="0"] { color: var(--sev0); }
+.sev-btn[data-sev="0"] .sev-num { background: var(--sev0); }
+.sev-btn[data-sev="0"].selected { background: var(--sev0-bg); }
+.sev-btn[data-sev="1"] { color: var(--sev1); }
+.sev-btn[data-sev="1"] .sev-num { background: var(--sev1); }
+.sev-btn[data-sev="1"].selected { background: var(--sev1-bg); }
+.sev-btn[data-sev="2"] { color: var(--sev2); }
+.sev-btn[data-sev="2"] .sev-num { background: var(--sev2); }
+.sev-btn[data-sev="2"].selected { background: var(--sev2-bg); }
+.sev-btn[data-sev="3"] { color: var(--sev3); }
+.sev-btn[data-sev="3"] .sev-num { background: var(--sev3); }
+.sev-btn[data-sev="3"].selected { background: var(--sev3-bg); }
+
+/* --- Category grid (Compose) --- */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.cat-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; padding: 14px 6px;
+  border: 2px solid var(--border); border-radius: var(--radius);
+  background: var(--bg); color: var(--text); cursor: pointer;
+  font-size: .75rem; font-weight: 500; text-align: center;
+  transition: border-color .15s, background .15s;
+  min-height: 72px;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-btn:hover { background: var(--bg-hover); }
+.cat-btn.selected { border-color: var(--accent); background: rgba(59,130,246,.12); }
+.cat-icon { font-size: 1.4rem; }
+
+/* --- Code checklist (Compose) --- */
+.code-list { display: flex; flex-direction: column; gap: 6px; }
+.code-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg); cursor: pointer;
+  transition: border-color .15s, background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.code-item:hover { background: var(--bg-hover); }
+.code-item.selected { border-color: var(--accent); background: rgba(59,130,246,.12); }
+.code-check {
+  width: 20px; height: 20px; border: 2px solid var(--border);
+  border-radius: 4px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .15s, background .15s;
+}
+.code-item.selected .code-check { border-color: var(--accent); background: var(--accent); }
+.code-check svg { display: none; }
+.code-item.selected .code-check svg { display: block; }
+.code-id { font-weight: 700; font-size: .85rem; color: var(--accent); min-width: 32px; }
+.code-desc { font-size: .85rem; color: var(--text); }
+
+/* --- Freetext input --- */
+.freetext-area {
+  width: 100%; min-height: 64px; padding: 12px;
+  background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font-size: .9rem; font-family: inherit;
+  resize: vertical;
+}
+.freetext-area::placeholder { color: var(--text-dim); }
+
+/* --- Preview block --- */
+.preview-box {
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: .85rem; word-break: break-all; color: var(--text);
+  position: relative;
+}
+.byte-count {
+  font-size: .75rem; color: var(--text-muted); margin-top: 6px;
+}
+.byte-count.over { color: var(--sev0); font-weight: 600; }
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 20px; border: none; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 600; cursor: pointer;
+  transition: background .15s, opacity .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--bg-hover); color: var(--text); }
+.btn-secondary:hover { opacity: .85; }
+.btn-sm { padding: 8px 14px; font-size: .8rem; }
+.btn-block { width: 100%; }
+.btn-row { display: flex; gap: 8px; margin-top: 12px; }
+
+/* --- Compose Steps --- */
+.compose-step { display: none; }
+.compose-step.active { display: block; }
+.step-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .8rem; flex-shrink: 0;
+}
+.step-label { font-weight: 600; font-size: 1rem; }
+.step-back {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: .85rem; padding: 4px 8px;
+  display: flex; align-items: center; gap: 4px;
+}
+.step-back:hover { color: var(--text); }
+
+/* --- Decode View --- */
+.decode-input {
+  width: 100%; padding: 12px;
+  background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: .9rem; resize: vertical; min-height: 64px;
+}
+.decode-input::placeholder { color: var(--text-dim); font-family: inherit; }
+
+.decoded-msg {
+  border-radius: var(--radius-lg);
+  overflow: hidden; margin-top: 12px;
+}
+.decoded-sev {
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  font-weight: 700; font-size: 1.1rem; color: #fff;
+}
+.decoded-sev-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.2rem; background: rgba(255,255,255,.2);
+}
+.decoded-body { padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border); border-top: none; }
+.decoded-code-row {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 6px 0; font-size: .9rem;
+}
+.decoded-code-id { font-weight: 700; color: var(--accent); min-width: 34px; }
+.decoded-code-text { color: var(--text); }
+.decoded-divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+.decoded-extracted { font-size: .85rem; color: var(--text-muted); padding: 4px 0; }
+.decoded-extracted strong { color: var(--text); font-weight: 600; }
+.decoded-freetext {
+  font-style: italic; color: var(--text-dim);
+  padding: 8px 12px; margin: 8px 0;
+  border-left: 3px solid var(--border); font-size: .85rem;
+}
+.decoded-freetext-warn {
+  font-size: .75rem; color: var(--sev2); font-style: normal;
+  display: flex; align-items: center; gap: 4px; margin-top: 4px;
+}
+.decoded-raw {
+  padding: 10px 12px; margin-top: 8px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: .8rem; word-break: break-all; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.decoded-raw code { flex: 1; }
+.copy-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: .75rem;
+  white-space: nowrap; transition: color .15s, border-color .15s;
+}
+.copy-btn:hover { color: var(--text); border-color: var(--text-dim); }
+
+.drill-banner {
+  background: repeating-linear-gradient(45deg, rgba(180,83,9,.15), rgba(180,83,9,.15) 10px, transparent 10px, transparent 20px);
+  border: 2px dashed var(--sev2);
+  padding: 8px 12px; text-align: center;
+  font-weight: 700; color: var(--sev2);
+  border-radius: var(--radius); margin-bottom: 10px;
+}
+
+.decoded-warn {
+  background: rgba(234,88,12,.1);
+  border: 1px solid rgba(234,88,12,.3);
+  border-radius: var(--radius);
+  padding: 8px 12px; margin-top: 8px;
+  font-size: .8rem; color: var(--sev1);
+}
+
+/* --- Reference Card --- */
+.ref-cat-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 0 6px;
+  font-weight: 700; font-size: .9rem;
+  border-bottom: 1px solid var(--border);
+  margin-top: 8px;
+}
+.ref-code-row {
+  display: flex; gap: 8px; padding: 5px 0;
+  font-size: .8rem; border-bottom: 1px solid rgba(51,65,85,.4);
+}
+.ref-code-id { font-weight: 700; color: var(--accent); min-width: 34px; }
+.ref-code-en { flex: 1; color: var(--text); }
+.ref-code-local { flex: 1; color: var(--text-muted); }
+
+/* --- History --- */
+.history-item {
+  padding: 12px; margin-bottom: 8px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer;
+  transition: background .15s;
+}
+.history-item:hover { background: var(--bg-hover); }
+.history-time { font-size: .7rem; color: var(--text-dim); margin-bottom: 4px; }
+.history-raw {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: .8rem; color: var(--text-muted); word-break: break-all;
+}
+.history-empty { text-align: center; color: var(--text-dim); padding: 40px 0; font-size: .9rem; }
+
+/* --- Toast --- */
+.toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 10px 20px; border-radius: 20px;
+  font-size: .85rem; color: var(--text);
+  opacity: 0; transition: opacity .3s;
+  z-index: 200; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* --- Utility --- */
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mb-8 { margin-bottom: 8px; }
+.hidden { display: none !important; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+/* --- Focus --- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Responsive --- */
+@media (min-width: 600px) {
+  .cat-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 900px) {
+  :root { --max-w: 720px; }
+}
+
+/* --- Print styles for Reference Card --- */
+@media print {
+  body { background: #fff; color: #000; }
+  .nav, .tabs, .toast { display: none !important; }
+  .main { max-width: 100%; padding: 0; }
+  .view { display: none !important; }
+  .view.view-ref { display: block !important; }
+  .card { border-color: #ccc; background: #fff; }
+  .ref-code-id { color: #2563eb; }
+  .ref-code-en, .ref-code-local { color: #000; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Nav ===== -->
+<header class="nav">
+  <span class="nav-title">MECP</span>
+  <div class="nav-lang" id="langBar"></div>
+</header>
+
+<!-- ===== Main ===== -->
+<div class="main">
+
+  <!-- ===== Compose View ===== -->
+  <section class="view view-compose active" id="viewCompose">
+
+    <!-- Step 1: Severity -->
+    <div class="compose-step active" id="stepSev">
+      <div class="step-header">
+        <span class="step-num">1</span>
+        <span class="step-label" data-ui="severity_select">Select severity</span>
+      </div>
+      <div class="sev-grid" id="sevGrid"></div>
+    </div>
+
+    <!-- Step 2: Category -->
+    <div class="compose-step" id="stepCat">
+      <div class="step-header">
+        <button class="step-back" onclick="composeBack(1)">&larr; Back</button>
+        <span class="step-num">2</span>
+        <span class="step-label" data-ui="category_select">Select category</span>
+      </div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+
+    <!-- Step 3: Codes -->
+    <div class="compose-step" id="stepCodes">
+      <div class="step-header">
+        <button class="step-back" onclick="composeBack(2)">&larr; Back</button>
+        <span class="step-num">3</span>
+        <span class="step-label" data-ui="code_select">Select codes</span>
+      </div>
+      <div class="code-list" id="codeList"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-block" onclick="composeGoStep(4)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Freetext + Preview -->
+    <div class="compose-step" id="stepFree">
+      <div class="step-header">
+        <button class="step-back" onclick="composeBack(3)">&larr; Back</button>
+        <span class="step-num">4</span>
+        <span class="step-label">Freetext &amp; Preview</span>
+      </div>
+      <textarea class="freetext-area" id="freetextInput" aria-label="Freetext input"
+        data-ui-placeholder="freetext_placeholder" placeholder="Optional text..."></textarea>
+      <div class="mt-12">
+        <div class="card-title" data-ui="preview">Preview</div>
+        <div class="preview-box" id="previewBox">MECP/0/M01</div>
+        <div class="byte-count" id="byteCount">10 / 200 bytes</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-block" id="btnCopy" onclick="copyMessage()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span data-ui="copy">Copy</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Decode View ===== -->
+  <section class="view view-decode" id="viewDecode">
+    <div class="card">
+      <div class="card-title" data-ui="paste_decode">Paste &amp; decode</div>
+      <textarea class="decode-input" id="decodeInput" aria-label="MECP message to decode"
+        placeholder="MECP/0/M01 M07 2pax P05 48.6520,20.1305"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-block" onclick="runDecode()">
+          <span data-ui="decode">Decode</span>
+        </button>
+      </div>
+    </div>
+    <div id="decodeResult"></div>
+  </section>
+
+  <!-- ===== Reference Card View ===== -->
+  <section class="view view-ref" id="viewRef">
+    <div class="card">
+      <div class="card-title" data-ui="reference_card">Reference Card</div>
+      <div class="flex-between mb-8">
+        <span style="font-size:.8rem;color:var(--text-dim)">Bilingual: <span id="refLangLabel">English + Slovak</span></span>
+      </div>
+      <div id="refCardBody"></div>
+    </div>
+  </section>
+
+  <!-- ===== History View ===== -->
+  <section class="view view-history" id="viewHistory">
+    <div class="card">
+      <div class="flex-between mb-8">
+        <div class="card-title" data-ui="history" style="margin-bottom:0">History</div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-sm btn-secondary" onclick="exportHistory()" data-ui="export_history">Export</button>
+          <button class="btn btn-sm btn-secondary" onclick="clearHistory()" data-ui="clear_history">Clear</button>
+        </div>
+      </div>
+      <div id="historyList"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== Bottom Tab Bar ===== -->
+<nav class="tabs">
+  <button class="tab-btn active" data-view="viewCompose" onclick="switchView('viewCompose', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <span data-ui="compose">Compose</span>
+  </button>
+  <button class="tab-btn" data-view="viewDecode" onclick="switchView('viewDecode', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4a2 2 0 012-2h8.5L20 7.5V20a2 2 0 01-2 2H6a2 2 0 01-2-2v-3"/><polyline points="14 2 14 8 20 8"/><line x1="2" y1="15" x2="12" y2="15"/><polyline points="9 12 12 15 9 18"/></svg>
+    <span data-ui="decode">Decode</span>
+  </button>
+  <button class="tab-btn" data-view="viewRef" onclick="switchView('viewRef', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+    <span data-ui="reference_card">Reference</span>
+  </button>
+  <button class="tab-btn" data-view="viewHistory" onclick="switchView('viewHistory', this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span data-ui="history">History</span>
+  </button>
+</nav>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   MECP Web Tool — JavaScript
+   Self-contained encoder, decoder, UI logic.
+   ============================================================ */
+
+// ====== Language Data (embedded) ======
+const LANGUAGES = {
+"en": {
+  "language":"en","language_name":"English","language_name_en":"English","language_name_latin":"English",
+  "flag_emoji":"\ud83c\uddec\ud83c\udde7","text_direction":"ltr",
+  "severities":{
+    "0":{"local":"MAYDAY","label":"MAYDAY / Life-threatening"},
+    "1":{"local":"URGENT","label":"URGENT / Time-critical"},
+    "2":{"local":"SAFETY","label":"SAFETY / Important"},
+    "3":{"local":"ROUTINE","label":"ROUTINE / Normal"}
+  },
+  "categories":{
+    "M":{"name":"Medical","icon":"medical"},
+    "T":{"name":"Terrain / Infrastructure","icon":"terrain"},
+    "W":{"name":"Weather / Environment","icon":"weather"},
+    "S":{"name":"Supplies","icon":"supplies"},
+    "P":{"name":"Position / Movement","icon":"position"},
+    "C":{"name":"Coordination","icon":"coordination"},
+    "R":{"name":"Response","icon":"response"},
+    "D":{"name":"Drill / Test","icon":"drill"},
+    "L":{"name":"Life / Leisure","icon":"leisure"},
+    "X":{"name":"Threat / Security","icon":"threat"},
+    "H":{"name":"Have / Offer Resources","icon":"resources"}
+  },
+  "codes":{
+    "M01":"Injury","M02":"Unconscious person","M03":"Breathing difficulty","M04":"Cardiac event",
+    "M05":"Hypothermia","M06":"Severe bleeding","M07":"Fracture / immobile","M08":"Burns",
+    "M09":"Multiple casualties","M10":"Deceased","M11":"Animal bite / sting",
+    "M12":"Allergic reaction / anaphylaxis","M13":"Poisoning / toxic exposure",
+    "M14":"Persons located alive","M15":"Area searched, no victims found",
+    "T01":"Road blocked","T02":"Bridge out","T03":"Building collapsed","T04":"Flooding",
+    "T05":"Landslide","T06":"Power out","T07":"Fire","T08":"Avalanche","T09":"Path impassable",
+    "T10":"Shelter available","T11":"Drowning / water rescue needed","T12":"Water contamination",
+    "T13":"Earthquake","T14":"Gas leak","T15":"Chemical spill / HAZMAT",
+    "T16":"Vehicle accident","T17":"Vehicle fire",
+    "W01":"Storm approaching","W02":"Visibility zero","W03":"Extreme cold",
+    "W04":"Extreme heat","W05":"Air quality danger","W06":"Tsunami / tidal surge warning",
+    "S01":"Need water","S02":"Need food","S03":"Need medication",
+    "S04":"Need battery / power","S05":"Need fuel","S06":"Need tools / equipment",
+    "P01":"Stranded / stuck","P02":"Evacuating toward","P03":"Sheltering in place",
+    "P04":"En route to","P05":"At GPS coordinates","P06":"Lost","P07":"Group separated",
+    "C01":"Send rescue","C02":"Need transport","C03":"Relay this message",
+    "C04":"Confirm received","C05":"How many people","C06":"What is status",
+    "C07":"Can you reach","C08":"Rendezvous at",
+    "R01":"Acknowledged","R02":"Help coming","R03":"ETA [minutes]",
+    "R04":"Cannot assist","R05":"Redirecting to","R06":"Stand by",
+    "R07":"Situation resolved / all clear",
+    "D01":"This is a drill","D02":"This is a test","D03":"End of drill",
+    "D04":"Ignore previous \u2014 sent in error",
+    "L01":"Beer / drinks","L02":"Coffee","L03":"Food ready","L04":"Summit reached",
+    "L05":"At camp","L06":"Running late","L07":"Good signal here","L08":"Photo opportunity",
+    "L09":"Wildlife spotted","L10":"Beautiful view","L11":"Trail conditions good",
+    "L12":"Trail conditions bad","L13":"Need a break","L14":"Heading home",
+    "L15":"Good morning / check-in","L16":"Good night","L17":"Thank you","L18":"Having fun",
+    "L19":"Festival / event here","L20":"Node test / ping",
+    "X01":"Dangerous person / threat nearby","X02":"Area unsafe \u2014 avoid",
+    "X03":"Gunfire / explosions heard","X04":"Civil unrest / crowd danger",
+    "X05":"Theft / looting reported","X06":"Authorities / emergency services present",
+    "X07":"Checkpoint / road closure (authority)",
+    "H01":"Have water available","H02":"Have food available","H03":"Have medical supplies",
+    "H04":"Have power / charging","H05":"Have fuel","H06":"Have tools / equipment",
+    "H07":"Have shelter / space for [N]pax","H08":"Have transport / vehicle"
+  },
+  "ui":{
+    "send":"Send","cancel":"Cancel","attach_gps":"Attach GPS","add_count":"Add count",
+    "preview":"Preview","copy":"Copy","paste_decode":"Paste & decode",
+    "severity_select":"Select severity","category_select":"Select category",
+    "code_select":"Select codes","freetext_placeholder":"Optional text...",
+    "parse_failed":"MECP message \u2014 could not fully parse","unknown_code":"Unknown code",
+    "message_too_long":"Message exceeds 200 bytes","not_connected":"No device connected",
+    "connecting":"Connecting...","connected_to":"Connected to","scan_devices":"Scan for devices",
+    "compose":"Compose","decode":"Decode","reference_card":"Reference Card",
+    "history":"History","clear_history":"Clear history","export_history":"Export history",
+    "drill_banner":"DRILL","untranslated_warning":"This text is not translated",
+    "bytes_remaining":"bytes remaining","confirm_mayday":"Confirm MAYDAY \u2014 hold to send",
+    "message_copied":"Message copied","gps_acquiring":"Acquiring GPS...",
+    "add_reference_tag":"Add incident tag"
+  },
+  "deprecations":{}
+},
+"sk": {
+  "language":"sk","language_name":"Sloven\u010dina","language_name_en":"Slovak",
+  "language_name_latin":"Sloven\u010dina","flag_emoji":"\ud83c\uddf8\ud83c\uddf0","text_direction":"ltr",
+  "severities":{
+    "0":{"local":"MAYDAY","label":"MAYDAY / Ohrozenie \u017eivota"},
+    "1":{"local":"URGENT","label":"URGENT / \u010casovo kritick\u00e9"},
+    "2":{"local":"BEZPE\u010cNOS\u0164","label":"SAFETY / D\u00f4le\u017eit\u00e9"},
+    "3":{"local":"BE\u017dN\u00c9","label":"ROUTINE / Be\u017en\u00e9"}
+  },
+  "categories":{
+    "M":{"name":"Zdravotn\u00e9","icon":"medical"},
+    "T":{"name":"Ter\u00e9n / Infra\u0161trukt\u00fara","icon":"terrain"},
+    "W":{"name":"Po\u010dasie / Prostredie","icon":"weather"},
+    "S":{"name":"Z\u00e1soby","icon":"supplies"},
+    "P":{"name":"Poz\u00edcia / Pohyb","icon":"position"},
+    "C":{"name":"Koordin\u00e1cia","icon":"coordination"},
+    "R":{"name":"Odpove\u010f","icon":"response"},
+    "D":{"name":"Cvi\u010denie / Test","icon":"drill"},
+    "L":{"name":"\u017divot / Vo\u013en\u00fd \u010das","icon":"leisure"},
+    "X":{"name":"Hrozba / Bezpe\u010dnos\u0165","icon":"threat"},
+    "H":{"name":"M\u00e1m / Pon\u00fakam zdroje","icon":"resources"}
+  },
+  "codes":{
+    "M01":"Zranenie","M02":"Osoba v bezvedom\u00ed","M03":"\u0164a\u017ekosti s d\u00fdchan\u00edm",
+    "M04":"Srdcov\u00e9 probl\u00e9my","M05":"Podchladenie","M06":"Siln\u00e9 krv\u00e1canie",
+    "M07":"Zlomenina / imobiln\u00fd","M08":"Pop\u00e1leniny","M09":"Viacero zranen\u00fdch",
+    "M10":"M\u0155tvy","M11":"Uhryznutie / bodnutie zviera\u0165om",
+    "M12":"Alergick\u00e1 reakcia / anafylaxia","M13":"Otrava / toxick\u00e1 expoz\u00edcia",
+    "M14":"Osoby n\u00e1jden\u00e9 na\u017eive","M15":"Oblas\u0165 preh\u013eadan\u00e1, \u017eiadne obete",
+    "T01":"Cesta zablokovan\u00e1","T02":"Zni\u010den\u00fd most","T03":"Zr\u00faten\u00e1 budova",
+    "T04":"Z\u00e1plavy","T05":"Zosuv p\u00f4dy","T06":"V\u00fdpadok elektriny","T07":"Po\u017eiar",
+    "T08":"Lav\u00edna","T09":"Chodn\u00edk nepriechodn\u00fd","T10":"\u00dakryt k dispoz\u00edcii",
+    "T11":"Topenie sa / potrebn\u00e1 z\u00e1chrana z vody","T12":"Kontamin\u00e1cia vody",
+    "T13":"Zemetrasenie","T14":"\u00danik plynu",
+    "T15":"Chemick\u00fd \u00fanik / nebezpe\u010dn\u00e9 l\u00e1tky",
+    "T16":"Dopravn\u00e1 nehoda","T17":"Po\u017eiar vozidla",
+    "W01":"Bl\u00ed\u017ei sa b\u00farka","W02":"Nulov\u00e1 vidite\u013enos\u0165",
+    "W03":"Extr\u00e9mny mr\u00e1z","W04":"Extr\u00e9mne teplo",
+    "W05":"Nebezpe\u010dn\u00e1 kvalita vzduchu",
+    "W06":"Varovanie pred cunami / pr\u00edlivovou vlnou",
+    "S01":"Potreba vody","S02":"Potreba jedla","S03":"Potreba liekov",
+    "S04":"Potreba bat\u00e9rie / energie","S05":"Potreba paliva","S06":"Potreba n\u00e1radia",
+    "P01":"Uviaznut\u00fd","P02":"Evaku\u00e1cia smerom k","P03":"Ukryt\u00fd na mieste",
+    "P04":"Na ceste k","P05":"Na GPS s\u00faradniciach","P06":"Straten\u00fd",
+    "P07":"Skupina rozdelen\u00e1",
+    "C01":"Po\u0161lite z\u00e1chranu","C02":"Potreba transportu","C03":"Prepo\u0161li t\u00fato spr\u00e1vu",
+    "C04":"Potvr\u010fte prijatie","C05":"Ko\u013eko \u013eud\u00ed","C06":"Ak\u00fd je stav",
+    "C07":"Dok\u00e1\u017eete dosiahnu\u0165","C08":"Stretnutie na",
+    "R01":"Potvrden\u00e9","R02":"Pomoc prich\u00e1dza","R03":"Pr\u00edchod o [min\u00faty]",
+    "R04":"Nem\u00f4\u017eem pom\u00f4c\u0165","R05":"Presmerujem na","R06":"\u010cakajte",
+    "R07":"Situ\u00e1cia vyrie\u0161en\u00e1 / v\u0161etko v poriadku",
+    "D01":"Toto je cvi\u010denie","D02":"Toto je test","D03":"Koniec cvi\u010denia",
+    "D04":"Ignorujte predo\u0161l\u00e9 \u2014 odoslan\u00e9 omylom",
+    "L01":"Pivo / n\u00e1poje","L02":"K\u00e1va","L03":"Jedlo hotov\u00e9",
+    "L04":"Na vrchole","L05":"V t\u00e1bore","L06":"Me\u0161k\u00e1m",
+    "L07":"Dobr\u00fd sign\u00e1l tu","L08":"Miesto na fotku","L09":"Zver spozorovan\u00e1",
+    "L10":"Kr\u00e1sny v\u00fdh\u013ead","L11":"Dobr\u00e9 podmienky na trase",
+    "L12":"Zl\u00e9 podmienky na trase","L13":"Potrebujem pauzu","L14":"Idem domov",
+    "L15":"Dobr\u00e9 r\u00e1no / prihl\u00e1senie","L16":"Dobr\u00fa noc","L17":"\u010eakujem",
+    "L18":"Z\u00e1bava","L19":"Festival / udalos\u0165 tu","L20":"Test uzla / ping",
+    "X01":"Nebezpe\u010dn\u00e1 osoba / hrozba v bl\u00edzkosti",
+    "X02":"Oblas\u0165 nebezpe\u010dn\u00e1 \u2014 vyhnite sa",
+    "X03":"Po\u010du\u0165 stre\u013ebu / v\u00fdbuchy",
+    "X04":"Ob\u010dianske nepokoje / nebezpe\u010dn\u00fd dav",
+    "X05":"Hl\u00e1sen\u00e1 kr\u00e1de\u017e / rabovanie",
+    "X06":"Pr\u00edtomn\u00e9 org\u00e1ny / z\u00e1chrann\u00e9 slu\u017eby",
+    "X07":"Kontroln\u00fd bod / uz\u00e1vierka cesty (\u00farady)",
+    "H01":"K dispoz\u00edcii voda","H02":"K dispoz\u00edcii jedlo",
+    "H03":"K dispoz\u00edcii zdravotn\u00edcky materi\u00e1l",
+    "H04":"K dispoz\u00edcii energia / nab\u00edjanie","H05":"K dispoz\u00edcii palivo",
+    "H06":"K dispoz\u00edcii n\u00e1radie",
+    "H07":"K dispoz\u00edcii \u00fakryt / miesto pre [N] os\u00f4b",
+    "H08":"K dispoz\u00edcii doprava / vozidlo"
+  },
+  "ui":{
+    "send":"Odosla\u0165","cancel":"Zru\u0161i\u0165","attach_gps":"Prilo\u017ei\u0165 GPS",
+    "add_count":"Prida\u0165 po\u010det","preview":"N\u00e1h\u013ead","copy":"Kop\u00edrova\u0165",
+    "paste_decode":"Vlo\u017ei\u0165 a dek\u00f3dova\u0165",
+    "severity_select":"Vyberte z\u00e1va\u017enos\u0165",
+    "category_select":"Vyberte kateg\u00f3riu","code_select":"Vyberte k\u00f3dy",
+    "freetext_placeholder":"Volite\u013en\u00fd text...",
+    "parse_failed":"MECP spr\u00e1va \u2014 nepodarilo sa \u00faplne spracova\u0165",
+    "unknown_code":"Nezn\u00e1my k\u00f3d","message_too_long":"Spr\u00e1va presahuje 200 bajtov",
+    "not_connected":"\u017diadne pripojen\u00e9 zariadenie",
+    "connecting":"Prip\u00e1janie...","connected_to":"Pripojen\u00e9 k",
+    "scan_devices":"H\u013eada\u0165 zariadenia","compose":"Vytvori\u0165 spr\u00e1vu",
+    "decode":"Dek\u00f3dova\u0165","reference_card":"Referen\u010dn\u00e1 karta",
+    "history":"Hist\u00f3ria","clear_history":"Vymaza\u0165 hist\u00f3riu",
+    "export_history":"Exportova\u0165 hist\u00f3riu","drill_banner":"CVI\u010cENIE",
+    "untranslated_warning":"Tento text nie je prelo\u017een\u00fd",
+    "bytes_remaining":"bajtov zost\u00e1va",
+    "confirm_mayday":"Potvr\u010fte MAYDAY \u2014 podr\u017ete na odoslanie",
+    "message_copied":"Spr\u00e1va skop\u00edrovan\u00e1",
+    "gps_acquiring":"Z\u00edskavanie GPS...",
+    "add_reference_tag":"Prida\u0165 zna\u010dku incidentu"
+  },
+  "deprecations":{}
+}
+};
+
+// ====== Category icons (emoji for simplicity; real app would use SVG) ======
+const CAT_ICONS = {
+  M: '\u2695\ufe0f', T: '\u26a0\ufe0f', W: '\u26c8\ufe0f', S: '\ud83d\udce6',
+  P: '\ud83d\udccd', C: '\ud83d\udce1', R: '\u2705', D: '\ud83d\udea7',
+  L: '\u2615', X: '\ud83d\udea8', H: '\ud83e\udd1d'
+};
+
+// ====== Category ordering ======
+const CAT_ORDER = ['M','T','W','S','P','C','R','D','L','X','H'];
+
+// ====== Severity colors ======
+const SEV_COLORS = { 0: '#dc2626', 1: '#ea580c', 2: '#b45309', 3: '#2563eb' };
+const SEV_LABELS_EN = { 0: 'MAYDAY', 1: 'URGENT', 2: 'SAFETY', 3: 'ROUTINE' };
+
+// ====== Code regex ======
+const CODE_RE = /^[A-Z]\d{2}$/;
+
+// ====== State ======
+let currentLang = 'en';
+let secondLang = 'sk';
+let composeSev = null;
+let composeCat = null;
+let composeCodes = [];
+let composeStep = 1;
+
+// ====== Init ======
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('mecp_lang');
+  if (saved && LANGUAGES[saved]) currentLang = saved;
+  secondLang = currentLang === 'sk' ? 'en' : 'sk';
+  buildLangBar();
+  buildSeverityGrid();
+  buildCategoryGrid();
+  applyLanguage();
+  renderHistory();
+});
+
+// ====== Language ======
+function buildLangBar() {
+  const bar = document.getElementById('langBar');
+  bar.innerHTML = '';
+  for (const [code, lang] of Object.entries(LANGUAGES)) {
+    const btn = document.createElement('button');
+    btn.textContent = lang.flag_emoji + ' ' + code.toUpperCase();
+    btn.className = code === currentLang ? 'active' : '';
+    btn.onclick = () => {
+      currentLang = code;
+      secondLang = code === 'sk' ? 'en' : 'sk';
+      localStorage.setItem('mecp_lang', code);
+      buildLangBar();
+      buildSeverityGrid();
+      buildCategoryGrid();
+      applyLanguage();
+      // Re-render codes if on step 3
+      if (composeStep === 3 && composeCat) buildCodeList(composeCat);
+      renderRefCard();
+      renderHistory();
+    };
+    bar.appendChild(btn);
+  }
+}
+
+function L(key) {
+  return LANGUAGES[currentLang]?.ui?.[key] || LANGUAGES['en']?.ui?.[key] || key;
+}
+
+function codeDesc(code, lang) {
+  return LANGUAGES[lang || currentLang]?.codes?.[code] || '';
+}
+
+function applyLanguage() {
+  document.querySelectorAll('[data-ui]').forEach(el => {
+    const key = el.getAttribute('data-ui');
+    const val = L(key);
+    if (val) el.textContent = val;
+  });
+  document.querySelectorAll('[data-ui-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-ui-placeholder');
+    const val = L(key);
+    if (val) el.placeholder = val;
+  });
+  renderRefCard();
+}
+
+// ====== Encoder ======
+function getByteLength(str) {
+  return new TextEncoder().encode(str).length;
+}
+
+function encodeMessage(severity, codes, freetext) {
+  let msg = 'MECP/' + severity + '/' + codes.join(' ');
+  if (freetext && freetext.trim()) msg += ' ' + freetext.trim();
+  msg = msg.trimEnd();
+  const bytes = getByteLength(msg);
+  return { message: msg, byteLength: bytes, overLimit: bytes > 200 };
+}
+
+// ====== Decoder ======
+function decode(input) {
+  const result = {
+    valid: false, severity: null, codes: [], isDrill: false,
+    freetext: null, extracted: { count: null, gps: null, eta: null,
+    reference: null, language: null, timestamp: null, callsign: null },
+    warnings: [], raw: input
+  };
+  if (!input.startsWith('MECP/')) return result;
+  const sevChar = input.charAt(5);
+  const sevNum = parseInt(sevChar, 10);
+  if (sevNum >= 0 && sevNum <= 3) result.severity = sevNum;
+  else result.warnings.push('Invalid severity: "' + sevChar + '"');
+  if (input.charAt(6) !== '/') result.warnings.push('Missing "/" delimiter after severity');
+  const body = input.substring(7);
+  if (!body || !body.trim()) {
+    result.valid = result.severity !== null;
+    if (result.valid) result.warnings.push('No codes present');
+    return result;
+  }
+  const tokens = body.split(' ').filter(t => t.length > 0);
+  let ftStart = -1;
+  for (let i = 0; i < tokens.length; i++) {
+    if (CODE_RE.test(tokens[i])) result.codes.push(tokens[i]);
+    else { ftStart = i; break; }
+  }
+  if (ftStart >= 0) result.freetext = tokens.slice(ftStart).join(' ');
+  const text = result.freetext || '';
+  // Count
+  const cm = text.match(/(\d+)pax/);
+  if (cm) result.extracted.count = parseInt(cm[1], 10);
+  // GPS
+  const gm = text.match(/(-?\d+\.\d+),(-?\d+\.\d+)/);
+  if (gm) {
+    const lat = parseFloat(gm[1]), lon = parseFloat(gm[2]);
+    if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180)
+      result.extracted.gps = { lat, lon };
+  }
+  // ETA
+  if (result.codes.includes('R03') && result.freetext) {
+    const em = result.freetext.match(/^(\d+)(?:\s|$)/);
+    if (em) result.extracted.eta = parseInt(em[1], 10);
+  }
+  // Reference
+  const rm = text.match(/#([A-Za-z0-9]{1,4})/);
+  if (rm) result.extracted.reference = rm[1];
+  // Language hint
+  const lm = text.match(/@([a-z]{2})(?:\s|$)/);
+  if (lm) result.extracted.language = lm[1];
+  // Timestamp
+  const tm = text.match(/@(\d{4})(?:\s|$)/);
+  if (tm) {
+    const hh = parseInt(tm[1].substring(0,2),10), mm = parseInt(tm[1].substring(2,4),10);
+    if (hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59) result.extracted.timestamp = tm[1];
+  }
+  // Callsign
+  const cs = text.match(/~([A-Za-z0-9]{1,9})(?:\s|$)/);
+  if (cs) result.extracted.callsign = cs[1];
+  // Drill
+  result.isDrill = result.codes.includes('D01') || result.codes.includes('D02');
+  result.valid = result.severity !== null;
+  return result;
+}
+
+// ====== Compose Flow ======
+function buildSeverityGrid() {
+  const lang = LANGUAGES[currentLang];
+  const grid = document.getElementById('sevGrid');
+  grid.innerHTML = '';
+  for (let s = 0; s <= 3; s++) {
+    const btn = document.createElement('button');
+    btn.className = 'sev-btn' + (composeSev === s ? ' selected' : '');
+    btn.setAttribute('data-sev', s);
+    btn.innerHTML = '<span class="sev-num">' + s + '</span><span>' +
+      (lang.severities[s]?.label || SEV_LABELS_EN[s]) + '</span>';
+    btn.onclick = () => { composeSev = s; composeGoStep(2); };
+    grid.appendChild(btn);
+  }
+}
+
+function buildCategoryGrid() {
+  const lang = LANGUAGES[currentLang];
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+  for (const cat of CAT_ORDER) {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (composeCat === cat ? ' selected' : '');
+    btn.innerHTML = '<span class="cat-icon">' + (CAT_ICONS[cat] || cat) + '</span>' +
+      '<span>' + (lang.categories[cat]?.name || cat) + '</span>';
+    btn.onclick = () => { composeCat = cat; composeGoStep(3); };
+    grid.appendChild(btn);
+  }
+}
+
+function buildCodeList(cat) {
+  const lang = LANGUAGES[currentLang];
+  const list = document.getElementById('codeList');
+  list.innerHTML = '';
+  const codes = Object.keys(lang.codes).filter(c => c.charAt(0) === cat).sort();
+  for (const code of codes) {
+    const item = document.createElement('div');
+    item.className = 'code-item' + (composeCodes.includes(code) ? ' selected' : '');
+    item.innerHTML = '<div class="code-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>' +
+      '<span class="code-id">' + code + '</span>' +
+      '<span class="code-desc">' + (lang.codes[code] || '') + '</span>';
+    item.onclick = () => {
+      const idx = composeCodes.indexOf(code);
+      if (idx >= 0) composeCodes.splice(idx, 1);
+      else composeCodes.push(code);
+      buildCodeList(cat);
+    };
+    list.appendChild(item);
+  }
+}
+
+function composeGoStep(step) {
+  composeStep = step;
+  document.querySelectorAll('.compose-step').forEach(el => el.classList.remove('active'));
+  const ids = { 1: 'stepSev', 2: 'stepCat', 3: 'stepCodes', 4: 'stepFree' };
+  document.getElementById(ids[step])?.classList.add('active');
+
+  if (step === 2) { buildSeverityGrid(); buildCategoryGrid(); }
+  if (step === 3 && composeCat) buildCodeList(composeCat);
+  if (step === 4) updatePreview();
+}
+
+function composeBack(step) { composeGoStep(step); }
+
+function updatePreview() {
+  const ft = document.getElementById('freetextInput').value;
+  const allCodes = composeCodes.length ? composeCodes : [];
+  const enc = encodeMessage(composeSev ?? 0, allCodes, ft);
+  document.getElementById('previewBox').textContent = enc.message;
+  const bc = document.getElementById('byteCount');
+  bc.textContent = enc.byteLength + ' / 200 bytes';
+  bc.className = 'byte-count' + (enc.overLimit ? ' over' : '');
+}
+
+document.getElementById('freetextInput')?.addEventListener('input', updatePreview);
+
+function copyMessage() {
+  const msg = document.getElementById('previewBox').textContent;
+  navigator.clipboard.writeText(msg).then(() => {
+    showToast(L('message_copied'));
+    saveToHistory(msg, 'sent');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = msg; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast(L('message_copied'));
+    saveToHistory(msg, 'sent');
+  });
+}
+
+function composeReset() {
+  composeSev = null; composeCat = null; composeCodes = [];
+  composeStep = 1;
+  document.getElementById('freetextInput').value = '';
+  composeGoStep(1);
+}
+
+// ====== Decode View ======
+function runDecode() {
+  const input = document.getElementById('decodeInput').value.trim();
+  if (!input) return;
+  const r = decode(input);
+  saveToHistory(input, 'received');
+  renderDecoded(r);
+}
+
+function renderDecoded(r) {
+  const container = document.getElementById('decodeResult');
+  if (!r.valid) {
+    container.innerHTML = '<div class="card"><div class="decoded-warn">' +
+      L('parse_failed') + '</div>' +
+      '<div class="decoded-raw mt-8"><code>' + escHtml(r.raw) + '</code></div></div>';
+    return;
+  }
+
+  const lang = LANGUAGES[currentLang];
+  const sevColor = SEV_COLORS[r.severity] || '#64748b';
+  const sevLabel = lang.severities[r.severity]?.label || SEV_LABELS_EN[r.severity] || '?';
+
+  let html = '';
+
+  // Drill banner
+  if (r.isDrill) {
+    html += '<div class="drill-banner">' + L('drill_banner') + ' — ' + sevLabel + '</div>';
+  }
+
+  html += '<div class="decoded-msg">';
+
+  // Severity header
+  html += '<div class="decoded-sev" style="background:' + sevColor + '">' +
+    '<span class="decoded-sev-num">' + r.severity + '</span>' +
+    '<span>' + sevLabel + '</span></div>';
+
+  // Body
+  html += '<div class="decoded-body">';
+
+  // Codes
+  for (const code of r.codes) {
+    const desc = codeDesc(code, currentLang);
+    const descEn = currentLang !== 'en' ? codeDesc(code, 'en') : '';
+    html += '<div class="decoded-code-row">' +
+      '<span class="decoded-code-id">' + code + '</span>' +
+      '<span class="decoded-code-text">' + escHtml(desc || L('unknown_code')) +
+      (descEn && desc !== descEn ? ' <span style="color:var(--text-dim);font-size:.8rem">(' + escHtml(descEn) + ')</span>' : '') +
+      '</span></div>';
+  }
+
+  // Extracted data
+  const ext = r.extracted;
+  const hasExtracted = ext.count || ext.gps || ext.eta !== null || ext.reference || ext.language || ext.timestamp || ext.callsign;
+  if (hasExtracted) {
+    html += '<hr class="decoded-divider">';
+    if (ext.count) html += '<div class="decoded-extracted"><strong>' + ext.count + '</strong> people</div>';
+    if (ext.gps) {
+      html += '<div class="decoded-extracted"><strong>' + ext.gps.lat + ', ' + ext.gps.lon + '</strong> ' +
+        '<a href="https://www.openstreetmap.org/?mlat=' + ext.gps.lat + '&mlon=' + ext.gps.lon +
+        '#map=15/' + ext.gps.lat + '/' + ext.gps.lon + '" target="_blank" rel="noopener" ' +
+        'style="color:var(--accent);font-size:.8rem;text-decoration:none">Open map</a></div>';
+    }
+    if (ext.eta !== null) html += '<div class="decoded-extracted">ETA: <strong>' + ext.eta + '</strong> min</div>';
+    if (ext.reference) html += '<div class="decoded-extracted">Ref: <strong>#' + escHtml(ext.reference) + '</strong></div>';
+    if (ext.language) html += '<div class="decoded-extracted">Language: <strong>@' + escHtml(ext.language) + '</strong></div>';
+    if (ext.timestamp) html += '<div class="decoded-extracted">Time: <strong>@' + escHtml(ext.timestamp) + ' UTC</strong></div>';
+    if (ext.callsign) html += '<div class="decoded-extracted">Callsign: <strong>~' + escHtml(ext.callsign) + '</strong></div>';
+  }
+
+  // Freetext
+  if (r.freetext) {
+    // Remove known patterns to show remaining freetext
+    let remaining = r.freetext
+      .replace(/\d+pax/g, '').replace(/-?\d+\.\d+,-?\d+\.\d+/g, '')
+      .replace(/#[A-Za-z0-9]{1,4}/g, '').replace(/@[a-z]{2}(?:\s|$)/g, ' ')
+      .replace(/@\d{4}(?:\s|$)/g, ' ').replace(/~[A-Za-z0-9]{1,9}(?:\s|$)/g, ' ')
+      .trim();
+    if (remaining) {
+      html += '<hr class="decoded-divider">';
+      html += '<div class="decoded-freetext">' + escHtml(remaining) +
+        '<div class="decoded-freetext-warn">' + L('untranslated_warning') + '</div></div>';
+    }
+  }
+
+  // Warnings
+  if (r.warnings.length) {
+    html += '<div class="decoded-warn mt-8">' + r.warnings.map(w => escHtml(w)).join('<br>') + '</div>';
+  }
+
+  // Raw
+  html += '<div class="decoded-raw mt-8"><code>' + escHtml(r.raw) + '</code>' +
+    '<button class="copy-btn" data-copy-raw>' + L('copy') + '</button></div>';
+
+  html += '</div></div>';
+
+  container.innerHTML = html;
+
+  // Bind copy button safely (avoids inline onclick injection)
+  const copyBtn = container.querySelector('[data-copy-raw]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => copyText(r.raw));
+  }
+}
+
+// ====== Reference Card ======
+function renderRefCard() {
+  const body = document.getElementById('refCardBody');
+  const lang1 = LANGUAGES[currentLang];
+  const lang2 = LANGUAGES[secondLang];
+  document.getElementById('refLangLabel').textContent =
+    lang1.language_name_en + ' + ' + lang2.language_name_en;
+
+  let html = '';
+
+  // Severities
+  html += '<div class="ref-cat-header">Severity Levels</div>';
+  for (let s = 0; s <= 3; s++) {
+    html += '<div class="ref-code-row">' +
+      '<span class="ref-code-id" style="color:' + SEV_COLORS[s] + '">' + s + '</span>' +
+      '<span class="ref-code-en">' + escHtml(lang1.severities[s]?.label || '') + '</span>' +
+      '<span class="ref-code-local">' + escHtml(lang2.severities[s]?.label || '') + '</span>' +
+      '</div>';
+  }
+
+  // Codes by category
+  for (const cat of CAT_ORDER) {
+    const catName1 = lang1.categories[cat]?.name || cat;
+    const catName2 = lang2.categories[cat]?.name || '';
+    html += '<div class="ref-cat-header">' + (CAT_ICONS[cat] || '') + ' ' +
+      escHtml(catName1) + ' / ' + escHtml(catName2) + '</div>';
+
+    const codes = Object.keys(lang1.codes).filter(c => c.charAt(0) === cat).sort();
+    for (const code of codes) {
+      html += '<div class="ref-code-row">' +
+        '<span class="ref-code-id">' + code + '</span>' +
+        '<span class="ref-code-en">' + escHtml(lang1.codes[code] || '') + '</span>' +
+        '<span class="ref-code-local">' + escHtml(lang2.codes[code] || '') + '</span>' +
+        '</div>';
+    }
+  }
+
+  // Freetext conventions
+  html += '<div class="ref-cat-header">Freetext Conventions</div>';
+  const conventions = [
+    ['Npax', 'Person count', '2pax, 12pax'],
+    ['lat,lon', 'GPS coordinates', '48.6520,20.1305'],
+    ['#tag', 'Incident reference', '#A1, #B2'],
+    ['@xx', 'Language hint (ISO 639-1)', '@sk, @en'],
+    ['@HHMM', 'Timestamp (UTC)', '@1430'],
+    ['~CALL', 'Sender callsign', '~OM3ABC'],
+  ];
+  for (const [pat, desc, example] of conventions) {
+    html += '<div class="ref-code-row">' +
+      '<span class="ref-code-id" style="min-width:60px">' + pat + '</span>' +
+      '<span class="ref-code-en">' + desc + '</span>' +
+      '<span class="ref-code-local" style="color:var(--text-dim)">' + example + '</span>' +
+      '</div>';
+  }
+
+  body.innerHTML = html;
+}
+
+// ====== History ======
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('mecp_history') || '[]'); }
+  catch { return []; }
+}
+
+function saveToHistory(raw, direction) {
+  const history = getHistory();
+  history.unshift({ raw, direction, time: Date.now() });
+  if (history.length > 100) history.length = 100;
+  localStorage.setItem('mecp_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const history = getHistory();
+  if (!history.length) {
+    list.innerHTML = '<div class="history-empty">No messages yet</div>';
+    return;
+  }
+  list.innerHTML = '';
+  for (const item of history) {
+    const date = new Date(item.time);
+    const ts = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    const arrow = item.direction === 'sent' ? '\u2191' : '\u2193';
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.innerHTML = '<div class="history-time">' + arrow + ' ' + escHtml(ts) + '</div>' +
+      '<div class="history-raw">' + escHtml(item.raw) + '</div>';
+    div.addEventListener('click', () => loadFromHistory(item.raw));
+    list.appendChild(div);
+  }
+}
+
+function loadFromHistory(raw) {
+  switchView('viewDecode', document.querySelector('[data-view="viewDecode"]'));
+  document.getElementById('decodeInput').value = raw;
+  runDecode();
+}
+
+function clearHistory() {
+  if (!confirm('Clear all message history?')) return;
+  localStorage.removeItem('mecp_history');
+  renderHistory();
+  showToast('History cleared');
+}
+
+function exportHistory() {
+  const history = getHistory();
+  if (!history.length) { showToast('No history to export'); return; }
+  let text = 'MECP Message History\nExported: ' + new Date().toISOString() + '\n\n';
+  for (const item of history) {
+    const date = new Date(item.time);
+    text += '[' + date.toISOString() + '] ' + (item.direction === 'sent' ? 'SENT' : 'RECV') +
+      ': ' + item.raw + '\n';
+  }
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'mecp-history-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ====== View switching ======
+function switchView(viewId, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(viewId)?.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (viewId === 'viewRef') renderRefCard();
+}
+
+// ====== Utilities ======
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast(L('message_copied')));
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
