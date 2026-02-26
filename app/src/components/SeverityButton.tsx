@@ -55,7 +55,7 @@ export function SeverityButton({ severity, langFile, onPress, selected }: Props)
       ]}
       onPress={onPress}
     >
-      <Text style={styles.icon}>{SEV_ICONS[severity]}</Text>
+      <Text style={[styles.icon, { color }]}>{SEV_ICONS[severity]}</Text>
       <View style={styles.textCol}>
         <Text style={[styles.local, { color }]}>{localLabel}</Text>
         <Text style={styles.label}>{label}</Text>
