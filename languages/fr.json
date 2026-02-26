@@ -67,6 +67,10 @@
     "H": {
       "name": "Disponible / Offrir des ressources",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Balise",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Carburant disponible",
     "H06": "Outils / équipement disponibles",
     "H07": "Abri / place pour [N] pers.",
-    "H08": "Transport / véhicule disponible"
+    "H08": "Transport / véhicule disponible",
+    "B01": "Balise de détresse automatique active — l'expéditeur peut ne pas répondre",
+    "B02": "Balise confirmée — réduire la fréquence d'émission",
+    "B03": "Annuler la balise — je vais bien"
   },
   "ui": {
     "send": "Envoyer",
     "cancel": "Annuler",
     "attach_gps": "Joindre GPS",
+    "attach_timestamp": "Horodatage (UTC)",
     "add_count": "Ajouter un nombre",
     "preview": "Aperçu",
     "copy": "Copier",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Conventions de texte libre",
     "no_messages": "Aucun message",
     "severity_levels": "Niveaux de gravité",
-    "person_count": "Nombre de personnes"
+    "person_count": "Nombre de personnes",
+    "settings": "Paramètres",
+    "inbox": "Boîte de réception",
+    "device": "Appareil",
+    "language_label": "Langue",
+    "compose_defaults": "Paramètres de rédaction",
+    "auto_gps": "Joindre GPS auto (sév 0-1)",
+    "auto_timestamp": "Joindre horodatage auto",
+    "all_filter": "Tout",
+    "sent": "Envoyés",
+    "reset": "Réinitialiser",
+    "freetext": "Texte libre",
+    "severity_header": "Gravité",
+    "category_header": "Catégorie",
+    "codes_header": "Codes",
+    "preview_send": "Aperçu & Envoi",
+    "no_radio_queued": "Aucune radio connectée — le message sera mis en file",
+    "mecp_message": "Message MECP",
+    "inbox_tab": "Messages",
+    "reference_tab": "Référence",
+    "activate_beacon": "Activer la balise",
+    "beacon_active": "Balise de détresse active",
+    "beacon_cancel": "Annuler la balise",
+    "beacon_confirm": "Activer la balise de détresse ? Votre position sera émise automatiquement.",
+    "beacon_countdown": "Prochaine transmission dans",
+    "beacon_ack_received": "Balise confirmée par",
+    "beacon_drill": "BALISE D'EXERCICE",
+    "ack_waiting": "En attente de confirmation...",
+    "ack_no_response": "Aucune réponse reçue",
+    "ack_resend": "Renvoyer avec demande de relais ?",
+    "beacon_positions": "Historique des positions",
+    "beacon_from": "Balise de",
+    "beacon_last_seen": "Vu pour la dernière fois",
+    "beacon_duration": "Active depuis"
   },
   "deprecations": {}
 }

@@ -67,6 +67,10 @@
     "H": {
       "name": "Disponible / Oferta de recursos",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Baliza",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Combustible disponible",
     "H06": "Herramientas / equipo disponible",
     "H07": "Refugio / espacio para [N]pax",
-    "H08": "Transporte / vehículo disponible"
+    "H08": "Transporte / vehículo disponible",
+    "B01": "Baliza de socorro automática activa — el remitente puede no responder",
+    "B02": "Baliza confirmada — reducir frecuencia de transmisión",
+    "B03": "Cancelar baliza — estoy bien"
   },
   "ui": {
     "send": "Enviar",
     "cancel": "Cancelar",
     "attach_gps": "Adjuntar GPS",
+    "attach_timestamp": "Marca de tiempo (UTC)",
     "add_count": "Añadir cantidad",
     "preview": "Vista previa",
     "copy": "Copiar",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Convenciones de texto libre",
     "no_messages": "Sin mensajes aún",
     "severity_levels": "Niveles de severidad",
-    "person_count": "Número de personas"
+    "person_count": "Número de personas",
+    "settings": "Configuración",
+    "inbox": "Bandeja de entrada",
+    "device": "Dispositivo",
+    "language_label": "Idioma",
+    "compose_defaults": "Valores predeterminados",
+    "auto_gps": "Adjuntar GPS auto (sev 0-1)",
+    "auto_timestamp": "Adjuntar marca de tiempo auto",
+    "all_filter": "Todos",
+    "sent": "Enviados",
+    "reset": "Reiniciar",
+    "freetext": "Texto libre",
+    "severity_header": "Severidad",
+    "category_header": "Categoría",
+    "codes_header": "Códigos",
+    "preview_send": "Vista previa y Enviar",
+    "no_radio_queued": "Sin radio conectada — el mensaje se pondrá en cola",
+    "mecp_message": "Mensaje MECP",
+    "inbox_tab": "Bandeja",
+    "reference_tab": "Referencia",
+    "activate_beacon": "Activar baliza",
+    "beacon_active": "Baliza de socorro activa",
+    "beacon_cancel": "Cancelar baliza",
+    "beacon_confirm": "¿Activar baliza de socorro? Su posición se transmitirá automáticamente.",
+    "beacon_countdown": "Próxima transmisión en",
+    "beacon_ack_received": "Baliza confirmada por",
+    "beacon_drill": "BALIZA DE SIMULACRO",
+    "ack_waiting": "Esperando confirmación...",
+    "ack_no_response": "Sin respuesta",
+    "ack_resend": "¿Reenviar con solicitud de retransmisión?",
+    "beacon_positions": "Historial de posiciones",
+    "beacon_from": "Baliza de",
+    "beacon_last_seen": "Visto por última vez",
+    "beacon_duration": "Activa desde"
   },
   "deprecations": {}
 }

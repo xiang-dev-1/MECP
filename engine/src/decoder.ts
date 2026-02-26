@@ -180,3 +180,24 @@ export function isMECP(input: string): boolean {
 export function getCategory(code: string): string {
   return code.charAt(0);
 }
+
+/**
+ * Check if codes contain B01 (automated distress beacon active).
+ */
+export function isBeacon(codes: string[]): boolean {
+  return codes.includes('B01');
+}
+
+/**
+ * Check if codes contain B02 (beacon acknowledged).
+ */
+export function isBeaconAck(codes: string[]): boolean {
+  return codes.includes('B02');
+}
+
+/**
+ * Check if codes contain B03 (cancel beacon).
+ */
+export function isBeaconCancel(codes: string[]): boolean {
+  return codes.includes('B03');
+}

@@ -67,6 +67,10 @@
     "H": {
       "name": "可提供資源",
       "icon": "resources"
+    },
+    "B": {
+      "name": "信標",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "有燃料",
     "H06": "有工具 / 裝備",
     "H07": "有避難所 / 可容納[N]人",
-    "H08": "有運輸工具 / 車輛"
+    "H08": "有運輸工具 / 車輛",
+    "B01": "自動遇險信標啟動中 — 發送者可能無法回應",
+    "B02": "信標已確認 — 降低發送頻率",
+    "B03": "取消信標 — 我沒事"
   },
   "ui": {
     "send": "傳送",
     "cancel": "取消",
     "attach_gps": "附加GPS",
+    "attach_timestamp": "時間戳記 (UTC)",
     "add_count": "新增人數",
     "preview": "預覽",
     "copy": "複製",
@@ -218,7 +226,40 @@
     "freetext_conventions": "自由文字規範",
     "no_messages": "尚無訊息",
     "severity_levels": "嚴重程度等級",
-    "person_count": "人數"
+    "person_count": "人數",
+    "settings": "設定",
+    "inbox": "收件匣",
+    "device": "裝置",
+    "language_label": "語言",
+    "compose_defaults": "編寫預設值",
+    "auto_gps": "自動附加 GPS（嚴重度 0-1）",
+    "auto_timestamp": "自動附加時間戳記",
+    "all_filter": "全部",
+    "sent": "已傳送",
+    "reset": "重設",
+    "freetext": "自由文字",
+    "severity_header": "嚴重度",
+    "category_header": "類別",
+    "codes_header": "代碼",
+    "preview_send": "預覽與傳送",
+    "no_radio_queued": "未連線無線電 — 訊息將排入佇列",
+    "mecp_message": "MECP 訊息",
+    "inbox_tab": "收件",
+    "reference_tab": "參考",
+    "activate_beacon": "啟動信標",
+    "beacon_active": "遇險信標啟動中",
+    "beacon_cancel": "取消信標",
+    "beacon_confirm": "啟動遇險信標？您的位置將自動廣播。",
+    "beacon_countdown": "下次發送倒計時",
+    "beacon_ack_received": "信標已被確認，來自",
+    "beacon_drill": "演習信標",
+    "ack_waiting": "等待確認回覆...",
+    "ack_no_response": "未收到回覆",
+    "ack_resend": "附帶轉發請求重新發送？",
+    "beacon_positions": "位置歷史",
+    "beacon_from": "信標來自",
+    "beacon_last_seen": "最後出現",
+    "beacon_duration": "已啟動"
   },
   "deprecations": {}
 }

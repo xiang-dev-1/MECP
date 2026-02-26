@@ -67,6 +67,10 @@
     "H": {
       "name": "Beschikbaar / Middelen aanbieden",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Noodbaken",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Brandstof beschikbaar",
     "H06": "Gereedschap / uitrusting beschikbaar",
     "H07": "Schuilplaats / ruimte voor [N] pers.",
-    "H08": "Transport / voertuig beschikbaar"
+    "H08": "Transport / voertuig beschikbaar",
+    "B01": "Automatisch noodbaken actief — afzender reageert mogelijk niet",
+    "B02": "Baken bevestigd — zendfrequentie verlagen",
+    "B03": "Baken annuleren — het gaat goed met mij"
   },
   "ui": {
     "send": "Verzenden",
     "cancel": "Annuleren",
     "attach_gps": "GPS toevoegen",
+    "attach_timestamp": "Tijdstempel (UTC)",
     "add_count": "Aantal toevoegen",
     "preview": "Voorbeeld",
     "copy": "Kopiëren",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Vrije tekst conventies",
     "no_messages": "Nog geen berichten",
     "severity_levels": "Ernstniveaus",
-    "person_count": "Aantal personen"
+    "person_count": "Aantal personen",
+    "settings": "Instellingen",
+    "inbox": "Postvak",
+    "device": "Apparaat",
+    "language_label": "Taal",
+    "compose_defaults": "Standaardinstellingen",
+    "auto_gps": "GPS automatisch toevoegen (ernst 0-1)",
+    "auto_timestamp": "Tijdstempel automatisch toevoegen",
+    "all_filter": "Alle",
+    "sent": "Verzonden",
+    "reset": "Reset",
+    "freetext": "Vrije tekst",
+    "severity_header": "Ernst",
+    "category_header": "Categorie",
+    "codes_header": "Codes",
+    "preview_send": "Voorbeeld & Verzenden",
+    "no_radio_queued": "Geen radio verbonden — bericht wordt in wachtrij geplaatst",
+    "mecp_message": "MECP-bericht",
+    "inbox_tab": "Postvak",
+    "reference_tab": "Referentie",
+    "activate_beacon": "Noodbaken activeren",
+    "beacon_active": "Noodbaken actief",
+    "beacon_cancel": "Baken annuleren",
+    "beacon_confirm": "Noodbaken activeren? Uw positie wordt automatisch uitgezonden.",
+    "beacon_countdown": "Volgende uitzending over",
+    "beacon_ack_received": "Baken bevestigd door",
+    "beacon_drill": "OEFENING BAKEN",
+    "ack_waiting": "Wachten op bevestiging...",
+    "ack_no_response": "Geen reactie ontvangen",
+    "ack_resend": "Opnieuw verzenden met doorstuurverzoek?",
+    "beacon_positions": "Positiegeschiedenis",
+    "beacon_from": "Baken van",
+    "beacon_last_seen": "Laatst gezien",
+    "beacon_duration": "Actief sinds"
   },
   "deprecations": {}
 }

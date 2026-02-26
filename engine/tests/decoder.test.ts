@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { decode, isMECP, getCategory } from '../src/decoder';
+import { decode, isMECP, getCategory, isBeacon, isBeaconAck, isBeaconCancel } from '../src/decoder';
 
 describe('MECP Decoder', () => {
   // === Brief Section 11.1 Test Cases ===
@@ -189,5 +189,63 @@ describe('MECP Decoder', () => {
     assert.equal(getCategory('T04'), 'T');
     assert.equal(getCategory('X01'), 'X');
     assert.equal(getCategory('H03'), 'H');
+  });
+
+  // === Beacon (B) Code Tests ===
+
+  it('parses B01 beacon message with GPS', () => {
+    const r = decode('MECP/0/B01 M01 P05 48.6520,20.1305 @1430');
+    assert.equal(r.valid, true);
+    assert.equal(r.severity, 0);
+    assert.deepEqual(r.codes, ['B01', 'M01', 'P05']);
+    assert.deepEqual(r.extracted.gps, { lat: 48.652, lon: 20.1305 });
+    assert.equal(r.extracted.timestamp, '1430');
+    assert.equal(r.isDrill, false);
+  });
+
+  it('parses B02 acknowledgement', () => {
+    const r = decode('MECP/2/B02 R01');
+    assert.equal(r.valid, true);
+    assert.equal(r.severity, 2);
+    assert.deepEqual(r.codes, ['B02', 'R01']);
+    assert.equal(r.isDrill, false);
+  });
+
+  it('parses B03 cancel', () => {
+    const r = decode('MECP/2/B03');
+    assert.equal(r.valid, true);
+    assert.equal(r.severity, 2);
+    assert.deepEqual(r.codes, ['B03']);
+    assert.equal(r.isDrill, false);
+  });
+
+  it('D01+B01 drill beacon sets isDrill=true', () => {
+    const r = decode('MECP/0/D01 B01 P05 48.6520,20.1305');
+    assert.equal(r.valid, true);
+    assert.equal(r.severity, 0);
+    assert.equal(r.isDrill, true);
+    assert.deepEqual(r.codes, ['D01', 'B01', 'P05']);
+  });
+
+  it('B01 alone does NOT set isDrill', () => {
+    const r = decode('MECP/0/B01 M01');
+    assert.equal(r.valid, true);
+    assert.equal(r.isDrill, false);
+  });
+
+  it('isBeacon helper detects B01', () => {
+    assert.equal(isBeacon(['B01', 'M01']), true);
+    assert.equal(isBeacon(['M01', 'P05']), false);
+    assert.equal(isBeacon(['B02']), false);
+  });
+
+  it('isBeaconAck helper detects B02', () => {
+    assert.equal(isBeaconAck(['B02', 'R01']), true);
+    assert.equal(isBeaconAck(['B01']), false);
+  });
+
+  it('isBeaconCancel helper detects B03', () => {
+    assert.equal(isBeaconCancel(['B03']), true);
+    assert.equal(isBeaconCancel(['B01']), false);
   });
 });

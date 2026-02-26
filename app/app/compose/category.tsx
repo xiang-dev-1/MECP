@@ -20,6 +20,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   L: '\u{1F3D5}',  // leisure
   X: '\u26A1',  // threat
   H: '\u{1F91D}', // resources
+  B: '\u{1F4F6}', // beacon
 };
 
 export default function CategoryScreen() {
@@ -47,7 +48,7 @@ export default function CategoryScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.heading}>
-        {langFile?.ui?.select_category ?? 'Select Category'}
+        {langFile?.ui?.category_select ?? 'Select Category'}
       </Text>
 
       {parsedCodes.length > 0 && (

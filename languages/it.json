@@ -67,6 +67,10 @@
     "H": {
       "name": "Disponibile / Offerta risorse",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Faro",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Carburante disponibile",
     "H06": "Attrezzi / attrezzatura disponibile",
     "H07": "Rifugio / spazio per [N]pax",
-    "H08": "Trasporto / veicolo disponibile"
+    "H08": "Trasporto / veicolo disponibile",
+    "B01": "Faro di soccorso automatico attivo — il mittente potrebbe non rispondere",
+    "B02": "Faro confermato — ridurre la frequenza di trasmissione",
+    "B03": "Annulla faro — sto bene"
   },
   "ui": {
     "send": "Invia",
     "cancel": "Annulla",
     "attach_gps": "Allega GPS",
+    "attach_timestamp": "Timestamp (UTC)",
     "add_count": "Aggiungi conteggio",
     "preview": "Anteprima",
     "copy": "Copia",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Convenzioni testo libero",
     "no_messages": "Nessun messaggio",
     "severity_levels": "Livelli di gravità",
-    "person_count": "Numero di persone"
+    "person_count": "Numero di persone",
+    "settings": "Impostazioni",
+    "inbox": "Posta in arrivo",
+    "device": "Dispositivo",
+    "language_label": "Lingua",
+    "compose_defaults": "Impostazioni predefinite",
+    "auto_gps": "Allega GPS auto (sev 0-1)",
+    "auto_timestamp": "Allega timestamp auto",
+    "all_filter": "Tutti",
+    "sent": "Inviati",
+    "reset": "Reimposta",
+    "freetext": "Testo libero",
+    "severity_header": "Gravità",
+    "category_header": "Categoria",
+    "codes_header": "Codici",
+    "preview_send": "Anteprima e Invio",
+    "no_radio_queued": "Nessuna radio connessa — il messaggio sarà in coda",
+    "mecp_message": "Messaggio MECP",
+    "inbox_tab": "Posta",
+    "reference_tab": "Riferimento",
+    "activate_beacon": "Attiva faro",
+    "beacon_active": "Faro di soccorso attivo",
+    "beacon_cancel": "Annulla faro",
+    "beacon_confirm": "Attivare il faro di soccorso? La tua posizione verrà trasmessa automaticamente.",
+    "beacon_countdown": "Prossima trasmissione tra",
+    "beacon_ack_received": "Faro confermato da",
+    "beacon_drill": "FARO DI ESERCITAZIONE",
+    "ack_waiting": "In attesa di conferma...",
+    "ack_no_response": "Nessuna risposta ricevuta",
+    "ack_resend": "Reinviare con richiesta di inoltro?",
+    "beacon_positions": "Cronologia posizioni",
+    "beacon_from": "Faro da",
+    "beacon_last_seen": "Ultimo avvistamento",
+    "beacon_duration": "Attivo da"
   },
   "deprecations": {}
 }

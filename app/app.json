@@ -18,6 +18,7 @@
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
         "BLUETOOTH",
         "BLUETOOTH_ADMIN",
         "BLUETOOTH_CONNECT",
@@ -31,6 +32,7 @@
     "plugins": [
       "expo-router",
       "expo-location",
+      "expo-task-manager",
       "expo-sqlite",
       [
         "react-native-ble-plx",

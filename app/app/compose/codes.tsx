@@ -81,7 +81,7 @@ export default function CodesScreen() {
               style={styles.chip}
               onPress={() => removeCode(code)}
             >
-              <Text style={styles.chipText}>{code} \u00D7</Text>
+              <Text style={styles.chipText}>{code} {'\u00D7'}</Text>
             </Pressable>
           ))}
           <Text style={styles.byteCount}>
@@ -117,7 +117,7 @@ export default function CodesScreen() {
       <View style={styles.bottomBar}>
         <Pressable style={styles.btnSecondary} onPress={goToMoreCategories}>
           <Text style={styles.btnSecondaryText}>
-            {langFile?.ui?.add_more ?? '+ Add more'}
+            {'+ '}{langFile?.ui?.add_more_codes ?? 'Add more'}
           </Text>
         </Pressable>
         <Pressable

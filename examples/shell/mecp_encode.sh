@@ -5,6 +5,8 @@
 # Usage:
 #   ./mecp_encode.sh encode 0 M01 M07 "2pax 48.6520,20.1305"
 #   ./mecp_encode.sh decode "MECP/0/M01 M07 2pax 48.6520,20.1305"
+#   ./mecp_encode.sh encode 0 B01 M01 P05 "48.6520,20.1305 @1430"
+#   ./mecp_encode.sh decode "MECP/0/B01 M01 P05 48.6520,20.1305 @1430"
 
 set -euo pipefail
 
@@ -76,13 +78,17 @@ mecp_decode() {
 
   # Drill?
   local is_drill="no"
+  local is_beacon="no"
   for c in "${codes[@]}"; do
     if [[ "$c" == "D01" || "$c" == "D02" ]]; then
       is_drill="yes"
-      break
+    fi
+    if [[ "$c" == "B01" ]]; then
+      is_beacon="yes"
     fi
   done
   echo "Drill:    $is_drill"
+  echo "Beacon:   $is_beacon"
 
   # Pax
   if [[ "$freetext" =~ ([0-9]+)pax ]]; then

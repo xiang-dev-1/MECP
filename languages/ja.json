@@ -67,6 +67,10 @@
     "H": {
       "name": "提供可能な資源",
       "icon": "resources"
+    },
+    "B": {
+      "name": "ビーコン",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "燃料あり",
     "H06": "工具 / 装備あり",
     "H07": "避難所 / [N]名分の空きあり",
-    "H08": "移送手段 / 車両あり"
+    "H08": "移送手段 / 車両あり",
+    "B01": "自動遭難ビーコン作動中 — 送信者が応答できない可能性",
+    "B02": "ビーコン受信確認 — 送信頻度を下げる",
+    "B03": "ビーコン解除 — 無事です"
   },
   "ui": {
     "send": "送信",
     "cancel": "キャンセル",
     "attach_gps": "GPS添付",
+    "attach_timestamp": "タイムスタンプ (UTC)",
     "add_count": "人数追加",
     "preview": "プレビュー",
     "copy": "コピー",
@@ -218,7 +226,40 @@
     "freetext_conventions": "フリーテキスト規則",
     "no_messages": "メッセージなし",
     "severity_levels": "重大度レベル",
-    "person_count": "人数"
+    "person_count": "人数",
+    "settings": "設定",
+    "inbox": "受信箱",
+    "device": "デバイス",
+    "language_label": "言語",
+    "compose_defaults": "作成時の既定値",
+    "auto_gps": "GPS自動添付 (重大度0-1)",
+    "auto_timestamp": "タイムスタンプ自動添付",
+    "all_filter": "すべて",
+    "sent": "送信済み",
+    "reset": "リセット",
+    "freetext": "自由テキスト",
+    "severity_header": "重大度",
+    "category_header": "カテゴリ",
+    "codes_header": "コード",
+    "preview_send": "プレビューと送信",
+    "no_radio_queued": "無線未接続 — メッセージはキューに追加されます",
+    "mecp_message": "MECPメッセージ",
+    "inbox_tab": "受信",
+    "reference_tab": "参照",
+    "activate_beacon": "ビーコン起動",
+    "beacon_active": "遭難ビーコン作動中",
+    "beacon_cancel": "ビーコン解除",
+    "beacon_confirm": "遭難ビーコンを起動しますか？位置情報が自動的に送信されます。",
+    "beacon_countdown": "次の送信まで",
+    "beacon_ack_received": "ビーコン確認者",
+    "beacon_drill": "訓練ビーコン",
+    "ack_waiting": "確認応答を待っています...",
+    "ack_no_response": "応答なし",
+    "ack_resend": "中継要求付きで再送しますか？",
+    "beacon_positions": "位置履歴",
+    "beacon_from": "ビーコン発信元",
+    "beacon_last_seen": "最終確認",
+    "beacon_duration": "稼働時間"
   },
   "deprecations": {}
 }

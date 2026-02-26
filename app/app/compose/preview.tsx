@@ -18,6 +18,8 @@ import { useLocation } from '@/hooks/useLocation';
 import { encode, getByteLength, type Severity } from '@mecp/engine';
 import { MaydayButton } from '@/components/MaydayButton';
 import { SeverityBadge } from '@/components/SeverityBadge';
+import { Platform } from 'react-native';
+import { useBeaconStore } from '@/store/useBeaconStore';
 
 export default function PreviewScreen() {
   const router = useRouter();
@@ -67,12 +69,64 @@ export default function PreviewScreen() {
   const fullFreetext = [...autoTags, freetext].filter(Boolean).join(' ');
   const result = encode(severity, codes, fullFreetext || undefined);
 
+  const activateBeacon = useBeaconStore((s) => s.activateBeacon);
+  const startAckLoop = useBeaconStore((s) => s.startAckLoop);
+  const isDrill = codes.includes('D01') || codes.includes('D02');
+
   const handleSend = async () => {
     try {
       await sendMessage(result.message, severity, codes, transport);
+      // Start ACK loop for MAYDAY messages
+      if (severity === 0) {
+        startAckLoop(Date.now());
+      }
       router.dismissAll();
     } catch (err) {
       Alert.alert('Error', String(err));
+    }
+  };
+
+  const doActivateBeacon = async () => {
+    try {
+      // Send initial MAYDAY
+      await sendMessage(result.message, severity, codes, transport);
+      // Create beacon session
+      await activateBeacon(codes, fullFreetext || null, severity, isDrill);
+      // Start background service (native only)
+      if (Platform.OS !== 'web') {
+        const { startBeacon } = await import('@/services/beaconService');
+        await startBeacon();
+      }
+      // Start ACK loop
+      startAckLoop(Date.now());
+      // Navigate to beacon status
+      router.dismissAll();
+      router.push('/beacon/status');
+    } catch (err) {
+      if (Platform.OS === 'web') {
+        window.alert(String(err));
+      } else {
+        Alert.alert('Error', String(err));
+      }
+    }
+  };
+
+  const handleActivateBeacon = () => {
+    const confirmMsg = langFile?.ui?.beacon_confirm
+      ?? 'Activate distress beacon? This will broadcast your position automatically.';
+    if (Platform.OS === 'web') {
+      if (window.confirm(confirmMsg)) {
+        doActivateBeacon();
+      }
+    } else {
+      Alert.alert(
+        langFile?.ui?.activate_beacon ?? 'Activate Beacon',
+        confirmMsg,
+        [
+          { text: langFile?.ui?.cancel ?? 'Cancel', style: 'cancel' },
+          { text: 'OK', onPress: doActivateBeacon },
+        ]
+      );
     }
   };
 
@@ -129,7 +183,9 @@ export default function PreviewScreen() {
           />
         </View>
         <View style={styles.toggleRow}>
-          <Text style={styles.toggleLabel}>Timestamp (UTC)</Text>
+          <Text style={styles.toggleLabel}>
+            {langFile?.ui?.attach_timestamp ?? 'Timestamp (UTC)'}
+          </Text>
           <Switch
             value={tsEnabled}
             onValueChange={setTsEnabled}
@@ -148,7 +204,7 @@ export default function PreviewScreen() {
             value={freetext}
             onChangeText={setFreetext}
             multiline
-            placeholder="Optional freetext..."
+            placeholder={langFile?.ui?.freetext_placeholder ?? 'Optional freetext...'}
             placeholderTextColor="#64748b"
             maxLength={120}
           />
@@ -156,7 +212,7 @@ export default function PreviewScreen() {
 
         {/* Preview */}
         <View style={styles.preview}>
-          <Text style={styles.previewLabel}>MECP Message</Text>
+          <Text style={styles.previewLabel}>{langFile?.ui?.mecp_message ?? 'MECP Message'}</Text>
           <Text style={styles.previewText}>{result.message}</Text>
           <Text
             style={[
@@ -178,14 +234,28 @@ export default function PreviewScreen() {
       <View style={styles.sendBar}>
         {transportStatus !== 'connected' && (
           <Text style={styles.queueNote}>
-            No radio connected — message will be queued
+            {langFile?.ui?.no_radio_queued ?? 'No radio connected \u2014 message will be queued'}
           </Text>
         )}
         {severity === 0 ? (
-          <MaydayButton
-            onComplete={handleSend}
-            disabled={result.overLimit || codes.length === 0}
-          />
+          <View style={{ gap: 10 }}>
+            <MaydayButton
+              onComplete={handleSend}
+              disabled={result.overLimit || codes.length === 0}
+            />
+            <Pressable
+              style={[
+                styles.beaconBtn,
+                (result.overLimit || codes.length === 0) && styles.btnDisabled,
+              ]}
+              onPress={handleActivateBeacon}
+              disabled={result.overLimit || codes.length === 0}
+            >
+              <Text style={styles.beaconBtnText}>
+                {langFile?.ui?.activate_beacon ?? 'Activate Beacon'}
+              </Text>
+            </Pressable>
+          </View>
         ) : (
           <Pressable
             style={[
@@ -369,5 +439,16 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: '700',
     fontSize: 17,
+  },
+  beaconBtn: {
+    backgroundColor: '#d97706',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  beaconBtnText: {
+    color: '#ffffff',
+    fontWeight: '700',
+    fontSize: 15,
   },
 });

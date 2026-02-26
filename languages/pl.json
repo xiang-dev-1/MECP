@@ -67,6 +67,10 @@
     "H": {
       "name": "Dostępne / Oferta zasobów",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Sygnał",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Dostępne paliwo",
     "H06": "Dostępne narzędzia / sprzęt",
     "H07": "Dostępne schronienie / miejsce dla [N]os.",
-    "H08": "Dostępny transport / pojazd"
+    "H08": "Dostępny transport / pojazd",
+    "B01": "Automatyczny sygnał alarmowy aktywny — nadawca może nie odpowiadać",
+    "B02": "Sygnał potwierdzony — zmniejszyć częstotliwość nadawania",
+    "B03": "Anuluj sygnał — wszystko w porządku"
   },
   "ui": {
     "send": "Wyślij",
     "cancel": "Anuluj",
     "attach_gps": "Dołącz GPS",
+    "attach_timestamp": "Znacznik czasu (UTC)",
     "add_count": "Dodaj liczbę",
     "preview": "Podgląd",
     "copy": "Kopiuj",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Konwencje tekstu",
     "no_messages": "Brak wiadomości",
     "severity_levels": "Poziomy ważności",
-    "person_count": "Liczba osób"
+    "person_count": "Liczba osób",
+    "settings": "Ustawienia",
+    "inbox": "Skrzynka",
+    "device": "Urządzenie",
+    "language_label": "Język",
+    "compose_defaults": "Domyślne ustawienia",
+    "auto_gps": "Automatycznie dołącz GPS (poz. 0-1)",
+    "auto_timestamp": "Automatycznie dołącz znacznik czasu",
+    "all_filter": "Wszystkie",
+    "sent": "Wysłane",
+    "reset": "Resetuj",
+    "freetext": "Dowolny tekst",
+    "severity_header": "Priorytet",
+    "category_header": "Kategoria",
+    "codes_header": "Kody",
+    "preview_send": "Podgląd i Wyślij",
+    "no_radio_queued": "Brak połączenia z radiem — wiadomość zostanie zakolejkowana",
+    "mecp_message": "Wiadomość MECP",
+    "inbox_tab": "Odbiór",
+    "reference_tab": "Kody",
+    "activate_beacon": "Aktywuj sygnał",
+    "beacon_active": "Sygnał alarmowy aktywny",
+    "beacon_cancel": "Anuluj sygnał",
+    "beacon_confirm": "Aktywować sygnał alarmowy? Twoja pozycja będzie nadawana automatycznie.",
+    "beacon_countdown": "Następna transmisja za",
+    "beacon_ack_received": "Sygnał potwierdzony przez",
+    "beacon_drill": "SYGNAŁ ĆWICZEBNY",
+    "ack_waiting": "Oczekiwanie na potwierdzenie...",
+    "ack_no_response": "Brak odpowiedzi",
+    "ack_resend": "Wysłać ponownie z prośbą o przekazanie?",
+    "beacon_positions": "Historia pozycji",
+    "beacon_from": "Sygnał od",
+    "beacon_last_seen": "Ostatnio widziany",
+    "beacon_duration": "Aktywny od"
   },
   "deprecations": {}
 }

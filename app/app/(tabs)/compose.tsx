@@ -20,7 +20,7 @@ export default function ComposeTab() {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>
-        {langFile?.ui?.select_severity ?? 'Select Severity'}
+        {langFile?.ui?.severity_select ?? 'Select Severity'}
       </Text>
       <View style={styles.buttons}>
         {([0, 1, 2, 3] as Severity[]).map((sev) => (

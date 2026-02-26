@@ -24,17 +24,54 @@
     }
   },
   "categories": {
-    "M": { "name": "医疗", "icon": "medical" },
-    "T": { "name": "地形 / 基础设施", "icon": "terrain" },
-    "W": { "name": "天气 / 环境", "icon": "weather" },
-    "S": { "name": "物资", "icon": "supplies" },
-    "P": { "name": "位置 / 移动", "icon": "position" },
-    "C": { "name": "协调", "icon": "coordination" },
-    "R": { "name": "响应", "icon": "response" },
-    "D": { "name": "演习 / 测试", "icon": "drill" },
-    "L": { "name": "生活 / 休闲", "icon": "leisure" },
-    "X": { "name": "威胁 / 治安", "icon": "threat" },
-    "H": { "name": "可提供资源", "icon": "resources" }
+    "M": {
+      "name": "医疗",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "地形 / 基础设施",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "天气 / 环境",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "物资",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "位置 / 移动",
+      "icon": "position"
+    },
+    "C": {
+      "name": "协调",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "响应",
+      "icon": "response"
+    },
+    "D": {
+      "name": "演习 / 测试",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "生活 / 休闲",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "威胁 / 治安",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "可提供资源",
+      "icon": "resources"
+    },
+    "B": {
+      "name": "信标",
+      "icon": "beacon"
+    }
   },
   "codes": {
     "M01": "受伤",
@@ -141,12 +178,16 @@
     "H05": "有燃料",
     "H06": "有工具 / 装备",
     "H07": "有避难所 / 可容纳[N]人",
-    "H08": "有运输工具 / 车辆"
+    "H08": "有运输工具 / 车辆",
+    "B01": "自动遇险信标启动中 — 发送者可能无法回应",
+    "B02": "信标已确认 — 降低发送频率",
+    "B03": "取消信标 — 我没事"
   },
   "ui": {
     "send": "发送",
     "cancel": "取消",
     "attach_gps": "附加GPS",
+    "attach_timestamp": "时间戳 (UTC)",
     "add_count": "添加人数",
     "preview": "预览",
     "copy": "复制",
@@ -185,7 +226,40 @@
     "freetext_conventions": "自由文字规范",
     "no_messages": "暂无消息",
     "severity_levels": "严重程度等级",
-    "person_count": "人数"
+    "person_count": "人数",
+    "settings": "设置",
+    "inbox": "收件箱",
+    "device": "设备",
+    "language_label": "语言",
+    "compose_defaults": "编写默认值",
+    "auto_gps": "自动附加 GPS（严重度 0-1）",
+    "auto_timestamp": "自动附加时间戳",
+    "all_filter": "全部",
+    "sent": "已发送",
+    "reset": "重置",
+    "freetext": "自由文本",
+    "severity_header": "严重度",
+    "category_header": "类别",
+    "codes_header": "代码",
+    "preview_send": "预览与发送",
+    "no_radio_queued": "未连接无线电 — 消息将排入队列",
+    "mecp_message": "MECP 消息",
+    "inbox_tab": "收件",
+    "reference_tab": "参考",
+    "activate_beacon": "启动信标",
+    "beacon_active": "遇险信标启动中",
+    "beacon_cancel": "取消信标",
+    "beacon_confirm": "启动遇险信标？您的位置将自动广播。",
+    "beacon_countdown": "下次发送倒计时",
+    "beacon_ack_received": "信标已被确认，来自",
+    "beacon_drill": "演习信标",
+    "ack_waiting": "等待确认回复...",
+    "ack_no_response": "未收到回复",
+    "ack_resend": "附带转发请求重新发送？",
+    "beacon_positions": "位置历史",
+    "beacon_from": "信标来自",
+    "beacon_last_seen": "最后出现",
+    "beacon_duration": "已启动"
   },
   "deprecations": {}
 }

@@ -58,6 +58,16 @@ Research revealed critical gaps in the code table. These additions are informed 
 | W06 | Tsunami / tidal surge warning | Missing critical weather event |
 | R07 | Situation resolved / all clear | Closes out incidents — every system needs this |
 
+**New Category B — Beacon** (PLB-style automated distress beacon for mesh networks — solves the "unconscious sender" problem)
+
+| Code | English | Rationale |
+|------|---------|-----------|
+| B01 | Automated distress beacon active — sender may be unresponsive | Continuous position broadcast when sender cannot manually retransmit |
+| B02 | Beacon acknowledged — reduce transmission rate | Responder signal that reduces beacon battery consumption |
+| B03 | Cancel beacon — I am OK | Sender cancellation when no longer in distress |
+
+Beacon rate decay: 5 minutes initially → 15 minutes after 6 hours → 30 minutes after 24 hours. B02 acknowledgement overrides interval to 15 minutes. Drill beacons (D01+B01) auto-stop after 3 transmissions.
+
 ### 1.2 New Freetext Conventions (v1.0)
 
 Research-backed additions to the freetext pattern vocabulary:
@@ -132,7 +142,7 @@ Based on Fitts's Law under stress, Japanese earthquake app patterns, and cogniti
 
 **Compose flow (4-5 taps):**
 1. Severity: 4 full-width stacked buttons (72dp tall, 16dp spacing)
-2. Category: 9 icon buttons in 3x3 grid (large, labeled)
+2. Category: 12 icon buttons in grid (large, labeled)
 3. Codes: Checklist within selected category (5-10 items, multi-select)
 4. Freetext/GPS: Optional. GPS auto-attached for severity 0-1. Tag auto-suggested.
 5. Preview & Send: Human-readable + raw MECP string. Confirm.
@@ -335,12 +345,16 @@ interface ParsedMessage {
     "M": { "name": "Zdravotné", "icon": "medical" },
     "X": { "name": "Hrozba / Bezpečnosť", "icon": "threat" },
     "H": { "name": "Ponúkam zdroje", "icon": "resources" },
+    "B": { "name": "Maják", "icon": "beacon" },
     ...
   },
   "codes": {
     "M01": "Zranenie",
     "X01": "Nebezpečná osoba / hrozba v blízkosti",
     "H01": "K dispozícii voda",
+    "B01": "Automatický tiesňový maják aktívny — odosielateľ nemusí reagovať",
+    "B02": "Maják potvrdený — znížiť frekvenciu vysielania",
+    "B03": "Zrušiť maják — som v poriadku",
     ...
   },
   "ui": { ... },
@@ -348,7 +362,7 @@ interface ParsedMessage {
 }
 ```
 
-Added: `text_direction`, `language_name_latin`, `deprecations` object, new categories X and H.
+Added: `text_direction`, `language_name_latin`, `deprecations` object, new categories X, H, and B (Beacon).
 
 ### 3.5 Priority Languages (v1.0)
 
@@ -534,7 +548,7 @@ MECP/
 - All 14 existing test cases from brief Section 11.1
 - D04 test corrected: `isDrill=false`
 - New tests for: #tag extraction, @lang extraction, @HHMM extraction, ~callsign extraction
-- New codes (X, H categories) in encode/decode roundtrip
+- New codes (X, H, B categories) in encode/decode roundtrip
 - GPS with negative coordinates (southern/western hemispheres)
 - Edge: message at exactly 200 bytes
 - Edge: Unicode freetext (CJK, accented, RTL)

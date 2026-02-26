@@ -24,17 +24,54 @@
     }
   },
   "categories": {
-    "M": { "name": "پزشکی", "icon": "medical" },
-    "T": { "name": "زمین / زیرساخت", "icon": "terrain" },
-    "W": { "name": "آب‌وهوا / محیط زیست", "icon": "weather" },
-    "S": { "name": "تدارکات", "icon": "supplies" },
-    "P": { "name": "موقعیت / حرکت", "icon": "position" },
-    "C": { "name": "هماهنگی", "icon": "coordination" },
-    "R": { "name": "پاسخ", "icon": "response" },
-    "D": { "name": "تمرین / آزمایش", "icon": "drill" },
-    "L": { "name": "زندگی / تفریح", "icon": "leisure" },
-    "X": { "name": "تهدید / امنیت", "icon": "threat" },
-    "H": { "name": "منابع موجود / پیشنهاد", "icon": "resources" }
+    "M": {
+      "name": "پزشکی",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "زمین / زیرساخت",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "آب‌وهوا / محیط زیست",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "تدارکات",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "موقعیت / حرکت",
+      "icon": "position"
+    },
+    "C": {
+      "name": "هماهنگی",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "پاسخ",
+      "icon": "response"
+    },
+    "D": {
+      "name": "تمرین / آزمایش",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "زندگی / تفریح",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "تهدید / امنیت",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "منابع موجود / پیشنهاد",
+      "icon": "resources"
+    },
+    "B": {
+      "name": "چراغ اضطراری",
+      "icon": "beacon"
+    }
   },
   "codes": {
     "M01": "آسیب‌دیدگی",
@@ -141,12 +178,16 @@
     "H05": "سوخت موجود",
     "H06": "ابزار / تجهیزات موجود",
     "H07": "پناهگاه / جا برای [N] نفر موجود",
-    "H08": "حمل‌ونقل / خودرو موجود"
+    "H08": "حمل‌ونقل / خودرو موجود",
+    "B01": "چراغ اضطراری خودکار فعال — فرستنده ممکن است پاسخگو نباشد",
+    "B02": "چراغ اضطراری تأیید شد — کاهش نرخ ارسال",
+    "B03": "لغو چراغ اضطراری — حالم خوب است"
   },
   "ui": {
     "send": "ارسال",
     "cancel": "لغو",
     "attach_gps": "افزودن GPS",
+    "attach_timestamp": "(UTC) مهر زمان",
     "add_count": "افزودن تعداد",
     "preview": "پیش‌نمایش",
     "copy": "کپی",
@@ -185,7 +226,40 @@
     "freetext_conventions": "قواعد متن آزاد",
     "no_messages": "هنوز پیامی نیست",
     "severity_levels": "سطوح شدت",
-    "person_count": "تعداد افراد"
+    "person_count": "تعداد افراد",
+    "settings": "تنظیمات",
+    "inbox": "صندوق ورودی",
+    "device": "دستگاه",
+    "language_label": "زبان",
+    "compose_defaults": "پیش‌فرض‌های نوشتن",
+    "auto_gps": "پیوست خودکار GPS (شدت 0-1)",
+    "auto_timestamp": "پیوست خودکار زمان",
+    "all_filter": "همه",
+    "sent": "ارسال‌شده",
+    "reset": "بازنشانی",
+    "freetext": "متن آزاد",
+    "severity_header": "شدت",
+    "category_header": "دسته‌بندی",
+    "codes_header": "کدها",
+    "preview_send": "پیش‌نمایش و ارسال",
+    "no_radio_queued": "رادیو متصل نیست — پیام در صف قرار می‌گیرد",
+    "mecp_message": "پیام MECP",
+    "inbox_tab": "ورودی",
+    "reference_tab": "مرجع",
+    "activate_beacon": "فعال‌سازی چراغ اضطراری",
+    "beacon_active": "چراغ اضطراری فعال",
+    "beacon_cancel": "لغو چراغ اضطراری",
+    "beacon_confirm": "چراغ اضطراری فعال شود؟ موقعیت شما به صورت خودکار ارسال خواهد شد.",
+    "beacon_countdown": "ارسال بعدی در",
+    "beacon_ack_received": "چراغ اضطراری تأیید شده توسط",
+    "beacon_drill": "چراغ اضطراری تمرینی",
+    "ack_waiting": "در انتظار تأیید...",
+    "ack_no_response": "پاسخی دریافت نشد",
+    "ack_resend": "ارسال مجدد با درخواست بازارسال؟",
+    "beacon_positions": "تاریخچه موقعیت",
+    "beacon_from": "چراغ اضطراری از",
+    "beacon_last_seen": "آخرین مشاهده",
+    "beacon_duration": "مدت فعال بودن"
   },
   "deprecations": {}
 }

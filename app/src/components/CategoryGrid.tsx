@@ -18,6 +18,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   L: '\u{1F3D5}',
   X: '\u26A1',
   H: '\u{1F91D}',
+  B: '\u{1F4F6}',
 };
 
 interface Props {

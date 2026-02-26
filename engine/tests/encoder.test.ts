@@ -52,6 +52,12 @@ describe('MECP Encoder', () => {
     assert.equal(r.message, 'MECP/0/M01 P05 48.65,20.13 #A1 @sk @1430 ~OM3ABC');
     assert.equal(r.overLimit, false);
   });
+
+  it('encodes B01 beacon message', () => {
+    const r = encode(0, ['B01', 'M01', 'P05'], '48.6520,20.1305 @1430');
+    assert.equal(r.message, 'MECP/0/B01 M01 P05 48.6520,20.1305 @1430');
+    assert.equal(r.overLimit, false);
+  });
 });
 
 describe('MECP Validator', () => {

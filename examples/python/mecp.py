@@ -6,6 +6,7 @@ Minimal Python encoder/decoder.
 Usage:
     python mecp.py encode 0 M01 M07 "2pax 48.6520,20.1305"
     python mecp.py decode "MECP/0/M01 M07 2pax 48.6520,20.1305"
+    python mecp.py decode "MECP/0/B01 M01 P05 48.6520,20.1305 @1430"
 """
 
 import re
@@ -127,6 +128,21 @@ def decode(raw):
     return result
 
 
+def is_beacon(codes):
+    """Check if codes contain B01 (automated distress beacon active)."""
+    return 'B01' in codes
+
+
+def is_beacon_ack(codes):
+    """Check if codes contain B02 (beacon acknowledged)."""
+    return 'B02' in codes
+
+
+def is_beacon_cancel(codes):
+    """Check if codes contain B03 (cancel beacon)."""
+    return 'B03' in codes
+
+
 def main():
     if len(sys.argv) < 3:
         print(__doc__)
@@ -154,6 +170,7 @@ def main():
         print(f"Severity: {r['severity']}")
         print(f"Codes:    {', '.join(r['codes'])}")
         print(f"Drill:    {r['is_drill']}")
+        print(f"Beacon:   {is_beacon(r['codes'])}")
         print(f"Freetext: {r['freetext']}")
         for k, v in r['extracted'].items():
             if v is not None:

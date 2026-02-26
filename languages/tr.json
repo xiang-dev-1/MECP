@@ -67,6 +67,10 @@
     "H": {
       "name": "Mevcut / Kaynak sunma",
       "icon": "resources"
+    },
+    "B": {
+      "name": "İşaret",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Yakıt mevcut",
     "H06": "Alet / ekipman mevcut",
     "H07": "Barınak / [N] kişilik yer mevcut",
-    "H08": "Nakil aracı / araç mevcut"
+    "H08": "Nakil aracı / araç mevcut",
+    "B01": "Otomatik tehlike işareti etkin — gönderen yanıt veremeyebilir",
+    "B02": "İşaret onaylandı — iletim sıklığını azalt",
+    "B03": "İşareti iptal et — iyiyim"
   },
   "ui": {
     "send": "Gönder",
     "cancel": "İptal",
     "attach_gps": "GPS ekle",
+    "attach_timestamp": "Zaman damgası (UTC)",
     "add_count": "Sayı ekle",
     "preview": "Önizleme",
     "copy": "Kopyala",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Serbest metin kuralları",
     "no_messages": "Henüz mesaj yok",
     "severity_levels": "Önem dereceleri",
-    "person_count": "Kişi sayısı"
+    "person_count": "Kişi sayısı",
+    "settings": "Ayarlar",
+    "inbox": "Gelen Kutusu",
+    "device": "Cihaz",
+    "language_label": "Dil",
+    "compose_defaults": "Varsayılan ayarlar",
+    "auto_gps": "GPS otomatik ekle (önem 0-1)",
+    "auto_timestamp": "Zaman damgası otomatik ekle",
+    "all_filter": "Tümü",
+    "sent": "Gönderilen",
+    "reset": "Sıfırla",
+    "freetext": "Serbest metin",
+    "severity_header": "Önem derecesi",
+    "category_header": "Kategori",
+    "codes_header": "Kodlar",
+    "preview_send": "Önizleme ve Gönder",
+    "no_radio_queued": "Radyo bağlı değil — mesaj kuyruğa alınacak",
+    "mecp_message": "MECP mesajı",
+    "inbox_tab": "Gelen",
+    "reference_tab": "Referans",
+    "activate_beacon": "İşareti etkinleştir",
+    "beacon_active": "Tehlike işareti etkin",
+    "beacon_cancel": "İşareti iptal et",
+    "beacon_confirm": "Tehlike işaretini etkinleştir? Konumunuz otomatik olarak yayınlanacak.",
+    "beacon_countdown": "Sonraki iletim",
+    "beacon_ack_received": "İşaret onaylayan",
+    "beacon_drill": "TATBİKAT İŞARETİ",
+    "ack_waiting": "Onay bekleniyor...",
+    "ack_no_response": "Yanıt alınamadı",
+    "ack_resend": "Aktarma isteğiyle tekrar gönder?",
+    "beacon_positions": "Konum geçmişi",
+    "beacon_from": "İşaret gönderen",
+    "beacon_last_seen": "Son görülme",
+    "beacon_duration": "Etkin süresi"
   },
   "deprecations": {}
 }

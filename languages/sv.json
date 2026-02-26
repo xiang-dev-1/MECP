@@ -67,6 +67,10 @@
     "H": {
       "name": "Har / Erbjuder resurser",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Nödsignal",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Har bränsle",
     "H06": "Har verktyg / utrustning",
     "H07": "Har skydd / plats för [N]pers",
-    "H08": "Har transport / fordon"
+    "H08": "Har transport / fordon",
+    "B01": "Automatisk nödsignal aktiv — avsändaren kanske inte svarar",
+    "B02": "Nödsignal bekräftat — minska sändningsfrekvens",
+    "B03": "Avbryt nödsignal — jag mår bra"
   },
   "ui": {
     "send": "Skicka",
     "cancel": "Avbryt",
     "attach_gps": "Bifoga GPS",
+    "attach_timestamp": "Tidsstämpel (UTC)",
     "add_count": "Lägg till antal",
     "preview": "Förhandsgranska",
     "copy": "Kopiera",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Fritextkonventioner",
     "no_messages": "Inga meddelanden ännu",
     "severity_levels": "Allvarlighetsnivåer",
-    "person_count": "Antal personer"
+    "person_count": "Antal personer",
+    "settings": "Inställningar",
+    "inbox": "Inkorg",
+    "device": "Enhet",
+    "language_label": "Språk",
+    "compose_defaults": "Standardinställningar",
+    "auto_gps": "Bifoga GPS auto (allv. 0-1)",
+    "auto_timestamp": "Bifoga tidsstämpel auto",
+    "all_filter": "Alla",
+    "sent": "Skickat",
+    "reset": "Återställ",
+    "freetext": "Fritext",
+    "severity_header": "Allvarlighetsgrad",
+    "category_header": "Kategori",
+    "codes_header": "Koder",
+    "preview_send": "Förhandsgranska & Skicka",
+    "no_radio_queued": "Ingen radio ansluten — meddelandet köas",
+    "mecp_message": "MECP-meddelande",
+    "inbox_tab": "Inkorg",
+    "reference_tab": "Referens",
+    "activate_beacon": "Aktivera nödsignal",
+    "beacon_active": "Nödsignal aktiv",
+    "beacon_cancel": "Avbryt nödsignal",
+    "beacon_confirm": "Aktivera nödsignal? Din position sänds automatiskt.",
+    "beacon_countdown": "Nästa sändning om",
+    "beacon_ack_received": "Nödsignal bekräftat av",
+    "beacon_drill": "ÖVNINGS-NÖDSIGNAL",
+    "ack_waiting": "Väntar på bekräftelse...",
+    "ack_no_response": "Inget svar mottaget",
+    "ack_resend": "Skicka igen med vidarebefordringsförfrågan?",
+    "beacon_positions": "Positionshistorik",
+    "beacon_from": "Nödsignal från",
+    "beacon_last_seen": "Senast sedd",
+    "beacon_duration": "Aktiv i"
   },
   "deprecations": {}
 }

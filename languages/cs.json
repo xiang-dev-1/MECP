@@ -67,6 +67,10 @@
     "H": {
       "name": "Nabídka zdrojů",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Maják",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Palivo k dispozici",
     "H06": "Nástroje / vybavení k dispozici",
     "H07": "Úkryt / místo pro [N]os.",
-    "H08": "Přeprava / vozidlo k dispozici"
+    "H08": "Přeprava / vozidlo k dispozici",
+    "B01": "Automatický nouzový maják aktivní — odesílatel nemusí reagovat",
+    "B02": "Maják potvrzen — snížit frekvenci vysílání",
+    "B03": "Zrušit maják — jsem v pořádku"
   },
   "ui": {
     "send": "Odeslat",
     "cancel": "Zrušit",
     "attach_gps": "Připojit GPS",
+    "attach_timestamp": "Časové razítko (UTC)",
     "add_count": "Přidat počet",
     "preview": "Náhled",
     "copy": "Kopírovat",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Konvence volného textu",
     "no_messages": "Zatím žádné zprávy",
     "severity_levels": "Stupně závažnosti",
-    "person_count": "Počet osob"
+    "person_count": "Počet osob",
+    "settings": "Nastavení",
+    "inbox": "Přijaté",
+    "device": "Zařízení",
+    "language_label": "Jazyk",
+    "compose_defaults": "Výchozí nastavení",
+    "auto_gps": "Automaticky připojit GPS (úr. 0-1)",
+    "auto_timestamp": "Automaticky připojit čas",
+    "all_filter": "Vše",
+    "sent": "Odeslané",
+    "reset": "Resetovat",
+    "freetext": "Volný text",
+    "severity_header": "Závažnost",
+    "category_header": "Kategorie",
+    "codes_header": "Kódy",
+    "preview_send": "Náhled a odeslání",
+    "no_radio_queued": "Rádio nepřipojeno — zpráva bude zařazena do fronty",
+    "mecp_message": "MECP zpráva",
+    "inbox_tab": "Pošta",
+    "reference_tab": "Kódy",
+    "activate_beacon": "Aktivovat maják",
+    "beacon_active": "Nouzový maják aktivní",
+    "beacon_cancel": "Zrušit maják",
+    "beacon_confirm": "Aktivovat nouzový maják? Vaše poloha bude automaticky vysílána.",
+    "beacon_countdown": "Další vysílání za",
+    "beacon_ack_received": "Maják potvrzen od",
+    "beacon_drill": "CVIČNÝ MAJÁK",
+    "ack_waiting": "Čekání na potvrzení...",
+    "ack_no_response": "Žádná odpověď",
+    "ack_resend": "Odeslat znovu s žádostí o přenos?",
+    "beacon_positions": "Historie poloh",
+    "beacon_from": "Maják od",
+    "beacon_last_seen": "Naposledy viděn",
+    "beacon_duration": "Aktivní"
   },
   "deprecations": {}
 }

@@ -46,6 +46,7 @@ MECP/<severity>/<codes> [freetext]
 | L | Life/Leisure | L01 Beer, L04 Summit reached |
 | X | Threat/Security | X01 Dangerous person nearby |
 | H | Have/Offer Resources | H03 Have medical supplies |
+| B | Beacon | B01 Distress beacon active |
 
 See `spec/mecp-protocol-v1.0.md` for the complete code table.
 
@@ -57,6 +58,9 @@ MECP/2/T04 T01 P02 Poprad                   Warning: flooding, road blocked, eva
 MECP/3/L01 L06 30min                         Social: beer, running late, 30 minutes
 MECP/0/D01 M01 M07 2pax P05 48.65,20.13     Drill: realistic practice, no real response
 MECP/2/H03 H07 5pax P05 48.65,20.13         Offering: medical supplies + shelter for 5
+MECP/0/B01 M01 P05 48.65,20.13 @1430        Beacon: automated distress signal with GPS
+MECP/2/B02 R01                               Beacon acknowledged
+MECP/2/B03                                   Cancel beacon — I am OK
 ```
 
 ## Project Structure

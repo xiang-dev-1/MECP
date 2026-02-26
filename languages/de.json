@@ -67,6 +67,10 @@
     "H": {
       "name": "Vorhanden / Ressourcen anbieten",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Leuchtfeuer",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Treibstoff vorhanden",
     "H06": "Werkzeug / Ausrüstung vorhanden",
     "H07": "Unterkunft / Platz für [N] Pers.",
-    "H08": "Transport / Fahrzeug vorhanden"
+    "H08": "Transport / Fahrzeug vorhanden",
+    "B01": "Automatisches Notsignal aktiv — Absender möglicherweise nicht ansprechbar",
+    "B02": "Leuchtfeuer bestätigt — Senderate reduzieren",
+    "B03": "Leuchtfeuer abbrechen — mir geht es gut"
   },
   "ui": {
     "send": "Senden",
     "cancel": "Abbrechen",
     "attach_gps": "GPS anhängen",
+    "attach_timestamp": "Zeitstempel (UTC)",
     "add_count": "Anzahl hinzufügen",
     "preview": "Vorschau",
     "copy": "Kopieren",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Freitext-Konventionen",
     "no_messages": "Noch keine Nachrichten",
     "severity_levels": "Schweregrade",
-    "person_count": "Personenanzahl"
+    "person_count": "Personenanzahl",
+    "settings": "Einstellungen",
+    "inbox": "Posteingang",
+    "device": "Gerät",
+    "language_label": "Sprache",
+    "compose_defaults": "Verfassen-Standards",
+    "auto_gps": "GPS automatisch anhängen (Stufe 0-1)",
+    "auto_timestamp": "Zeitstempel automatisch anhängen",
+    "all_filter": "Alle",
+    "sent": "Gesendet",
+    "reset": "Zurücksetzen",
+    "freetext": "Freitext",
+    "severity_header": "Schweregrad",
+    "category_header": "Kategorie",
+    "codes_header": "Codes",
+    "preview_send": "Vorschau & Senden",
+    "no_radio_queued": "Kein Funkgerät verbunden — Nachricht wird gespeichert",
+    "mecp_message": "MECP-Nachricht",
+    "inbox_tab": "Eingang",
+    "reference_tab": "Referenz",
+    "activate_beacon": "Leuchtfeuer aktivieren",
+    "beacon_active": "Notsignal aktiv",
+    "beacon_cancel": "Leuchtfeuer abbrechen",
+    "beacon_confirm": "Notsignal aktivieren? Ihre Position wird automatisch gesendet.",
+    "beacon_countdown": "Nächste Übertragung in",
+    "beacon_ack_received": "Leuchtfeuer bestätigt von",
+    "beacon_drill": "ÜBUNGS-LEUCHTFEUER",
+    "ack_waiting": "Warte auf Bestätigung...",
+    "ack_no_response": "Keine Antwort erhalten",
+    "ack_resend": "Erneut mit Weiterleitungsanfrage senden?",
+    "beacon_positions": "Positionsverlauf",
+    "beacon_from": "Leuchtfeuer von",
+    "beacon_last_seen": "Zuletzt gesehen",
+    "beacon_duration": "Aktiv seit"
   },
   "deprecations": {}
 }

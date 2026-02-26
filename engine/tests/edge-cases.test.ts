@@ -103,8 +103,8 @@ describe('Edge Cases', () => {
     assert.equal(r.extracted.timestamp, '1430');
   });
 
-  it('all 11 categories parse correctly', () => {
-    const categories = ['M01', 'T01', 'W01', 'S01', 'P01', 'C01', 'R01', 'D01', 'L01', 'X01', 'H01'];
+  it('all 12 categories parse correctly', () => {
+    const categories = ['M01', 'T01', 'W01', 'S01', 'P01', 'C01', 'R01', 'D01', 'L01', 'X01', 'H01', 'B01'];
     for (const code of categories) {
       const r = decode(`MECP/3/${code}`);
       assert.equal(r.valid, true, `Failed for code ${code}`);

@@ -5,7 +5,7 @@
  * No I/O, no platform dependencies, no side effects.
  */
 
-export { decode, isMECP, getCategory } from './decoder';
+export { decode, isMECP, getCategory, isBeacon, isBeaconAck, isBeaconCancel } from './decoder';
 export { encode, validate, getByteLength } from './encoder';
 export type {
   ParsedMessage,

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTransportStore } from '@/store/useTransportStore';
-import { getAllLanguages } from '@/i18n/languages';
+import { getAllLanguages, getLanguage } from '@/i18n/languages';
 import { DeviceStatus } from '@/components/DeviceStatus';
 
 export default function SettingsTab() {
@@ -19,14 +19,15 @@ export default function SettingsTab() {
   const autoTimestamp = useSettingsStore((s) => s.autoTimestamp);
   const setAutoTimestamp = useSettingsStore((s) => s.setAutoTimestamp);
   const status = useTransportStore((s) => s.status);
+  const langFile = getLanguage(language);
   const langs = getAllLanguages();
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.sectionTitle}>Device</Text>
-      <DeviceStatus status={status} />
+      <Text style={styles.sectionTitle}>{langFile?.ui?.device ?? 'Device'}</Text>
+      <DeviceStatus status={status} langFile={langFile} />
 
-      <Text style={styles.sectionTitle}>Language</Text>
+      <Text style={styles.sectionTitle}>{langFile?.ui?.language_label ?? 'Language'}</Text>
       <View style={styles.langGrid}>
         {langs.map((l) => (
           <Pressable
@@ -50,9 +51,9 @@ export default function SettingsTab() {
         ))}
       </View>
 
-      <Text style={styles.sectionTitle}>Compose Defaults</Text>
+      <Text style={styles.sectionTitle}>{langFile?.ui?.compose_defaults ?? 'Compose Defaults'}</Text>
       <View style={styles.settingRow}>
-        <Text style={styles.settingLabel}>Auto-attach GPS (sev 0-1)</Text>
+        <Text style={styles.settingLabel}>{langFile?.ui?.auto_gps ?? 'Auto-attach GPS (sev 0-1)'}</Text>
         <Switch
           value={autoGps}
           onValueChange={setAutoGps}
@@ -61,7 +62,7 @@ export default function SettingsTab() {
         />
       </View>
       <View style={styles.settingRow}>
-        <Text style={styles.settingLabel}>Auto-attach timestamp</Text>
+        <Text style={styles.settingLabel}>{langFile?.ui?.auto_timestamp ?? 'Auto-attach timestamp'}</Text>
         <Switch
           value={autoTimestamp}
           onValueChange={setAutoTimestamp}

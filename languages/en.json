@@ -67,6 +67,10 @@
     "H": {
       "name": "Have / Offer Resources",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Beacon",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Have fuel",
     "H06": "Have tools / equipment",
     "H07": "Have shelter / space for [N]pax",
-    "H08": "Have transport / vehicle"
+    "H08": "Have transport / vehicle",
+    "B01": "Automated distress beacon active — sender may be unresponsive",
+    "B02": "Beacon acknowledged — reduce transmission rate",
+    "B03": "Cancel beacon — I am OK"
   },
   "ui": {
     "send": "Send",
     "cancel": "Cancel",
     "attach_gps": "Attach GPS",
+    "attach_timestamp": "Timestamp (UTC)",
     "add_count": "Add count",
     "preview": "Preview",
     "copy": "Copy",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Freetext Conventions",
     "no_messages": "No messages yet",
     "severity_levels": "Severity Levels",
-    "person_count": "Person count"
+    "person_count": "Person count",
+    "settings": "Settings",
+    "inbox": "Inbox",
+    "device": "Device",
+    "language_label": "Language",
+    "compose_defaults": "Compose Defaults",
+    "auto_gps": "Auto-attach GPS (sev 0-1)",
+    "auto_timestamp": "Auto-attach timestamp",
+    "all_filter": "All",
+    "sent": "Sent",
+    "reset": "Reset",
+    "freetext": "Freetext",
+    "severity_header": "Severity",
+    "category_header": "Category",
+    "codes_header": "Codes",
+    "preview_send": "Preview & Send",
+    "no_radio_queued": "No radio connected — message will be queued",
+    "mecp_message": "MECP Message",
+    "inbox_tab": "Inbox",
+    "reference_tab": "Reference",
+    "activate_beacon": "Activate Beacon",
+    "beacon_active": "Distress beacon active",
+    "beacon_cancel": "Cancel Beacon",
+    "beacon_confirm": "Activate distress beacon? This will broadcast your position automatically.",
+    "beacon_countdown": "Next transmission in",
+    "beacon_ack_received": "Beacon acknowledged by",
+    "beacon_drill": "DRILL BEACON",
+    "ack_waiting": "Waiting for acknowledgement...",
+    "ack_no_response": "No response received",
+    "ack_resend": "Resend with relay request?",
+    "beacon_positions": "Position History",
+    "beacon_from": "Beacon from",
+    "beacon_last_seen": "Last seen",
+    "beacon_duration": "Active for"
   },
   "deprecations": {}
 }

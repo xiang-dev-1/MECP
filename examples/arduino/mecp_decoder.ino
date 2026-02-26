@@ -27,6 +27,7 @@ typedef struct {
   int code_count;
   char freetext[MECP_MAX_FREETEXT];
   bool is_drill;
+  bool is_beacon;                        // B01 present
   int pax;                               // -1 if not present
   float gps_lat;                         // NAN if not present
   float gps_lon;                         // NAN if not present
@@ -47,6 +48,7 @@ bool mecp_decode(const char *input, MECPMessage *msg) {
   msg->code_count = 0;
   msg->freetext[0] = '\0';
   msg->is_drill = false;
+  msg->is_beacon = false;
   msg->pax = -1;
   msg->gps_lat = NAN;
   msg->gps_lon = NAN;
@@ -93,10 +95,13 @@ bool mecp_decode(const char *input, MECPMessage *msg) {
   msg->freetext[ft_pos] = '\0';
 
   // Drill detection: D01 or D02
+  // Beacon detection: B01
   for (int i = 0; i < msg->code_count; i++) {
     if (strcmp(msg->codes[i], "D01") == 0 || strcmp(msg->codes[i], "D02") == 0) {
       msg->is_drill = true;
-      break;
+    }
+    if (strcmp(msg->codes[i], "B01") == 0) {
+      msg->is_beacon = true;
     }
   }
 
@@ -133,38 +138,59 @@ bool mecp_decode(const char *input, MECPMessage *msg) {
   return true;
 }
 
+// ─── Helpers ───
+
+void mecp_print(MECPMessage *msg) {
+  Serial.print("Severity: ");
+  Serial.println(msg->severity);
+  Serial.print("Codes: ");
+  for (int i = 0; i < msg->code_count; i++) {
+    Serial.print(msg->codes[i]);
+    if (i < msg->code_count - 1) Serial.print(", ");
+  }
+  Serial.println();
+  Serial.print("Freetext: ");
+  Serial.println(msg->freetext);
+  Serial.print("Drill: ");
+  Serial.println(msg->is_drill ? "yes" : "no");
+  Serial.print("Beacon: ");
+  Serial.println(msg->is_beacon ? "yes" : "no");
+  if (msg->pax >= 0) {
+    Serial.print("Pax: ");
+    Serial.println(msg->pax);
+  }
+  if (!isnan(msg->gps_lat)) {
+    Serial.print("GPS: ");
+    Serial.print(msg->gps_lat, 4);
+    Serial.print(", ");
+    Serial.println(msg->gps_lon, 4);
+  }
+}
+
 // ─── Example usage ───
 
 void setup() {
   Serial.begin(115200);
   delay(1000);
 
+  // Test 1: Standard emergency message
   const char *test_msg = "MECP/0/M01 M07 2pax 48.6520,20.1305 #A1";
   MECPMessage parsed;
 
+  Serial.println("--- Test 1: Emergency ---");
   if (mecp_decode(test_msg, &parsed)) {
-    Serial.print("Severity: ");
-    Serial.println(parsed.severity);
-    Serial.print("Codes: ");
-    for (int i = 0; i < parsed.code_count; i++) {
-      Serial.print(parsed.codes[i]);
-      if (i < parsed.code_count - 1) Serial.print(", ");
-    }
-    Serial.println();
-    Serial.print("Freetext: ");
-    Serial.println(parsed.freetext);
-    Serial.print("Drill: ");
-    Serial.println(parsed.is_drill ? "yes" : "no");
-    if (parsed.pax >= 0) {
-      Serial.print("Pax: ");
-      Serial.println(parsed.pax);
-    }
-    if (!isnan(parsed.gps_lat)) {
-      Serial.print("GPS: ");
-      Serial.print(parsed.gps_lat, 4);
-      Serial.print(", ");
-      Serial.println(parsed.gps_lon, 4);
-    }
+    mecp_print(&parsed);
+  } else {
+    Serial.println("Not an MECP message");
+  }
+
+  // Test 2: Beacon message
+  const char *beacon_msg = "MECP/0/B01 M01 P05 48.6520,20.1305 @1430";
+  MECPMessage parsed2;
+
+  Serial.println("\n--- Test 2: Beacon ---");
+  if (mecp_decode(beacon_msg, &parsed2)) {
+    mecp_print(&parsed2);
   } else {
     Serial.println("Not an MECP message");
   }

@@ -9,7 +9,7 @@
 export type Severity = 0 | 1 | 2 | 3;
 
 /** All valid category letters */
-export type CategoryLetter = 'M' | 'T' | 'W' | 'S' | 'P' | 'C' | 'R' | 'D' | 'L' | 'X' | 'H';
+export type CategoryLetter = 'M' | 'T' | 'W' | 'S' | 'P' | 'C' | 'R' | 'D' | 'L' | 'X' | 'H' | 'B';
 
 /** Result of parsing an MECP message string */
 export interface ParsedMessage {
@@ -135,4 +135,5 @@ export const CATEGORIES: Record<CategoryLetter, { icon: string; order: number }>
   L: { icon: 'leisure', order: 8 },
   X: { icon: 'threat', order: 9 },
   H: { icon: 'resources', order: 10 },
+  B: { icon: 'beacon', order: 11 },
 };

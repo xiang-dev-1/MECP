@@ -67,6 +67,10 @@
     "H": {
       "name": "Tilgjengelige ressurser",
       "icon": "resources"
+    },
+    "B": {
+      "name": "Nødsignal",
+      "icon": "beacon"
     }
   },
   "codes": {
@@ -174,12 +178,16 @@
     "H05": "Drivstoff tilgjengelig",
     "H06": "Verktøy / utstyr tilgjengelig",
     "H07": "Ly / plass for [N]pers.",
-    "H08": "Transport / kjøretøy tilgjengelig"
+    "H08": "Transport / kjøretøy tilgjengelig",
+    "B01": "Automatisk nødsignal aktivt — avsender svarer kanskje ikke",
+    "B02": "Nødsignal bekreftet — reduser sendingsfrekvens",
+    "B03": "Avbryt nødsignal — jeg har det bra"
   },
   "ui": {
     "send": "Send",
     "cancel": "Avbryt",
     "attach_gps": "Legg til GPS",
+    "attach_timestamp": "Tidsstempel (UTC)",
     "add_count": "Legg til antall",
     "preview": "Forhåndsvisning",
     "copy": "Kopier",
@@ -218,7 +226,40 @@
     "freetext_conventions": "Fritekstkonvensjoner",
     "no_messages": "Ingen meldinger ennå",
     "severity_levels": "Alvorlighetsgrader",
-    "person_count": "Antall personer"
+    "person_count": "Antall personer",
+    "settings": "Innstillinger",
+    "inbox": "Innboks",
+    "device": "Enhet",
+    "language_label": "Språk",
+    "compose_defaults": "Standardinnstillinger",
+    "auto_gps": "Vedlegg GPS auto (alv. 0-1)",
+    "auto_timestamp": "Vedlegg tidsstempel auto",
+    "all_filter": "Alle",
+    "sent": "Sendt",
+    "reset": "Tilbakestill",
+    "freetext": "Fritekst",
+    "severity_header": "Alvorlighetsgrad",
+    "category_header": "Kategori",
+    "codes_header": "Koder",
+    "preview_send": "Forhåndsvisning & Send",
+    "no_radio_queued": "Ingen radio tilkoblet — meldingen settes i kø",
+    "mecp_message": "MECP-melding",
+    "inbox_tab": "Innboks",
+    "reference_tab": "Referanse",
+    "activate_beacon": "Aktiver nødsignal",
+    "beacon_active": "Nødsignal aktivt",
+    "beacon_cancel": "Avbryt nødsignal",
+    "beacon_confirm": "Aktivere nødsignal? Din posisjon vil bli sendt automatisk.",
+    "beacon_countdown": "Neste sending om",
+    "beacon_ack_received": "Nødsignal bekreftet av",
+    "beacon_drill": "ØVELSES-NØDSIGNAL",
+    "ack_waiting": "Venter på bekreftelse...",
+    "ack_no_response": "Ingen svar mottatt",
+    "ack_resend": "Sende på nytt med videresendingsforespørsel?",
+    "beacon_positions": "Posisjonshistorikk",
+    "beacon_from": "Nødsignal fra",
+    "beacon_last_seen": "Sist sett",
+    "beacon_duration": "Aktiv i"
   },
   "deprecations": {}
 }

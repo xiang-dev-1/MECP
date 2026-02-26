@@ -7,7 +7,9 @@ import type {
 import { transportManager } from '../transport/TransportManager';
 import { messageQueue } from '../storage/messageQueue';
 import { useMessageStore } from './useMessageStore';
+import { useBeaconStore } from './useBeaconStore';
 import { useDeduplication } from '../hooks/useDeduplication';
+import { decode, isBeacon, isBeaconAck, isBeaconCancel } from '@mecp/engine';
 
 interface TransportState {
   status: TransportStatus;
@@ -58,6 +60,44 @@ export const useTransportStore = create<TransportState>((set, get) => ({
       if (dedup.isDuplicate(key)) return;
 
       useMessageStore.getState().receiveMessage(msg);
+
+      // Beacon / ACK detection
+      const parsed = decode(msg.text);
+      if (parsed.valid) {
+        const beacon = useBeaconStore.getState();
+        const senderId = msg.sender.nodeId;
+        const senderName = msg.sender.displayName ?? null;
+
+        // Incoming ACK (R01/R02) while we're waiting
+        if (
+          (parsed.codes.includes('R01') || parsed.codes.includes('R02')) &&
+          beacon.ackState === 'waiting'
+        ) {
+          beacon.handleAckReceived(senderId, senderName);
+        }
+
+        // Incoming B01 — someone else's beacon
+        if (isBeacon(parsed.codes)) {
+          beacon.processIncomingBeacon(
+            senderId,
+            senderName,
+            parsed.codes.join(' '),
+            parsed.isDrill,
+            parsed.extracted.gps?.lat ?? null,
+            parsed.extracted.gps?.lon ?? null
+          );
+        }
+
+        // Incoming B02 — someone acknowledged our beacon
+        if (isBeaconAck(parsed.codes)) {
+          beacon.handleBeaconAck(senderId, senderName);
+        }
+
+        // Incoming B03 — someone cancelled their beacon
+        if (isBeaconCancel(parsed.codes)) {
+          beacon.processBeaconCancel(senderId);
+        }
+      }
     });
 
     set({ transport: transportManager });

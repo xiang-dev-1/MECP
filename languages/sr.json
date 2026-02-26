@@ -24,17 +24,54 @@
     }
   },
   "categories": {
-    "M": { "name": "Медицина", "icon": "medical" },
-    "T": { "name": "Терен / Инфраструктура", "icon": "terrain" },
-    "W": { "name": "Време / Околина", "icon": "weather" },
-    "S": { "name": "Залихе", "icon": "supplies" },
-    "P": { "name": "Позиција / Кретање", "icon": "position" },
-    "C": { "name": "Координација", "icon": "coordination" },
-    "R": { "name": "Одговор", "icon": "response" },
-    "D": { "name": "Вежба / Тест", "icon": "drill" },
-    "L": { "name": "Живот / Доколица", "icon": "leisure" },
-    "X": { "name": "Претња / Безбедност", "icon": "threat" },
-    "H": { "name": "Имам ресурсе / Нудим", "icon": "resources" }
+    "M": {
+      "name": "Медицина",
+      "icon": "medical"
+    },
+    "T": {
+      "name": "Терен / Инфраструктура",
+      "icon": "terrain"
+    },
+    "W": {
+      "name": "Време / Околина",
+      "icon": "weather"
+    },
+    "S": {
+      "name": "Залихе",
+      "icon": "supplies"
+    },
+    "P": {
+      "name": "Позиција / Кретање",
+      "icon": "position"
+    },
+    "C": {
+      "name": "Координација",
+      "icon": "coordination"
+    },
+    "R": {
+      "name": "Одговор",
+      "icon": "response"
+    },
+    "D": {
+      "name": "Вежба / Тест",
+      "icon": "drill"
+    },
+    "L": {
+      "name": "Живот / Доколица",
+      "icon": "leisure"
+    },
+    "X": {
+      "name": "Претња / Безбедност",
+      "icon": "threat"
+    },
+    "H": {
+      "name": "Имам ресурсе / Нудим",
+      "icon": "resources"
+    },
+    "B": {
+      "name": "Светионик",
+      "icon": "beacon"
+    }
   },
   "codes": {
     "M01": "Повреда",
@@ -141,12 +178,16 @@
     "H05": "Имам гориво",
     "H06": "Имам алат / опрему",
     "H07": "Имам склониште / место за [N] особа",
-    "H08": "Имам транспорт / возило"
+    "H08": "Имам транспорт / возило",
+    "B01": "Аутоматски сигнал за помоћ активан — пошиљалац можда не реагује",
+    "B02": "Сигнал потврђен — смањити учесталост слања",
+    "B03": "Отказати сигнал — добро сам"
   },
   "ui": {
     "send": "Пошаљи",
     "cancel": "Откажи",
     "attach_gps": "Додај ГПС",
+    "attach_timestamp": "Временска ознака (UTC)",
     "add_count": "Додај број",
     "preview": "Преглед",
     "copy": "Копирај",
@@ -185,7 +226,40 @@
     "freetext_conventions": "Правила слободног текста",
     "no_messages": "Још нема порука",
     "severity_levels": "Нивои озбиљности",
-    "person_count": "Број особа"
+    "person_count": "Број особа",
+    "settings": "Подешавања",
+    "inbox": "Примљене",
+    "device": "Уређај",
+    "language_label": "Језик",
+    "compose_defaults": "Подразумевана подешавања",
+    "auto_gps": "Аутоматски додај GPS (ниво 0-1)",
+    "auto_timestamp": "Аутоматски додај временски печат",
+    "all_filter": "Све",
+    "sent": "Послате",
+    "reset": "Ресетуј",
+    "freetext": "Слободан текст",
+    "severity_header": "Озбиљност",
+    "category_header": "Категорија",
+    "codes_header": "Кодови",
+    "preview_send": "Преглед и слање",
+    "no_radio_queued": "Радио није повезан — порука ће бити стављена у ред",
+    "mecp_message": "MECP порука",
+    "inbox_tab": "Поруке",
+    "reference_tab": "Кодови",
+    "activate_beacon": "Активирај сигнал",
+    "beacon_active": "Сигнал за помоћ активан",
+    "beacon_cancel": "Отказати сигнал",
+    "beacon_confirm": "Активирати сигнал за помоћ? Ваша позиција ће бити аутоматски емитована.",
+    "beacon_countdown": "Следеће слање за",
+    "beacon_ack_received": "Сигнал потврђен од",
+    "beacon_drill": "ВЕЖБОВНИ СИГНАЛ",
+    "ack_waiting": "Чекање на потврду...",
+    "ack_no_response": "Нема одговора",
+    "ack_resend": "Послати поново са захтевом за преношење?",
+    "beacon_positions": "Историја позиција",
+    "beacon_from": "Сигнал од",
+    "beacon_last_seen": "Последње виђење",
+    "beacon_duration": "Активан"
   },
   "deprecations": {}
 }
