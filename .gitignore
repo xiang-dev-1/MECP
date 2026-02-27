@@ -3,3 +3,5 @@ node_modules/
 dist/
 *.tsbuildinfo
 MECP_Developer_Brief_v2.md
+MECP_Comprehensive_Brief.pdf
+mecp-site/
